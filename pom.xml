@@ -6,7 +6,7 @@
   <artifactId>api</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Otvoreni Parlament API</name>
+  <name>Open Parliament API</name>
 
   <dependencies>
     <dependency>
