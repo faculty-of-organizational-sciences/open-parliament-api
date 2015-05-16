@@ -1,4 +1,4 @@
-package api;
+package rs.otvoreniparlament.api.domain;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
