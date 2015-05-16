@@ -11,24 +11,24 @@ import javax.persistence.Table;
 @Table(name="profesija")
 public class Profesija {
 	
-	private Integer ProfesijaID;
+	private Integer profesijaID;
 	private String nazivProfesije;	
 	
 	public Profesija() {
 	}
 	
 	public Profesija(Integer profesijaID, String nazivProfesije) {
-		ProfesijaID = profesijaID;
+		this.profesijaID = profesijaID;
 		this.nazivProfesije = nazivProfesije;
 	}
 	@Id
 	@GeneratedValue
 	@Column(name="idprofesija")
 	public Integer getProfesijaID() {
-		return ProfesijaID;
+		return profesijaID;
 	}
 	public void setProfesijaID(Integer profesijaID) {
-		ProfesijaID = profesijaID;
+		this.profesijaID = profesijaID;
 	}
 	@Basic
 	@Column(name="naziv")
@@ -41,7 +41,7 @@ public class Profesija {
 
 	@Override
 	public String toString() {
-		return "Profesija [ProfesijaID=" + ProfesijaID + ", nazivProfesije="
+		return "Profesija [ProfesijaID=" + profesijaID + ", nazivProfesije="
 				+ nazivProfesije + "]";
 	}
 }
