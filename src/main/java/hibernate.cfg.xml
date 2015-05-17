@@ -26,8 +26,8 @@
 		<property name="show_sql">true</property>
 
 		<!-- Mapping details -->
-		<mapping package="api" />
-		<mapping class="api.Profesija" />
-		
+		<mapping package="rs.otvoreniparlament.api.domain" />
+		<mapping class="rs.otvoreniparlament.api.domain.Profesija" />
+
 	</session-factory>
 </hibernate-configuration>

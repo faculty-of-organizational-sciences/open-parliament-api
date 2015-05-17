@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Open Parliament API</name>
-	
+
 	<properties>
 		<maven.compiler.source>1.5</maven.compiler.source>
 		<hibernate.version>4.3.10.Final</hibernate.version>
@@ -34,7 +34,7 @@
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}-${project.version}-${timestamp}</finalName>
-		
+
 		<plugins>
 			<plugin>
 				<inherited>true</inherited>

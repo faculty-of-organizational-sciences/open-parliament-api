@@ -18,6 +18,8 @@ public class Test {
 			System.out.println(list.get(i).toString());
 		}
 		
+		System.out.println("Done!");
+		
 		session.close();
 		HibernateUtil.shutdown();
 	}
