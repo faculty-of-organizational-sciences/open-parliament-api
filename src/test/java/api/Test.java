@@ -9,7 +9,7 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
 		List<Profesija> list = session.createCriteria(Profesija.class).list();
@@ -21,6 +21,6 @@ public class Test {
 		System.out.println("Done!");
 		
 		session.close();
-		HibernateUtil.shutdown();
+		HibernateUtil.getInstance().shutdown();
 	}
 }
