@@ -14,9 +14,7 @@ import rs.otvoreniparlament.api.domain.Mesto;
 public class Test {
 
 	public static void main(String[] args) {
-		
-		System.out.println(System.getProperty("user.home") + File.separator + ".parlament" + File.separator);
-				
+						
 		Settings.getInstance();
 
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();

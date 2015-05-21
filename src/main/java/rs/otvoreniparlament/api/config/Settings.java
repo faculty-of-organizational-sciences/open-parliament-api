@@ -14,19 +14,22 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-
 public class Settings {
 
 	private final Logger logger = LogManager.getLogger(Settings.class);
 
 	private static final String configFileName = "config.json";
-	private static final String defaultConfigFilePath = "config/"; 
-	private static final String absoluteConfigPath = System.getProperty("user.home") + File.separator + ".parlament" + File.separator;
-	
+	private static final String defaultConfigFilePath = "config/";
+	private static final String absoluteConfigPath = System
+			.getProperty("user.home")
+			+ File.separator
+			+ ".parlament"
+			+ File.separator;
+
 	public Config config;
 	private Gson gson;
 
-	private static class SettingsHolder { 
+	private static class SettingsHolder {
 		private static final Settings INSTANCE = new Settings();
 	}
 
@@ -36,7 +39,7 @@ public class Settings {
 
 	private Settings() {
 		gson = new GsonBuilder().setPrettyPrinting().create();
-		
+
 		try {
 			loadConfig();
 		} catch (Exception e) {
@@ -49,15 +52,12 @@ public class Settings {
 
 		try {
 			File homeConfig = new File(homeConfigFile);
-			// if there is a config file in the <USER_HOME>/.parlament folder load that one
-			System.out.println("Pre IF");
+			// if there is a config file in the <USER_HOME>/.parlament folder
+			// load that one
 			if (homeConfig.exists()) {
 				FileReader reader = new FileReader(homeConfigFile);
-				System.out.println("Uslo u IF");
-				
 				config = gson.fromJson(reader, Config.class);
-				System.out.println("Uspelo");
-			} 
+			}
 			// otherwise, load the default config file
 			else {
 				loadDefaultConfig();
@@ -68,9 +68,9 @@ public class Settings {
 					throw new Exception();
 				}
 			}
-//			logger.debug("user: " + config.dbConfig.user);
-//			logger.info("Settings loaded!");			
-//			logger.error("test");
+			// logger.debug("user: " + config.dbConfig.user);
+			// logger.info("Settings loaded!");
+			// logger.error("test");
 
 		} catch (FileNotFoundException fnfe) {
 			throw new FileNotFoundException(
@@ -88,19 +88,21 @@ public class Settings {
 		FileReader reader = null;
 		try {
 			// get path to config file
-			URL url = Thread.currentThread().getContextClassLoader().getResource(defaultConfigFilePath + configFileName);
-//			if (url != null) {
-				String path = url.getFile();
-				// remove white spaces encoded with %20
-				path = path.replaceAll("%20", " ");
-				reader = new FileReader(path);
-				config = gson.fromJson(reader, Config.class);
-//			} else {
-//				loadDefaultConfig1(is, serializer);
-//			}
+			URL url = Thread.currentThread().getContextClassLoader()
+					.getResource(defaultConfigFilePath + configFileName);
+			// if (url != null) {
+			String path = url.getFile();
+			// remove white spaces encoded with %20
+			path = path.replaceAll("%20", " ");
+			reader = new FileReader(path);
+			config = gson.fromJson(reader, Config.class);
+			// } else {
+			// loadDefaultConfig1(is, serializer);
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Could not read the config file: " + configFileName, e);
+			throw new Exception("Could not read the config file: "
+					+ configFileName, e);
 		} finally {
 			if (null != reader) {
 				try {
@@ -111,48 +113,53 @@ public class Settings {
 			}
 		}
 	}
+
 	private void saveConfig() {
 		logger.info("Saving settings...");
 		String homeConfigFile = absoluteConfigPath + configFileName;
 		File source = new File(homeConfigFile);
-		
+
 		// create dir
 		new File(absoluteConfigPath).mkdirs();
-		
+
 		try {
 			source.createNewFile();
 			FileWriter writer = new FileWriter(homeConfigFile);
 			String configString = gson.toJson(config);
-			
+
 			logger.debug(configString);
-			
+
 			writer.write(configString);
 			writer.close();
 
 			logger.info("Settings saved!");
 		} catch (Exception e) {
-			logger.error("Could not save the configuration file: " + configFileName, e);
+			logger.error("Could not save the configuration file: "
+					+ configFileName, e);
 		}
 	}
-	
-	
-//
-//	private void loadDefaultConfig1(InputStream is, Serializer serializer) throws FileNotFoundException {
-//		is = Thread.currentThread().getContextClassLoader().getResourceAsStream(defaultConfigFilePath + configFileName);
-//		
-//		if (is != null) {
-//			try {
-//				config = serializer.read(Config.class, is);
-//			} catch (Exception e) {
-//				logger.error("Could not read the config file: " + configFileName, e);
-//			}
-//		} else {
-//			throw new FileNotFoundException("Could not open the config file: " + configFileName);
-//		}
-//	}
-//	
-//	public String getAbsoluteConfigPath(){
-//		return absoluteConfigPath;
-//	}
+
+	//
+	// private void loadDefaultConfig1(InputStream is, Serializer serializer)
+	// throws FileNotFoundException {
+	// is =
+	// Thread.currentThread().getContextClassLoader().getResourceAsStream(defaultConfigFilePath
+	// + configFileName);
+	//
+	// if (is != null) {
+	// try {
+	// config = serializer.read(Config.class, is);
+	// } catch (Exception e) {
+	// logger.error("Could not read the config file: " + configFileName, e);
+	// }
+	// } else {
+	// throw new FileNotFoundException("Could not open the config file: " +
+	// configFileName);
+	// }
+	// }
+	//
+	// public String getAbsoluteConfigPath(){
+	// return absoluteConfigPath;
+	// }
 
 }
