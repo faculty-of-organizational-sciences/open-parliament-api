@@ -7,7 +7,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import rs.otvoreniparlament.api.config.Config;
 import rs.otvoreniparlament.api.config.Settings;
 
 public class HibernateUtil {
@@ -52,7 +51,8 @@ public class HibernateUtil {
 	private Properties getProperties() {
 		Properties prop = new Properties();
 		prop.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		prop.put("hibernate.connection.url", Settings.getInstance().config.getDbConfig().user);
+		prop.put("hibernate.connection.url", Settings.getInstance().config.getDbConfig().url);
+		prop.put("hibernate.connection.user", Settings.getInstance().config.getDbConfig().user);
 		prop.put("hibernate.connection.password", Settings.getInstance().config.getDbConfig().pass);
 		prop.put("hibernate.connection.pool_size", Settings.getInstance().config.getDbConfig().poolSize);
 		prop.put("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect");

@@ -1,22 +1,22 @@
 package api;
 
-import java.io.File;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
+
 import rs.otvoreniparlament.api.domain.Mesto;
+import rs.otvoreniparlament.api.domain.Profesija;
+
 
 public class Test {
 
 	public static void main(String[] args) {
 						
 		Settings.getInstance();
-
+		
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
