@@ -50,10 +50,13 @@ public class Settings {
 		try {
 			File homeConfig = new File(homeConfigFile);
 			// if there is a config file in the <USER_HOME>/.parlament folder load that one
+			System.out.println("Pre IF");
 			if (homeConfig.exists()) {
 				FileReader reader = new FileReader(homeConfigFile);
+				System.out.println("Uslo u IF");
 				
 				config = gson.fromJson(reader, Config.class);
+				System.out.println("Uspelo");
 			} 
 			// otherwise, load the default config file
 			else {

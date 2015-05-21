@@ -7,12 +7,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import rs.otvoreniparlament.api.config.Config;
+import rs.otvoreniparlament.api.config.Settings;
+
 public class HibernateUtil {
 
 	private static SessionFactory sessionFactory;
 	private static ServiceRegistry serviceRegistry;
 	
 	private static HibernateUtil INSTANCE;
+
 
 	private HibernateUtil() {
 		try {
@@ -48,10 +52,9 @@ public class HibernateUtil {
 	private Properties getProperties() {
 		Properties prop = new Properties();
 		prop.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		prop.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/parlament");
-		prop.put("hibernate.connection.username", "user");
-		prop.put("hibernate.connection.password", "user123");
-		prop.put("hibernate.connection.pool_size", 10);
+		prop.put("hibernate.connection.url", Settings.getInstance().config.getDbConfig().user);
+		prop.put("hibernate.connection.password", Settings.getInstance().config.getDbConfig().pass);
+		prop.put("hibernate.connection.pool_size", Settings.getInstance().config.getDbConfig().poolSize);
 		prop.put("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect");
 		prop.put("hibernate.show_sql", true);
 		

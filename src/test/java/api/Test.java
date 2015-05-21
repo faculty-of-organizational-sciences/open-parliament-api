@@ -1,5 +1,6 @@
 package api;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		
+		System.out.println(System.getProperty("user.home") + File.separator + ".parlament" + File.separator);
 				
 		Settings.getInstance();
 
