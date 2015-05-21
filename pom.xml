@@ -11,6 +11,7 @@
 	<properties>
 		<maven.compiler.source>1.5</maven.compiler.source>
 		<hibernate.version>4.3.10.Final</hibernate.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -31,7 +32,20 @@
 			<version>5.1.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 	</dependencies>
+
+
 	<build>
 		<finalName>${project.artifactId}-${project.version}-${timestamp}</finalName>
 
