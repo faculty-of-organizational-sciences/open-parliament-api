@@ -12,6 +12,7 @@ import rs.otvoreniparlament.api.domain.ImovinskaKarta;
 import rs.otvoreniparlament.api.domain.Lista;
 import rs.otvoreniparlament.api.domain.MedjunarodnaOrganizacija;
 import rs.otvoreniparlament.api.domain.Mesto;
+import rs.otvoreniparlament.api.domain.ObrazovnaInstitucija;
 import rs.otvoreniparlament.api.domain.Poslanik;
 import rs.otvoreniparlament.api.domain.PolitickaOrganizacija;
 import rs.otvoreniparlament.api.domain.Profesija;
@@ -41,7 +42,9 @@ public class Test {
 		// session.createCriteria(MedjunarodnaOrganizacija.class).list();
 		// List<WebPrezentacija> list =
 		// session.createCriteria(WebPrezentacija.class).list();
-		List<PolitickaOrganizacija> list = session.createCriteria(PolitickaOrganizacija.class).list();
+//		List<PolitickaOrganizacija> list = session.createCriteria(PolitickaOrganizacija.class).list();
+		List<ObrazovnaInstitucija> list = session.createCriteria(ObrazovnaInstitucija.class).list();
+
 
 		System.out.println("Velicina liste: " + list.size());
 

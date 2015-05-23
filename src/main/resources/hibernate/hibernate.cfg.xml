@@ -16,5 +16,6 @@
 		<mapping class="rs.otvoreniparlament.api.domain.MedjunarodnaOrganizacija"/>
 		<mapping class="rs.otvoreniparlament.api.domain.WebPrezentacija"/>
 		<mapping class="rs.otvoreniparlament.api.domain.PolitickaOrganizacija"/>
+		<mapping class="rs.otvoreniparlament.api.domain.ObrazovnaInstitucija"/>
 	</session-factory>
 </hibernate-configuration>
