@@ -6,7 +6,8 @@ import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
-
+import rs.otvoreniparlament.api.domain.Drzava;
+import rs.otvoreniparlament.api.domain.GrupePrijateljstva;
 import rs.otvoreniparlament.api.domain.Mesto;
 import rs.otvoreniparlament.api.domain.Profesija;
 
@@ -21,7 +22,10 @@ public class Test {
 		session.beginTransaction();
 
 //		List<Profesija> list = session.createCriteria(Profesija.class).list();
-		List<Mesto> list = session.createCriteria(Mesto.class).list();
+//		List<Mesto> list = session.createCriteria(Mesto.class).list();
+//		List<Drzava> list = session.createCriteria(Drzava.class).list();
+		List<GrupePrijateljstva> list = session.createCriteria(GrupePrijateljstva.class).list();
+
 		
 		System.out.println("Velicina liste: " + list.size());
 
@@ -35,3 +39,4 @@ public class Test {
 		HibernateUtil.getInstance().shutdown();
 	}
 }
+

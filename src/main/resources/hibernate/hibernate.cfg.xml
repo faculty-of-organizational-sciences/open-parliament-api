@@ -8,5 +8,7 @@
 		<mapping package="rs.otvoreniparlament.api.domain" />
 		<mapping class="rs.otvoreniparlament.api.domain.Profesija" />
 		<mapping class="rs.otvoreniparlament.api.domain.Mesto" />
+		<mapping class="rs.otvoreniparlament.api.domain.Drzava"/>
+		<mapping class="rs.otvoreniparlament.api.domain.GrupePrijateljstva"/>
 	</session-factory>
 </hibernate-configuration>
