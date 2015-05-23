@@ -10,5 +10,10 @@
 		<mapping class="rs.otvoreniparlament.api.domain.Mesto" />
 		<mapping class="rs.otvoreniparlament.api.domain.Drzava"/>
 		<mapping class="rs.otvoreniparlament.api.domain.GrupePrijateljstva"/>
+		<mapping class="rs.otvoreniparlament.api.domain.ImovinskaKarta"/>
+		<mapping class="rs.otvoreniparlament.api.domain.Lista"/>
+		<mapping class="rs.otvoreniparlament.api.domain.MedjunarodnaOrganizacija"/>
+		<mapping class="rs.otvoreniparlament.api.domain.WebPrezentacija"/>
+		<mapping class="rs.otvoreniparlament.api.domain.PolitickaOrganizacija"/>
 	</session-factory>
 </hibernate-configuration>
