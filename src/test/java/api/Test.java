@@ -16,7 +16,6 @@ public class Test {
 
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
-		System.out.println(" :) brisi ovo i push-uj ponovo");
 
 		// List<Profesija> list =
 		// session.createCriteria(Profesija.class).list();
