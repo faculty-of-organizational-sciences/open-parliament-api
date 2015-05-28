@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,14 +18,14 @@ public class Settings {
 	private final Logger logger = LogManager.getLogger(Settings.class);
 
 	private static final String configFileName = "config.json";
+
 	private static final String defaultConfigFilePath = "config/";
-	private static final String absoluteConfigPath = System
-			.getProperty("user.home")
-			+ File.separator
-			+ ".parlament"
+
+	private static final String absoluteConfigPath = System.getProperty("user.home") + File.separator + ".parlament"
 			+ File.separator;
 
 	public Config config;
+
 	private Gson gson;
 
 	private static class SettingsHolder {
@@ -42,7 +41,8 @@ public class Settings {
 
 		try {
 			loadConfig();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.error("Could not load settings: ", e);
 		}
 	}
@@ -64,7 +64,8 @@ public class Settings {
 				if (config != null) {
 					// and save it to the <USER_HOME>/.parlament folder
 					saveConfig();
-				} else {
+				}
+				else {
 					throw new Exception();
 				}
 			}
@@ -72,15 +73,15 @@ public class Settings {
 			// logger.info("Settings loaded!");
 			// logger.error("test");
 
-		} catch (FileNotFoundException fnfe) {
-			throw new FileNotFoundException(
-					"Could not open the configuration file: " + configFileName
-							+ " - " + fnfe.getMessage());
+		}
+		catch (FileNotFoundException fnfe) {
+			throw new FileNotFoundException("Could not open the configuration file: " + configFileName + " - "
+					+ fnfe.getMessage());
 
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Could not serialize the configuration file: "
-					+ configFileName, e);
+			throw new Exception("Could not serialize the configuration file: " + configFileName, e);
 		}
 	}
 
@@ -99,15 +100,17 @@ public class Settings {
 			// } else {
 			// loadDefaultConfig1(is, serializer);
 			// }
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Could not read the config file: "
-					+ configFileName, e);
-		} finally {
+			throw new Exception("Could not read the config file: " + configFileName, e);
+		}
+		finally {
 			if (null != reader) {
 				try {
 					reader.close();
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 					logger.error("Could not close InputStream!", e);
 				}
 			}
@@ -133,9 +136,9 @@ public class Settings {
 			writer.close();
 
 			logger.info("Settings saved!");
-		} catch (Exception e) {
-			logger.error("Could not save the configuration file: "
-					+ configFileName, e);
+		}
+		catch (Exception e) {
+			logger.error("Could not save the configuration file: " + configFileName, e);
 		}
 	}
 

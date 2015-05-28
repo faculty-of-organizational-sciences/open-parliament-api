@@ -3,8 +3,11 @@ package rs.otvoreniparlament.api.config;
 public class DbConfig {
 
 	public String url;
+
 	public String user;
+
 	public String pass;
+
 	public int poolSize;
 
 	public String getUrl() {

@@ -8,25 +8,26 @@ import javax.persistence.Table;
 
 @Entity()
 @Table(name = "drzava")
-
 public class Drzava {
 
 	private Integer drzavaID;
+
 	private String imeDrzave;
+
 	private Integer grupePrijateljstvaID;
-	
-	public Drzava (){
-		
+
+	public Drzava() {
+
 	}
-	
-	public Drzava (Integer drzavaID, String imeDrzave, Integer grupePrijateljstvaID){
+
+	public Drzava(Integer drzavaID, String imeDrzave, Integer grupePrijateljstvaID) {
 		this.drzavaID = drzavaID;
 		this.imeDrzave = imeDrzave;
 		this.grupePrijateljstvaID = grupePrijateljstvaID;
 	}
 
 	@Id
-	@Column (name = "iddrzava")
+	@Column(name = "iddrzava")
 	public Integer getDrzavaID() {
 		return drzavaID;
 	}
@@ -54,11 +55,11 @@ public class Drzava {
 	public void setGrupePrijateljstvaID(Integer grupePrijateljstvaID) {
 		this.grupePrijateljstvaID = grupePrijateljstvaID;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Drzava [drzavaID=" + drzavaID + ", imeDrzave=" + imeDrzave
-				+ ", grupePrijateljstvaID=" + grupePrijateljstvaID + "]";
+		return "Drzava [drzavaID=" + drzavaID + ", imeDrzave=" + imeDrzave + ", grupePrijateljstvaID="
+				+ grupePrijateljstvaID + "]";
 	}
-	
+
 }

@@ -6,6 +6,7 @@ public class Config {
 
 	public DbConfig getDbConfig() {
 		return dbConfig;
+		// System.out.println("Izmena");
 	}
 
 	public void setDbConfig(DbConfig dbConfig) {
