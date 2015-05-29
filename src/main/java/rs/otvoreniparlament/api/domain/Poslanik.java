@@ -27,7 +27,7 @@ public class Poslanik {
 	private Date datumRodjenja;
 
 	// pol: 0 muski, 1 zenski
-	private boolean pol;
+	private String pol;
 
 	// private String email;
 	private String biografija;
@@ -49,7 +49,7 @@ public class Poslanik {
 	}
 
 	public Poslanik(Integer poslanikID, Timestamp rec_date, char aktivan, String imePoslanika, String prezimePoslanika,
-			Date datumRodjenja, boolean pol, String email, String biografija, String img_url, String img_mime_type,
+			Date datumRodjenja, String pol, String email, String biografija, String img_url, String img_mime_type,
 			Integer mestoRodjenjaID, Integer mestoPRebivalistaID, Integer listaID, Date datumNaIzborima,
 			Integer trenutniSazivID) {
 
@@ -133,11 +133,11 @@ public class Poslanik {
 
 	@Basic
 	@Column(name = "pol")
-	public boolean isPol() {
+	public String isPol() {
 		return pol;
 	}
 
-	public void setPol(boolean pol) {
+	public void setPol(String pol) {
 		this.pol = pol;
 	}
 

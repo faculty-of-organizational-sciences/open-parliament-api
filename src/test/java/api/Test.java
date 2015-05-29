@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
 import rs.otvoreniparlament.api.domain.ObrazovnaInstitucija;
+import rs.otvoreniparlament.api.domain.Poslanik;
 
 public class Test {
 
@@ -32,7 +33,9 @@ public class Test {
 		// List<WebPrezentacija> list =
 		// session.createCriteria(WebPrezentacija.class).list();
 		// List<PolitickaOrganizacija> list = session.createCriteria(PolitickaOrganizacija.class).list();
-		List<ObrazovnaInstitucija> list = session.createCriteria(ObrazovnaInstitucija.class).list();
+//		List<ObrazovnaInstitucija> list = session.createCriteria(ObrazovnaInstitucija.class).list();
+//		List<Poslanik> list = session.createCriteria(Poslanik.class).list();
+		List<Poslanik> list = session.createQuery("from Poslanik").list();
 
 		System.out.println("Velicina liste: " + list.size());
 
