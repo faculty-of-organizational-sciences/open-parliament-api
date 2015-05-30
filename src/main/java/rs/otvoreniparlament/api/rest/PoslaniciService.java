@@ -7,19 +7,20 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import rs.otvoreniparlament.api.service.MembersService;
 import rs.otvoreniparlament.api.service.MembersServiceImp;
 
 @Path("/members")
 public class PoslaniciService {
 
 	private Gson gson;
-	protected MembersServiceImp msi;
+	protected MembersService ms;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getMembers() {
 		gson = new Gson();
-		msi = new MembersServiceImp();
-		return gson.toJson(msi.getMembers());
+		ms = new MembersServiceImp();
+		return gson.toJson(ms.getMembers());
 	}
 }
