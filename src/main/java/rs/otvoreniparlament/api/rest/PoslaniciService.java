@@ -20,8 +20,7 @@ public class PoslaniciService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public String getMembers() {
 		gson = new Gson();
-		ms = new MembersServiceImp();
-		
+		ms = new MembersServiceImp();		
 		return gson.toJson(ms.getMembers());
 	}
 }
