@@ -17,10 +17,11 @@ public class PoslaniciService {
 	protected MembersService ms;
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public String getMembers() {
 		gson = new Gson();
 		ms = new MembersServiceImp();
+		
 		return gson.toJson(ms.getMembers());
 	}
 }

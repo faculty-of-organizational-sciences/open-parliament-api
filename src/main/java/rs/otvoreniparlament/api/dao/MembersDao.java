@@ -12,8 +12,12 @@ public class MembersDao {
 	public List<Poslanik> getMembers() {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
-		
-		return session.createQuery("from Poslanik").list();
+
+		List<Poslanik> all = session.createQuery("from Poslanik").list();
+
+		session.close();
+
+		return all;
 	}
 
 }
