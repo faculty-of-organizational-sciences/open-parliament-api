@@ -7,12 +7,11 @@ import rs.otvoreniparlament.api.domain.Poslanik;
 
 public class MembersServiceImp implements MembersService {
 
-	protected MembersDao md;
+	protected MembersDao md = new MembersDao();
 
 	@Override
-	public List<Poslanik> getMembers() {
-		md = new MembersDao();
-		return md.getMembers();
+	public List<Poslanik> getMembers(int page, int limit) {
+		return md.getMembers(page, limit);
 	}
 
 }

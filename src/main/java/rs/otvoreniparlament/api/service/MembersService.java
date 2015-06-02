@@ -6,7 +6,7 @@ import rs.otvoreniparlament.api.domain.Poslanik;
 
 public interface MembersService {
 	
-	public List<Poslanik> getMembers();
+	List<Poslanik> getMembers(int page, int limit);
 	
 
 }
