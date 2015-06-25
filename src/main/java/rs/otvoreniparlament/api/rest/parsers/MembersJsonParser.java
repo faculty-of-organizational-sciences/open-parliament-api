@@ -2,7 +2,7 @@ package rs.otvoreniparlament.api.rest.parsers;
 
 import java.util.List;
 
-import rs.otvoreniparlament.api.domain.Poslanik;
+import rs.otvoreniparlament.api.domain.Member;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,16 +17,16 @@ public class MembersJsonParser {
 		gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 
-	public static String serializeMembers(List<Poslanik> members) {
+	public static String serializeMembers(List<Member> members) {
 		JsonArray array = new JsonArray();
 		
 		if (members != null && !members.isEmpty()) {
 		
-			for (Poslanik p : members) {
+			for (Member m : members) {
 				JsonObject jsonMember = new JsonObject();
 				
-				jsonMember.addProperty("name", p.getImePoslanika());
-				jsonMember.addProperty("lastName", p.getPrezimePoslanika());
+				jsonMember.addProperty("name", m.getName());
+				jsonMember.addProperty("lastName", m.getLastName());
 				
 				array.add(jsonMember);
 			}

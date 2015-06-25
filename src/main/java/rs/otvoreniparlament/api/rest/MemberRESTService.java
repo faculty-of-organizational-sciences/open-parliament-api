@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import rs.otvoreniparlament.api.config.Settings;
-import rs.otvoreniparlament.api.domain.Poslanik;
+import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.rest.parsers.MembersJsonParser;
 import rs.otvoreniparlament.api.service.MembersService;
 import rs.otvoreniparlament.api.service.MembersServiceImp;
@@ -37,7 +37,7 @@ public class MemberRESTService {
 			page = 1;
 		}
 		
-		List<Poslanik> members = memberService.getMembers(page, limit);
+		List<Member> members = memberService.getMembers(page, limit);
 		
 		return MembersJsonParser.serializeMembers(members);
 	}
