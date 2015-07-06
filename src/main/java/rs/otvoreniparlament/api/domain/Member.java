@@ -56,7 +56,7 @@ public class Member {
 	private Town placeOfLiving;
 
 	@OneToOne
-	private PartieList list;
+	private PartyList list;
 
 	@Column(name = "datumucestvovanjalistenaizborima")
 	private Date listSelectionParticipationDate;
@@ -72,7 +72,7 @@ public class Member {
 			String name, String lastName, Date dateOfBirth, String gender,
 			String email, String biography, String img_url,
 			String img_mime_type, Town placeOfBirth, Town placeOfLiving,
-			PartieList list, Date listSelectionParticipationDate,
+			PartyList list, Date listSelectionParticipationDate,
 			Gathering currentGathering) {
 		this.memberID = memberID;
 		this.rec_date = rec_date;
@@ -196,11 +196,11 @@ public class Member {
 		this.placeOfLiving = placeOfLiving;
 	}
 
-	public PartieList getList() {
+	public PartyList getList() {
 		return list;
 	}
 
-	public void setList(PartieList list) {
+	public void setList(PartyList list) {
 		this.list = list;
 	}
 
