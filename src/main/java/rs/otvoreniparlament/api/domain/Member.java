@@ -1,7 +1,6 @@
 package rs.otvoreniparlament.api.domain;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +16,12 @@ public class Member {
 	@Column(name = "idposlanik")
 	private Integer memberID;
 
-	@Column(name = "rec_date")
-	private Timestamp rec_date;
+	// @Column(name = "rec_date")
+	// private Timestamp rec_date;
 
 	// u bazi je ovo tip enum
-	@Column(name = "active")
-	private String active;
+	// @Column(name = "active")
+	// private String active;
 
 	@Column(name = "ime")
 	private String name;
@@ -42,54 +41,46 @@ public class Member {
 
 	@Column(name = "biografija")
 	private String biography;
-	
-	@Column(name = "img_url")
-	private String img_url;
 
-	@Column(name = "img_mime_type")
-	private String img_mime_type;
+	// @Column(name = "img_url")
+	// private String img_url;
+
+	// @Column(name = "img_mime_type")
+	// private String img_mime_type;
 
 	@OneToOne
 	private Town placeOfBirth;
-	
+
 	@OneToOne
-	private Town placeOfLiving;
+	private Town placeOfResidence;
 
 	@OneToOne
 	private PartyList list;
 
-	@Column(name = "datumucestvovanjalistenaizborima")
-	private Date listSelectionParticipationDate;
+	// @Column(name = "datumucestvovanjalistenaizborima")
+	// private Date listSelectionParticipationDate;
 
 	@OneToOne
-	private Gathering currentGathering;
+	private Assembly currentAssembly;
 
 	public Member() {
 
 	}
 
-	public Member(Integer memberID, Timestamp rec_date, String active,
-			String name, String lastName, Date dateOfBirth, String gender,
-			String email, String biography, String img_url,
-			String img_mime_type, Town placeOfBirth, Town placeOfLiving,
-			PartyList list, Date listSelectionParticipationDate,
-			Gathering currentGathering) {
+	public Member(Integer memberID, String name, String lastName, Date dateOfBirth, String gender, String email,
+			String biography, Town placeOfBirth, Town placeOfResidence, PartyList list, Assembly currentAssembly) {
+		super();
 		this.memberID = memberID;
-		this.rec_date = rec_date;
-		this.active = active;
 		this.name = name;
 		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
 		this.email = email;
 		this.biography = biography;
-		this.img_url = img_url;
-		this.img_mime_type = img_mime_type;
 		this.placeOfBirth = placeOfBirth;
-		this.placeOfLiving = placeOfLiving;
+		this.placeOfResidence = placeOfResidence;
 		this.list = list;
-		this.listSelectionParticipationDate = listSelectionParticipationDate;
-		this.currentGathering = currentGathering;
+		this.currentAssembly = currentAssembly;
 	}
 
 	public Integer getMemberID() {
@@ -98,22 +89,6 @@ public class Member {
 
 	public void setMemberID(Integer memberID) {
 		this.memberID = memberID;
-	}
-
-	public Timestamp getRec_date() {
-		return rec_date;
-	}
-
-	public void setRec_date(Timestamp rec_date) {
-		this.rec_date = rec_date;
-	}
-
-	public String getActive() {
-		return active;
-	}
-
-	public void setActive(String active) {
-		this.active = active;
 	}
 
 	public String getName() {
@@ -164,22 +139,6 @@ public class Member {
 		this.biography = biography;
 	}
 
-	public String getImg_url() {
-		return img_url;
-	}
-
-	public void setImg_url(String img_url) {
-		this.img_url = img_url;
-	}
-
-	public String getImg_mime_type() {
-		return img_mime_type;
-	}
-
-	public void setImg_mime_type(String img_mime_type) {
-		this.img_mime_type = img_mime_type;
-	}
-
 	public Town getPlaceOfBirth() {
 		return placeOfBirth;
 	}
@@ -188,12 +147,12 @@ public class Member {
 		this.placeOfBirth = placeOfBirth;
 	}
 
-	public Town getPlaceOfLiving() {
-		return placeOfLiving;
+	public Town getPlaceOfResidence() {
+		return placeOfResidence;
 	}
 
-	public void setPlaceOfLiving(Town placeOfLiving) {
-		this.placeOfLiving = placeOfLiving;
+	public void setPlaceOfResidence(Town placeOfResidence) {
+		this.placeOfResidence = placeOfResidence;
 	}
 
 	public PartyList getList() {
@@ -204,35 +163,20 @@ public class Member {
 		this.list = list;
 	}
 
-	public Date getListSelectionParticipationDate() {
-		return listSelectionParticipationDate;
+	public Assembly getCurrentAssembly() {
+		return currentAssembly;
 	}
 
-	public void setListSelectionParticipationDate(
-			Date listSelectionParticipationDate) {
-		this.listSelectionParticipationDate = listSelectionParticipationDate;
-	}
-
-	public Gathering getCurrentGathering() {
-		return currentGathering;
-	}
-
-	public void setCurrentGathering(Gathering currentGathering) {
-		this.currentGathering = currentGathering;
+	public void setCurrentAssembly(Assembly currentAssembly) {
+		this.currentAssembly = currentAssembly;
 	}
 
 	@Override
 	public String toString() {
-		return "Member [memberID=" + memberID + ", rec_date=" + rec_date
-				+ ", active=" + active + ", name=" + name + ", lastName="
-				+ lastName + ", dateOfBirth=" + dateOfBirth + ", gender="
-				+ gender + ", email=" + email + ", biography=" + biography
-				+ ", img_url=" + img_url + ", img_mime_type=" + img_mime_type
-				+ ", placeOfBirth=" + placeOfBirth + ", placeOfLiving="
-				+ placeOfLiving + ", list=" + list
-				+ ", listSelectionParticipationDate="
-				+ listSelectionParticipationDate + ", currentGathering="
-				+ currentGathering + "]";
+		return "Member [memberID=" + memberID + ", name=" + name + ", lastName=" + lastName + ", dateOfBirth="
+				+ dateOfBirth + ", gender=" + gender + ", email=" + email + ", biography=" + biography
+				+ ", placeOfBirth=" + placeOfBirth + ", placeOfResidence=" + placeOfResidence + ", list=" + list
+				+ ", currentAssembly=" + currentAssembly + "]";
 	}
 
 }

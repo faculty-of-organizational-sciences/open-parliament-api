@@ -10,11 +10,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "saziv")
-public class Gathering {
+public class Assembly {
 
 	@Id
 	@Column(name = "idsaziv")
-	private Integer gatheringID;
+	private Integer assemblyID;
 
 	@Column(name = "rec_date")
 	private Timestamp rec_date;
@@ -31,12 +31,12 @@ public class Gathering {
 	@Column(name = "opis")
 	private String about;
 
-	public Gathering() {
+	public Assembly() {
 	}
 
-	public Gathering(Integer gatheringID, Timestamp rec_date, String active,
+	public Assembly(Integer assemblyID, Timestamp rec_date, String active,
 			Date electionDate, String name, String about) {
-		this.gatheringID = gatheringID;
+		this.assemblyID = assemblyID;
 		this.rec_date = rec_date;
 		this.active = active;
 		this.electionDate = electionDate;
@@ -44,12 +44,12 @@ public class Gathering {
 		this.about = about;
 	}
 
-	public Integer getGatheringID() {
-		return gatheringID;
+	public Integer getAssemblyID() {
+		return assemblyID;
 	}
 
-	public void setGatheringID(Integer gatheringID) {
-		this.gatheringID = gatheringID;
+	public void setAssemblyID(Integer assemblyID) {
+		this.assemblyID = assemblyID;
 	}
 
 	public Timestamp getRec_date() {
@@ -94,7 +94,7 @@ public class Gathering {
 
 	@Override
 	public String toString() {
-		return "Gathering [gatheringID=" + gatheringID + ", rec_date="
+		return "Assembly [assemblyID=" + assemblyID + ", rec_date="
 				+ rec_date + ", active=" + active + ", electionDate="
 				+ electionDate + ", name=" + name + ", about=" + about + "]";
 	}
