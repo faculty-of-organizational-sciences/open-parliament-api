@@ -6,11 +6,11 @@
 	<session-factory>
 		<!-- Mapping details -->
 		<mapping package="rs.otvoreniparlament.api.domain" />
-		<mapping class="rs.otvoreniparlament.api.domain.Gathering" />
+		<mapping class="rs.otvoreniparlament.api.domain.Assembly" />
 		<mapping class="rs.otvoreniparlament.api.domain.Country" />
 		<mapping class="rs.otvoreniparlament.api.domain.FriendshipGroup" />
 		<mapping class="rs.otvoreniparlament.api.domain.Region" />
-		<mapping class="rs.otvoreniparlament.api.domain.PartieList" />
+		<mapping class="rs.otvoreniparlament.api.domain.PartyList" />
 		<mapping class="rs.otvoreniparlament.api.domain.Member" />
 		<mapping class="rs.otvoreniparlament.api.domain.Town" />
 	</session-factory>

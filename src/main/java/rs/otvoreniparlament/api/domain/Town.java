@@ -25,11 +25,11 @@ public class Town {
 	private Integer distanceFromBelgrade;
 
 	@ManyToOne
-	@JoinColumn(name = "idokrug")
+	@JoinColumn(name = "idokruga")
 	private Region region;
 
 	@ManyToOne
-	@JoinColumn(name = "iddrzava")
+	@JoinColumn(name = "iddrzave")
 	private Country country;
 
 	public Town() {

@@ -5,7 +5,8 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity()
@@ -15,13 +16,6 @@ public class Member {
 	@Id
 	@Column(name = "idposlanik")
 	private Integer memberID;
-
-	// @Column(name = "rec_date")
-	// private Timestamp rec_date;
-
-	// u bazi je ovo tip enum
-	// @Column(name = "active")
-	// private String active;
 
 	@Column(name = "ime")
 	private String name;
@@ -48,39 +42,16 @@ public class Member {
 	// @Column(name = "img_mime_type")
 	// private String img_mime_type;
 
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "idmestarodjenja")
 	private Town placeOfBirth;
 
-	@OneToOne
+	@ManyToOne
+	@JoinColumn( name = "idmestaprebivalista")
 	private Town placeOfResidence;
-
-	@OneToOne
-	private PartyList list;
-
-	// @Column(name = "datumucestvovanjalistenaizborima")
-	// private Date listSelectionParticipationDate;
-
-	@OneToOne
-	private Assembly currentAssembly;
 
 	public Member() {
 
-	}
-
-	public Member(Integer memberID, String name, String lastName, Date dateOfBirth, String gender, String email,
-			String biography, Town placeOfBirth, Town placeOfResidence, PartyList list, Assembly currentAssembly) {
-		super();
-		this.memberID = memberID;
-		this.name = name;
-		this.lastName = lastName;
-		this.dateOfBirth = dateOfBirth;
-		this.gender = gender;
-		this.email = email;
-		this.biography = biography;
-		this.placeOfBirth = placeOfBirth;
-		this.placeOfResidence = placeOfResidence;
-		this.list = list;
-		this.currentAssembly = currentAssembly;
 	}
 
 	public Integer getMemberID() {
@@ -155,28 +126,11 @@ public class Member {
 		this.placeOfResidence = placeOfResidence;
 	}
 
-	public PartyList getList() {
-		return list;
-	}
-
-	public void setList(PartyList list) {
-		this.list = list;
-	}
-
-	public Assembly getCurrentAssembly() {
-		return currentAssembly;
-	}
-
-	public void setCurrentAssembly(Assembly currentAssembly) {
-		this.currentAssembly = currentAssembly;
-	}
-
 	@Override
 	public String toString() {
 		return "Member [memberID=" + memberID + ", name=" + name + ", lastName=" + lastName + ", dateOfBirth="
 				+ dateOfBirth + ", gender=" + gender + ", email=" + email + ", biography=" + biography
-				+ ", placeOfBirth=" + placeOfBirth + ", placeOfResidence=" + placeOfResidence + ", list=" + list
-				+ ", currentAssembly=" + currentAssembly + "]";
+				+ ", placeOfBirth=" + placeOfBirth + ", placeOfResidence=" + placeOfResidence + "]";
 	}
 
 }

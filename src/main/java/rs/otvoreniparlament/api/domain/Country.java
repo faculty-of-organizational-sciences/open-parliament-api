@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,14 +21,15 @@ public class Country {
 	@Column(name = "ime" )
 	private String name;
 
-	@OneToMany()
-	private List<FriendshipGroup> friendshipGroup;
+	@ManyToOne
+	@JoinColumn( name = "idgrupeprijateljstva")
+	FriendshipGroup friendshipGroup;
 
 	public Country() {
 	}
 
 	public Country(Integer countryID, String name,
-			List<FriendshipGroup> friendshipGroup) {
+			FriendshipGroup friendshipGroup) {
 		this.countryID = countryID;
 		this.name = name;
 		this.friendshipGroup = friendshipGroup;
@@ -48,11 +51,11 @@ public class Country {
 		this.name = name;
 	}
 
-	public List<FriendshipGroup> getFriendshipGroup() {
+	public FriendshipGroup getFriendshipGroup() {
 		return friendshipGroup;
 	}
 
-	public void setFriendshipGroup(List<FriendshipGroup> friendshipGroup) {
+	public void setFriendshipGroup(FriendshipGroup friendshipGroup) {
 		this.friendshipGroup = friendshipGroup;
 	}
 
