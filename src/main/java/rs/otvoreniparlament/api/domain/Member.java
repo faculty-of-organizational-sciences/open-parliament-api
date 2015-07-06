@@ -17,7 +17,7 @@ public class Member {
 	@Column(name = "idposlanik")
 	private Integer memberID;
 
-	@Column(name = "rec_date")
+	@Column(name = "rec_date" )
 	private Timestamp rec_date;
 
 	// u bazi je ovo tip enum
