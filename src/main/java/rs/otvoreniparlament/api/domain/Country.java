@@ -16,7 +16,7 @@ public class Country {
 	@Column(name = "iddrzava")
 	private Integer countryID;
 
-	@Column(name = "ime")
+	@Column(name = "ime" )
 	private String name;
 
 	@OneToMany()
