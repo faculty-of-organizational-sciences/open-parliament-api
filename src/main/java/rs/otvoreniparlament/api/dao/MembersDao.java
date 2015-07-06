@@ -15,9 +15,9 @@ public class MembersDao {
 		session.beginTransaction();
 
 		String query = 
-			"SELECT p " +
-			"FROM Poslanik p " + 
-			"ORDER BY p.prezimePoslanika, p.imePoslanika ASC";
+			"SELECT m " +
+			"FROM Member m " + 
+			"ORDER BY m.lastName, m.name ASC";
 		
 		List<Member> all = session.createQuery(query)
 				.setFirstResult((page - 1) * limit)
