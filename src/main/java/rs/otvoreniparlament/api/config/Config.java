@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.config;
 
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 public class Config {
