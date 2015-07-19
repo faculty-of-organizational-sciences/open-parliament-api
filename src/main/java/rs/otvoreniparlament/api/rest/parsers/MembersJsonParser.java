@@ -3,6 +3,7 @@ package rs.otvoreniparlament.api.rest.parsers;
 import java.util.List;
 
 import rs.otvoreniparlament.api.domain.Member;
+import rs.otvoreniparlament.api.domain.Party;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,9 +29,9 @@ public class MembersJsonParser {
 				jsonMember.addProperty("id", m.getMemberID());
 				jsonMember.addProperty("name", m.getName());
 				jsonMember.addProperty("lastName", m.getLastName());
-				
-				if(m.getEmail() != null){
-					jsonMember.addProperty("mail", m.getEmail());	
+
+				if (m.getEmail() != null) {
+					jsonMember.addProperty("mail", m.getEmail());
 				}
 
 				if (m.getDateOfBirth() != null) {
@@ -49,8 +50,23 @@ public class MembersJsonParser {
 					jsonMember.addProperty("gender", m.getGender());
 				}
 
-				if (m.getBiography() != null && m.getBiography() != ""){	
+				if (m.getBiography() != null && m.getBiography() != "") {
 					jsonMember.addProperty("biography", m.getBiography());
+				}
+
+				if (m.getParties() != null && !m.getParties().isEmpty()) {
+					JsonArray parties = new JsonArray();
+					
+					for (Party p : m.getParties()) {
+						JsonObject jsonParty = new JsonObject();
+
+						if (p != null && p.toString() != "") {
+							jsonParty.addProperty("partyId", p.getPartyId());
+							jsonParty.addProperty("partyName", p.getName());
+							parties.add(jsonParty);
+						}
+					}
+					jsonMember.add("parties", parties);
 				}
 
 				array.add(jsonMember);

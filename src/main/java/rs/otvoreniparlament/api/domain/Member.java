@@ -1,15 +1,19 @@
 package rs.otvoreniparlament.api.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity()
+@Entity
 @Table(name = "poslanik")
 public class Member {
 
@@ -47,8 +51,12 @@ public class Member {
 	private Town placeOfBirth;
 
 	@ManyToOne
-	@JoinColumn( name = "idmestaprebivalista")
+	@JoinColumn(name = "idmestaprebivalista")
 	private Town placeOfResidence;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "clanpolitickeorganizacije", joinColumns = @JoinColumn(name = "idposlanika") , inverseJoinColumns = @JoinColumn(name = "idpolitickeorganizacije") )
+	private List<Party> parties;
 
 	public Member() {
 
@@ -124,6 +132,14 @@ public class Member {
 
 	public void setPlaceOfResidence(Town placeOfResidence) {
 		this.placeOfResidence = placeOfResidence;
+	}
+
+	public List<Party> getParties() {
+		return parties;
+	}
+
+	public void setParties(List<Party> parties) {
+		this.parties = parties;
 	}
 
 	@Override

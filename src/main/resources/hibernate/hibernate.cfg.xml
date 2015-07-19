@@ -13,5 +13,6 @@
 		<mapping class="rs.otvoreniparlament.api.domain.PartyList" />
 		<mapping class="rs.otvoreniparlament.api.domain.Member" />
 		<mapping class="rs.otvoreniparlament.api.domain.Town" />
+		<mapping class="rs.otvoreniparlament.api.domain.Party" />
 	</session-factory>
 </hibernate-configuration>

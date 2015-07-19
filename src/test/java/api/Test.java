@@ -17,7 +17,7 @@ public class Test {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-		List<Member> list = session.createCriteria(Member.class).list();
+		List<Member> list = session.createCriteria(Party.class).list();
 
 		System.out.println("Velicina liste: " + list.size());
 
