@@ -18,5 +18,6 @@ public class UriGenerator {
 		UriBuilder builder = UriBuilder.fromPath(uriPrefix).path(specificName + "/" + o + "/");
 		URI uri = builder.build();
 		System.out.println(uri);
+
 	}
 }
