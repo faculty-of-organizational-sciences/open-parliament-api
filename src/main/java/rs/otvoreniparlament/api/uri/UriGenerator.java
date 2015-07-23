@@ -1,0 +1,22 @@
+package rs.otvoreniparlament.api.uri;
+
+import java.net.URI;
+
+import javax.ws.rs.core.UriBuilder;
+
+import rs.otvoreniparlament.api.config.Settings;
+
+public class UriGenerator {
+
+	String uriPrefix = Settings.getInstance().config.uriConfig.uriPrefix;
+
+	String specificName;
+
+	public UriGenerator(Object o) {
+
+		specificName = o.getClass().getName();
+		UriBuilder builder = UriBuilder.fromPath(uriPrefix).path(specificName + "/" + o + "/");
+		URI uri = builder.build();
+		System.out.println(uri);
+	}
+}
