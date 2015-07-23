@@ -3,6 +3,13 @@
 		"url": "jdbc:mysql://localhost:3306/parlament",
 		"user": "user",
 		"pass": "user123",
-		"poolSize": "10"		
+		"poolSize": 10		
+	},
+	
+	query : {
+		limit : 10
+	}
+	uriGenerator: {
+	    "uriPrefix": " http://api.otvoreniparlament.rs/api/"
 	}
 }

@@ -2,11 +2,10 @@ package rs.otvoreniparlament.api.service;
 
 import java.util.List;
 
-import rs.otvoreniparlament.api.domain.Poslanik;
+import rs.otvoreniparlament.api.domain.Member;
 
 public interface MembersService {
-	
-	public List<Poslanik> getMembers();
-	
+
+	List<Member> getMembers(int page, int limit, String sort);
 
 }

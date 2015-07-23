@@ -34,7 +34,6 @@
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="AllLogs" />
 			<AppenderRef ref="RollingAllLogs" />
-			<AppenderRef ref="HTMLAppender" />
 		</Root>
 	</Loggers>
 </Configuration>
