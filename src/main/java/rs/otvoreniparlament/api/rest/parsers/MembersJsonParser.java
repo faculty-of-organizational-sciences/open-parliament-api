@@ -10,28 +10,27 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class MembersJsonParser {
-	
+
 	private static Gson gson;
-	
+
 	static {
 		gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 
 	public static String serializeMembers(List<Member> members) {
 		JsonArray array = new JsonArray();
-		
+
 		if (members != null && !members.isEmpty()) {
-		
+
 			for (Member m : members) {
 				JsonObject jsonMember = new JsonObject();
-				
 				jsonMember.addProperty("name", m.getName());
 				jsonMember.addProperty("lastName", m.getLastName());
-				
+
 				array.add(jsonMember);
 			}
 		}
-		
+
 		return gson.toJson(array);
 	}
 }
