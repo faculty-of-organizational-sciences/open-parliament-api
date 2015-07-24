@@ -3,6 +3,7 @@ package rs.otvoreniparlament.api.rest.parsers;
 import java.util.List;
 
 import rs.otvoreniparlament.api.domain.Member;
+import rs.otvoreniparlament.api.uri.UriGenerator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +25,10 @@ public class MembersJsonParser {
 
 			for (Member m : members) {
 				JsonObject jsonMember = new JsonObject();
+
+				Integer memberId = m.getMemberID();
+				UriGenerator uri = new UriGenerator(m, memberId);
+
 				jsonMember.addProperty("name", m.getName());
 				jsonMember.addProperty("lastName", m.getLastName());
 

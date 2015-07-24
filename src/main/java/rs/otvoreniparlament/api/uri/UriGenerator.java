@@ -12,9 +12,7 @@ public class UriGenerator {
 
 	String specificName;
 
-	Integer id;
-
-	public UriGenerator(Object o) {
+	public UriGenerator(Object o, Integer id) {
 
 		specificName = o.getClass().getName().toLowerCase();
 		UriBuilder builder = UriBuilder.fromPath(uriPrefix).path(specificName + "/" + id);
