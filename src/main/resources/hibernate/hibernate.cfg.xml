@@ -6,6 +6,7 @@
 	<session-factory>
 		<!-- Mapping details -->
 		<mapping package="rs.otvoreniparlament.api.domain" />
+<<<<<<< HEAD
 		<mapping class="rs.otvoreniparlament.api.domain.Assembly" />
 		<mapping class="rs.otvoreniparlament.api.domain.Country" />
 		<mapping class="rs.otvoreniparlament.api.domain.FriendshipGroup" />
@@ -14,5 +15,14 @@
 		<mapping class="rs.otvoreniparlament.api.domain.Member" />
 		<mapping class="rs.otvoreniparlament.api.domain.Town" />
 		<mapping class="rs.otvoreniparlament.api.domain.Party" />
+=======
+		<mapping class="rs.otvoreniparlament.api.domain.Gathering" />
+		<mapping class="rs.otvoreniparlament.api.domain.Country" />
+		<mapping class="rs.otvoreniparlament.api.domain.FriendshipGroup" />
+		<mapping class="rs.otvoreniparlament.api.domain.Region" />
+		<mapping class="rs.otvoreniparlament.api.domain.PartieList" />
+		<mapping class="rs.otvoreniparlament.api.domain.Member" />
+		<mapping class="rs.otvoreniparlament.api.domain.Town" />
+>>>>>>> refs/remotes/origin/master
 	</session-factory>
 </hibernate-configuration>

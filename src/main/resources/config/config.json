@@ -8,5 +8,11 @@
 	
 	query : {
 		limit : 10
+<<<<<<< HEAD
+=======
+	}
+	uriGenerator: {
+	    "uriPrefix": " http://api.otvoreniparlament.rs/api/"
+>>>>>>> refs/remotes/origin/master
 	}
 }

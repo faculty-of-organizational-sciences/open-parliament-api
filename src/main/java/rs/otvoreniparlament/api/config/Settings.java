@@ -107,6 +107,7 @@ public class Settings {
 		}
 		finally {
 			if (null != reader) {
+
 				try {
 					reader.close();
 				}

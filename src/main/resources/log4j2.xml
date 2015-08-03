@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
 	<Appenders>
@@ -36,4 +37,44 @@
 			<AppenderRef ref="RollingAllLogs" />
 		</Root>
 	</Loggers>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<File name="AllLogs" fileName="logs/allLogs.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+		<File name="debugLogs" fileName="logs/debugLogs.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<Filters>
+				<ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />
+			</Filters>
+
+		</File>
+		<RollingFile name="RollingAllLogs" fileName="logs/RollingAllLogs.log"
+			filePattern="logs/RollingAllLogs-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+		</RollingFile>
+		<File name="HTMLAppender" fileName="logs/html/mainlog.html">
+			<HTMLLayout charset="UTF-8" title="All Logs"></HTMLLayout>
+		</File>
+	</Appenders>
+	<Loggers>
+		<Root level="All">
+			<AppenderRef ref="debugLogs" />
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="AllLogs" />
+			<AppenderRef ref="RollingAllLogs" />
+		</Root>
+	</Loggers>
+>>>>>>> refs/remotes/origin/master
 </Configuration>
