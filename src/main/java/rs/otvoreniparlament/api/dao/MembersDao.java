@@ -14,10 +14,6 @@ public class MembersDao {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-<<<<<<< HEAD
-=======
-	
->>>>>>> refs/remotes/origin/master
 		String query = 
 			"SELECT m " +
 			"FROM Member m " + 

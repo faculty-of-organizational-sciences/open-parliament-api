@@ -6,10 +6,6 @@ import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/master
 import rs.otvoreniparlament.api.domain.*;
 
 public class Test {
@@ -21,21 +17,13 @@ public class Test {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-<<<<<<< HEAD
-=======
-//		List<Town> list = session.createCriteria(Town.class).list();
->>>>>>> refs/remotes/origin/master
 		List<Member> list = session.createCriteria(Party.class).list();
 
 		System.out.println("Velicina liste: " + list.size());
 
 		for (int i = 0; i < list.size(); i++) {
-<<<<<<< HEAD
+
 			//System.out.println(list.get(i).toString());
-=======
-			// System.out.println(list.get(i).toString());
-			
->>>>>>> refs/remotes/origin/master
 		}
 
 		System.out.println("Done!");
