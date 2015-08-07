@@ -1,4 +1,4 @@
-package api;
+package rs.otvoreniparlament.api;
 
 import java.util.List;
 

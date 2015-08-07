@@ -8,7 +8,7 @@ import rs.otvoreniparlament.api.config.Settings;
 
 public class UriGenerator {
 
-	String uriPrefix = Settings.getInstance().config.uriConfig.uriPrefix;
+	String uriPrefix = Settings.getInstance().config.uriGenerator.uriPrefix;
 
 	String specificName;
 

@@ -1,15 +1,13 @@
 package rs.otvoreniparlament.api.config;
 
-import com.google.gson.annotations.SerializedName;
 
 public class Config {
 
 	public DbConfig dbConfig;
 
-	@SerializedName("query")
 	public QueryConfig query;
 
-	public UriConfig uriConfig;
+	public UriConfig uriGenerator;
 
 	public DbConfig getDbConfig() {
 		return dbConfig;
@@ -27,12 +25,12 @@ public class Config {
 		this.query = query;
 	}
 
-	public UriConfig getUriConfig() {
-		return uriConfig;
+	public UriConfig getUriGenerator() {
+		return uriGenerator;
 	}
 
-	public void setUriConfig(UriConfig uriConfig) {
-		this.uriConfig = uriConfig;
+	public void setUriGenerator(UriConfig uriGenerator) {
+		this.uriGenerator = uriGenerator;
 	}
 
 }

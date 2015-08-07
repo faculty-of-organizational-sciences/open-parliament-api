@@ -1,18 +1,16 @@
 {
 	dbConfig: {
-		"url": "jdbc:mysql://localhost:3306/parlament?zeroDateTimeBehavior=convertToNull",
-		"user": "user",
-		"pass": "user123",
-		"poolSize": 10		
+		url: "jdbc:mysql://localhost:3306/parlament?zeroDateTimeBehavior=convertToNull",
+		user: "user",
+		pass: "user123",
+		poolSize: 10
 	},
 	
 	query : {
 		limit : 10
-<<<<<<< HEAD
-=======
-	}
+	},
+	
 	uriGenerator: {
-	    "uriPrefix": " http://api.otvoreniparlament.rs/api/"
->>>>>>> refs/remotes/origin/master
+	    uriPrefix : " http://api.otvoreniparlament.rs/api/"
 	}
 }

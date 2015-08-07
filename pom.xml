@@ -109,7 +109,7 @@
                     <scanIntervalSeconds>10</scanIntervalSeconds>
 
                     <webAppConfig>
-                        <contextPath>/otvoreni-parlament-api</contextPath>
+                        <contextPath>/</contextPath>
                         <configurationDiscovered>false</configurationDiscovered>
                     </webAppConfig>
                     <connectors>
