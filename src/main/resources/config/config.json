@@ -11,6 +11,6 @@
 	},
 	
 	uriGenerator: {
-	    uriPrefix : " http://api.otvoreniparlament.rs/api/"
+	    uriPrefix : "http://api.otvoreniparlament.rs/v1/"
 	}
 }
