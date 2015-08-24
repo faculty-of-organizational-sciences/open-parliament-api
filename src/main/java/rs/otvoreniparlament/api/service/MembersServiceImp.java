@@ -18,5 +18,4 @@ public class MembersServiceImp implements MembersService {
 	public Member getMember(int id) {		
 		return md.getMember(id);
 	}
-
 }
