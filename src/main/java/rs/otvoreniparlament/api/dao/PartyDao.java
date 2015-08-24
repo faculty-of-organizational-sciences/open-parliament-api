@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.database.HibernateUtil;
+import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 
 public class PartyDao {
@@ -38,5 +39,4 @@ public class PartyDao {
 		
 		return p;
 	}
-
 }
