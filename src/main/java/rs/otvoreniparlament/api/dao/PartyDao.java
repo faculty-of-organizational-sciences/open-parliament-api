@@ -26,4 +26,17 @@ public class PartyDao {
 		return all;
 	}
 
+	public Party getParty(int id) {
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String query = "SELECT p " + "FROM Party p " + "WHERE p.partyId=" + id;
+		
+		Party p = (Party)session.createQuery(query).uniqueResult();
+		
+		session.close();
+		
+		return p;
+	}
+
 }

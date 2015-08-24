@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -46,6 +47,19 @@ protected PartyService partyService;
 		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase());
 		
 		return PartyJsonParser.serializeParties(parties, showMembers);
+	}
+	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+	public String getParty(@PathParam("id") int id, 
+						   @QueryParam("includeMembers") boolean includeMembers) {
+		
+		if(includeMembers != true) includeMembers = false;
+		
+		Party p = partyService.getParty(id);
+		
+		return PartyJsonParser.serializeParty(p, includeMembers);
 	}
 
 }

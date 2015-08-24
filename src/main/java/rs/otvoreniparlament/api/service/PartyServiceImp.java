@@ -13,4 +13,9 @@ public class PartyServiceImp implements PartyService {
 	public List<Party> getParties(int page, int limit, String sort) {
 		return pd.getParties(page, limit, sort);
 	}
+
+	@Override
+	public Party getParty(int id) {
+		return pd.getParty(id);
+	}
 }
