@@ -13,5 +13,10 @@ public class MembersServiceImp implements MembersService {
 	public List<Member> getMembers(int page, int limit, String sort) {
 		return md.getMembers(page, limit, sort);
 	}
+	
+	@Override
+	public Member getMember(int id) {		
+		return md.getMember(id);
+	}
 
 }

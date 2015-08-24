@@ -28,5 +28,22 @@ public class MembersDao {
 
 		return all;
 	}
+	
+	public Member getMember(int id) {
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+
+		String query = 
+			"SELECT m " +
+			"FROM Member m " + 
+			"where m.memberID="+id;
+		
+		Member m = (Member)session.createQuery(query).uniqueResult();
+		
+		session.close();
+		
+		return m;		
+	}
 
 }
