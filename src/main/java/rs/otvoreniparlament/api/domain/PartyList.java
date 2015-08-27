@@ -13,7 +13,7 @@ public class PartyList {
 
 	@Id
 	@Column(name = "idlista")
-	private Integer partyListID;
+	private Integer id;
 
 	@Column(name = "datumucestvovanjalistenaizborima")
 	private Date partyListSelectionParticipationDate;
@@ -26,17 +26,17 @@ public class PartyList {
 
 	public PartyList(Integer partyListID,
 			Date partyListSelectionParticipationDate, String name) {
-		this.partyListID = partyListID;
+		this.id = partyListID;
 		this.partyListSelectionParticipationDate = partyListSelectionParticipationDate;
 		this.name = name;
 	}
 
-	public Integer getPartyListID() {
-		return partyListID;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setPartyListID(Integer partyListID) {
-		this.partyListID = partyListID;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Date getPartyListSelectionParticipationDate() {
@@ -58,7 +58,7 @@ public class PartyList {
 
 	@Override
 	public String toString() {
-		return "PartyList [partyListID=" + partyListID
+		return "PartyList [partyListID=" + id
 				+ ", partyListSelectionParticipationDate="
 				+ partyListSelectionParticipationDate + ", name=" + name + "]";
 	}

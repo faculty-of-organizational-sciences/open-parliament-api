@@ -8,16 +8,12 @@ import rs.otvoreniparlament.api.config.Settings;
 
 public class UriGenerator {
 
-	String uriPrefix = Settings.getInstance().config.uriGenerator.uriPrefix;
+	private static String uriPrefix = Settings.getInstance().config.uriGenerator.uriPrefix;
 
-	String specificName;
-
-	public UriGenerator(Object o, Integer id) {
-
-		specificName = o.getClass().getName().toLowerCase();
+	public static String generate(Object o, Integer id) {
+		String specificName = o.getClass().getSimpleName().toLowerCase();
 		UriBuilder builder = UriBuilder.fromPath(uriPrefix).path(specificName + "/" + id);
 		URI uri = builder.build();
-		System.out.println(uri);
-
+		return uri.toString();
 	}
 }

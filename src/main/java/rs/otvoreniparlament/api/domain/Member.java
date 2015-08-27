@@ -19,7 +19,7 @@ public class Member {
 
 	@Id
 	@Column(name = "idposlanik")
-	private Integer memberID;
+	private Integer id;
 
 	@Column(name = "ime")
 	private String name;
@@ -62,12 +62,12 @@ public class Member {
 
 	}
 
-	public Integer getMemberID() {
-		return memberID;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setMemberID(Integer memberID) {
-		this.memberID = memberID;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -144,7 +144,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [memberID=" + memberID + ", name=" + name + ", lastName=" + lastName + ", dateOfBirth="
+		return "Member [memberID=" + id + ", name=" + name + ", lastName=" + lastName + ", dateOfBirth="
 				+ dateOfBirth + ", gender=" + gender + ", email=" + email + ", biography=" + biography
 				+ ", placeOfBirth=" + placeOfBirth + ", placeOfResidence=" + placeOfResidence + "]";
 	}

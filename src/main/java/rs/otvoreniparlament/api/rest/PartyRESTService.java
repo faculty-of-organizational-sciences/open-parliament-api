@@ -48,7 +48,7 @@ protected PartyService partyService;
 				
 		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase());
 		
-		return PartyJsonParser.serializeParties(parties, showMembers);
+		return PartyJsonParser.serializeParties(parties, showMembers).toString();
 	}
 	
 	@GET
@@ -61,7 +61,7 @@ protected PartyService partyService;
 		
 		Party p = partyService.getParty(id);
 		
-		return PartyJsonParser.serializeParty(p, includeMembers);
+		return PartyJsonParser.serializeParty(p, includeMembers).toString();
 	}
 	
 	@GET
@@ -71,7 +71,7 @@ protected PartyService partyService;
 		
 		List<Member> members = partyService.getPartyMembers(id);
 		
-		return MemberJsonParser.serializeMembers(members);
+		return MemberJsonParser.serializeMembers(members).toString();
 	}
 
 }

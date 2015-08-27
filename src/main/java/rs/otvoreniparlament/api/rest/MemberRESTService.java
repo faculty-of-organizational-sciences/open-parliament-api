@@ -44,7 +44,7 @@ public class MemberRESTService {
 
 		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase());
 
-		return MemberJsonParser.serializeMembers(members);
+		return MemberJsonParser.serializeMembers(members).toString();
 	}
 
 	@GET
@@ -54,6 +54,6 @@ public class MemberRESTService {
 
 		Member m = memberService.getMember(id);
 
-		return MemberJsonParser.serializeMember(m);
+		return MemberJsonParser.serializeMember(m).toString();
 	}
 }

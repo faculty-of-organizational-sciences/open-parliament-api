@@ -22,6 +22,6 @@ public class PartyServiceImp implements PartyService {
 
 	@Override
 	public List<Member> getPartyMembers(int id) {		
-		return pd.getParty(id).getMembers();
+		return pd.getPartyMembers(id);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,21 +16,21 @@ public class Party {
 
 	@Id
 	@Column(name = "idpolitickaorganizacija")
-	private Integer partyId;
+	private Integer id;
 
 	@Column(name = "ime")
 	private String name;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "clanpolitickeorganizacije", joinColumns = @JoinColumn(name = "idpolitickeorganizacije") , inverseJoinColumns = @JoinColumn(name = "idposlanika") )
 	private List<Member> members;
 
-	public Integer getPartyId() {
-		return partyId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setPartyId(Integer partyId) {
-		this.partyId = partyId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -52,7 +51,7 @@ public class Party {
 
 	@Override
 	public String toString() {
-		return "Party [partyId=" + partyId + ", name=" + name + "]";
+		return "Party [partyId=" + id + ", name=" + name + "]";
 	}
 
 }

@@ -31,12 +31,32 @@ public class PartyDao {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		String query = "SELECT p " + "FROM Party p " + "WHERE p.partyId=" + id;
+		String query = "SELECT p " + "FROM Party p " + "WHERE p.id=" + id;
 		
 		Party p = (Party)session.createQuery(query).uniqueResult();
 		
 		session.close();
 		
 		return p;
+	}
+	
+
+	public List<Member> getPartyMembers(int id) {
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String query = 
+				"SELECT p.members " + 
+				"FROM Party p " + 
+				"WHERE p.id = :id";
+		
+		@SuppressWarnings("unchecked")
+		List<Member> result = session.createQuery(query).
+				setLong("id", id)
+				.list();
+		
+		session.close();
+		
+		return result;
 	}
 }

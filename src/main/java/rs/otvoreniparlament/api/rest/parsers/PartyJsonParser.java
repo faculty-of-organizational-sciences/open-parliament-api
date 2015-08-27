@@ -2,45 +2,41 @@ package rs.otvoreniparlament.api.rest.parsers;
 
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
+import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class PartyJsonParser {
 
-	private static Gson gson;
-
-	static {
-		gson = new GsonBuilder().setPrettyPrinting().create();
-	}
-
-	public static String serializeParties(List<Party> parties, boolean includeMembers) {
+	public static JsonArray serializeParties(List<Party> parties, boolean includeMembers) {
 		JsonArray array = new JsonArray();
 
 		if (parties != null && !parties.isEmpty()) {
 
 			for (Party p : parties) {
-				JsonObject jsonParty = serializePartyJson(p, includeMembers);
+				JsonObject jsonParty = serializeParty(p, includeMembers);
 				array.add(jsonParty);
 			}
 		}
 
-		String json = gson.toJson(array);
-		System.out.println(json);
-		return json;
+		return array;
 	}
 
-	public static String serializeParty(Party p, boolean includeMembers) {
+	public static JsonObject serializeParty(Party p, boolean includeMembers) {
 
 		JsonObject jsonParty = new JsonObject();
 
 		if (p != null) {
+			
+			JsonObject meta = new JsonObject();
+			meta.addProperty("href", UriGenerator.generate(p, p.getId()));
 
-			jsonParty.addProperty("id", p.getPartyId());
+			jsonParty.add("meta", meta);
+
+			jsonParty.addProperty("id", p.getId());
 
 			if (p.getName() != null && p.getName() != "") {
 				jsonParty.addProperty("name", p.getName());
@@ -53,7 +49,7 @@ public class PartyJsonParser {
 					JsonObject jsonMember = new JsonObject();
 
 					if (m != null) {
-						jsonMember.addProperty("id", m.getMemberID());
+						jsonMember.addProperty("id", m.getId());
 						jsonMember.addProperty("name", m.getName());
 						jsonMember.addProperty("lastName", m.getLastName());
 						members.add(jsonMember);
@@ -64,13 +60,6 @@ public class PartyJsonParser {
 		} else {
 			jsonParty.addProperty("error", "There is no party with the given ID.");
 		}
-		String json = gson.toJson(jsonParty);
-		System.out.println(json);
-		return json;
-	}
-
-	public static JsonObject serializePartyJson(Party p, boolean includeMembers) {
-		JsonObject json = gson.fromJson(serializeParty(p, includeMembers), JsonObject.class);
-		return json;
+		return jsonParty;
 	}
 }

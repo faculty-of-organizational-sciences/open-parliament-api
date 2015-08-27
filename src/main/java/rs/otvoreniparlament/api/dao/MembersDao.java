@@ -37,7 +37,7 @@ public class MembersDao {
 		String query = 
 			"SELECT m " +
 			"FROM Member m " + 
-			"where m.memberID="+id;
+			"where m.id="+id;
 		
 		Member m = (Member)session.createQuery(query).uniqueResult();
 		
