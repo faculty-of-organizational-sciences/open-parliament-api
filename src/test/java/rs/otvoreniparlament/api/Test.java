@@ -17,14 +17,15 @@ public class Test {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-		List<Member> list = session.createCriteria(Party.class).list();
+		Speech s = (Speech) session.createCriteria(Speech.class).setMaxResults(1).uniqueResult();
+		System.out.println(s.toString());
 
-		System.out.println("Velicina liste: " + list.size());
+//		System.out.println("Velicina liste: " + list.size());
 
-		for (int i = 0; i < list.size(); i++) {
-
-			//System.out.println(list.get(i).toString());
-		}
+//		System.out.println(list.get(5).toString());
+//		for (int i = 0; i < list.size(); i++) {
+//
+//		}
 
 		System.out.println("Done!");
 

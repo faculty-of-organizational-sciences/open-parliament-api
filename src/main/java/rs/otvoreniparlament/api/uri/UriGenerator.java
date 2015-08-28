@@ -12,6 +12,19 @@ public class UriGenerator {
 
 	public static String generate(Object o, Integer id) {
 		String specificName = o.getClass().getSimpleName().toLowerCase();
+		
+		switch(specificName){
+		case "member":
+			specificName = "members";
+			break;
+		case "party":
+			specificName = "parties";
+			break;
+		case "speech":
+			specificName = "members/speeches";
+			break;
+		}
+		
 		UriBuilder builder = UriBuilder.fromPath(uriPrefix).path(specificName + "/" + id);
 		URI uri = builder.build();
 		return uri.toString();

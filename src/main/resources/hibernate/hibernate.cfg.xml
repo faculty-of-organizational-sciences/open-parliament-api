@@ -15,5 +15,7 @@
 		<mapping class="rs.otvoreniparlament.api.domain.PartyList" />
 		<mapping class="rs.otvoreniparlament.api.domain.Region" />
 		<mapping class="rs.otvoreniparlament.api.domain.Town" />
+		<mapping class="rs.otvoreniparlament.api.domain.Speech" />
+		<mapping class="rs.otvoreniparlament.api.domain.PlenarySession" />
 	</session-factory>
 </hibernate-configuration>

@@ -31,8 +31,7 @@ protected PartyService partyService;
 	public String getParties(
 			@QueryParam("limit") int limit, 
 			@QueryParam("page") int page,
-			@QueryParam("sort") String sortType,
-			@QueryParam("showm") boolean showMembers) {
+			@QueryParam("sort") String sortType) {
 		
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -48,20 +47,17 @@ protected PartyService partyService;
 				
 		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase());
 		
-		return PartyJsonParser.serializeParties(parties, showMembers).toString();
+		return PartyJsonParser.serializeParties(parties).toString();
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public String getParty(@PathParam("id") int id, 
-						   @QueryParam("includeMembers") boolean includeMembers) {
-		
-		if(includeMembers != true) includeMembers = false;
+	public String getParty(@PathParam("id") int id) {
 		
 		Party p = partyService.getParty(id);
 		
-		return PartyJsonParser.serializeParty(p, includeMembers).toString();
+		return PartyJsonParser.serializeParty(p).toString();
 	}
 	
 	@GET

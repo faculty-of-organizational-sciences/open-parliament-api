@@ -67,13 +67,7 @@ public class MemberJsonParser {
 				JsonArray parties = new JsonArray();
 
 				for (Party p : m.getParties()) {
-					JsonObject jsonParty = new JsonObject();
-
-					if (p != null && p.getName() != "") {
-						jsonParty.addProperty("partyId", p.getId());
-						jsonParty.addProperty("partyName", p.getName());
-						parties.add(jsonParty);
-					}
+					parties.add(PartyJsonParser.serializeParty(p));
 				}
 				jsonMember.add("parties", parties);
 			}
