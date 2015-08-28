@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
+import rs.otvoreniparlament.api.formatters.DateFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class SpeechJsonParser {
@@ -39,7 +40,7 @@ public class SpeechJsonParser {
 
 			jsonSpeech.addProperty("text", s.getText().replaceAll("\\<.*?>",""));
 
-			jsonSpeech.addProperty("sessionDate", s.getSessionDate().toString());
+			jsonSpeech.addProperty("sessionDate", DateFormatter.format(s.getSessionDate()));
 
 			if (s.getPlenarySession() != null) {
 

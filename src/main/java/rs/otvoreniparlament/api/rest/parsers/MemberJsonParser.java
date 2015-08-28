@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
+import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.formatters.GenderFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class MemberJsonParser {
@@ -44,7 +46,7 @@ public class MemberJsonParser {
 			}
 
 			if (m.getDateOfBirth() != null) {
-				jsonMember.addProperty("birthDate", m.getDateOfBirth().toString());
+				jsonMember.addProperty("birthDate", DateFormatter.format(m.getDateOfBirth()));
 			}
 
 			if (m.getPlaceOfBirth() != null) {
@@ -56,7 +58,7 @@ public class MemberJsonParser {
 			}
 
 			if (m.getGender() != null) {
-				jsonMember.addProperty("gender", m.getGender());
+				jsonMember.addProperty("gender", GenderFormatter.format(m.getGender()));
 			}
 
 			if (m.getBiography() != null && m.getBiography() != "") {
