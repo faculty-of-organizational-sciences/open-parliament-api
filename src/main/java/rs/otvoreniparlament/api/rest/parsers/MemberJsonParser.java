@@ -60,7 +60,7 @@ public class MemberJsonParser {
 			}
 
 			if (m.getBiography() != null && m.getBiography() != "") {
-				jsonMember.addProperty("biography", m.getBiography());
+				jsonMember.addProperty("biography", m.getBiography().replaceAll("\\<.*?>",""));
 			}
 
 			if (m.getParties() != null && !m.getParties().isEmpty()) {

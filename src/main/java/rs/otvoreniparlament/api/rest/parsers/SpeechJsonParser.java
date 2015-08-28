@@ -37,7 +37,7 @@ public class SpeechJsonParser {
 
 			jsonSpeech.addProperty("id", s.getId());
 
-			jsonSpeech.addProperty("text", s.getText());
+			jsonSpeech.addProperty("text", s.getText().replaceAll("\\<.*?>",""));
 
 			jsonSpeech.addProperty("sessionDate", s.getSessionDate().toString());
 
@@ -53,7 +53,7 @@ public class SpeechJsonParser {
 				plenarySession.addProperty("agenda", ps.getAgenda());
 				
 				if (ps.getTranscriptText() != null && !ps.getTranscriptText().isEmpty())
-				plenarySession.addProperty("transcriptText", ps.getTranscriptText());
+				plenarySession.addProperty("transcriptText", ps.getTranscriptText().replaceAll("\\<.*?>",""));
 				
 				jsonSpeech.add("plenarySession", plenarySession);
 			}
