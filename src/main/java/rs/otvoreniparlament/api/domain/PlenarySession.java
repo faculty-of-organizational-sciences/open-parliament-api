@@ -1,5 +1,7 @@
 package rs.otvoreniparlament.api.domain;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +20,9 @@ public class PlenarySession {
 
 	@Column(name = "teksttranskriptaplenarnesednice")
 	private String transcriptText;
+
+	@Column(name = "datumplenarnesednice")
+	private Date date;
 
 	public Integer getId() {
 		return id;
@@ -43,10 +48,17 @@ public class PlenarySession {
 		this.transcriptText = transcriptText;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@Override
 	public String toString() {
-		return "PlenarySession [id=" + id + ", agenda=" + agenda + ", transcriptText="
-				+ transcriptText + "]";
+		return "PlenarySession [id=" + id + ", agenda=" + agenda + ", transcriptText=" + transcriptText + "]";
 	}
 
 }

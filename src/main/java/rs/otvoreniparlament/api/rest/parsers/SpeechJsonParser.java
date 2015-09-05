@@ -22,7 +22,6 @@ public class SpeechJsonParser {
 				array.add(jsonSpeech);
 			}
 		}
-
 		return array;
 	}
 
@@ -42,22 +41,22 @@ public class SpeechJsonParser {
 
 			jsonSpeech.addProperty("sessionDate", DateFormatter.format(s.getSessionDate()));
 
+			JsonObject plenarySession = new JsonObject();
+
 			if (s.getPlenarySession() != null) {
 
 				PlenarySession ps = s.getPlenarySession();
 				
-				JsonObject plenarySession = new JsonObject();
+				JsonObject plenarySessionMeta = new JsonObject();
 				
-				plenarySession.addProperty("id", ps.getId());
+				plenarySessionMeta.addProperty("href", UriGenerator.generate(ps, ps.getId()));
+
+				plenarySession.add("meta", meta);
 				
-				if (ps.getAgenda() != null && !ps.getAgenda().isEmpty())
-				plenarySession.addProperty("agenda", ps.getAgenda());
-				
-				if (ps.getTranscriptText() != null && !ps.getTranscriptText().isEmpty())
-				plenarySession.addProperty("transcriptText", ps.getTranscriptText().replaceAll("\\<.*?>",""));
-				
-				jsonSpeech.add("plenarySession", plenarySession);
+			} else {
+				plenarySession.addProperty("error", "There is no plenary Session with the given ID.");
 			}
+			jsonSpeech.add("plenarySession", plenarySession);
 
 		} else {
 			jsonSpeech.addProperty("error", "There is no speech with the given ID.");

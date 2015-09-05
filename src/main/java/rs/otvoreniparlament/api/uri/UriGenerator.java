@@ -23,6 +23,9 @@ public class UriGenerator {
 		case "speech":
 			specificName = "members/speeches";
 			break;
+		case "plenarysession":
+			specificName = "plenarysessions";
+			break;
 		}
 		
 		UriBuilder builder = UriBuilder.fromPath(uriPrefix).path(specificName + "/" + id);
