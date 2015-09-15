@@ -12,4 +12,6 @@ public interface SpeechService {
 
 	public List<Speech> getSpeeches(int limit, int page);
 
+	public List<Speech> getPlenarySessionSpeeches(int id, int limit, int page);
+
 }

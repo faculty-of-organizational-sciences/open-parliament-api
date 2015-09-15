@@ -14,7 +14,7 @@ public class SpeechDao {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-		String query = "SELECT s " + "FROM Speech s " + "WHERE s.memberId = :memberId";
+		String query = "SELECT s " + "FROM Speech s " + "WHERE s.member.id = :memberId";
 
 		List<Speech> all = session.createQuery(query)
 								  .setParameter("memberId", id)
@@ -48,6 +48,27 @@ public class SpeechDao {
 		String query = "SELECT s " + "FROM Speech s " + "ORDER BY s.id";
 
 		List<Speech> all = session.createQuery(query)
+								  .setFirstResult((page - 1) * limit)
+								  .setMaxResults(limit)
+								  .list();
+
+		session.close();
+
+		return all;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+
+		String query = 	"SELECT s " + 
+						"FROM Speech s " +
+						"WHERE s.plenarySession.id = :plenarySessionId " +
+						"ORDER BY s.id";
+
+		List<Speech> all = session.createQuery(query)
+								  .setParameter("plenarySessionId", id)
 								  .setFirstResult((page - 1) * limit)
 								  .setMaxResults(limit)
 								  .list();

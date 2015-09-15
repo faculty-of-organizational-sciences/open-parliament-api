@@ -23,8 +23,9 @@ public class Speech {
 	@Column(name = "tekst")
 	private String text;
 
-	@Column(name = "idposlanika")
-	private Integer memberId;
+	@ManyToOne
+	@JoinColumn(name = "idposlanika")
+	private Member member;
 
 	@ManyToOne
 	@JoinColumn(name = "idplenarnesednice")
@@ -49,12 +50,12 @@ public class Speech {
 		this.text = text;
 	}
 
-	public Integer getMemberId() {
-		return memberId;
+	public Member getMember() {
+		return member;
 	}
 
-	public void setMemberId(Integer memberId) {
-		this.memberId = memberId;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 	public PlenarySession getPlenarySession() {
@@ -75,7 +76,7 @@ public class Speech {
 
 	@Override
 	public String toString() {
-		return "Speech [id=" + id + ", text=" + text + ", memberId=" + memberId + ", plenarnaSednica=" + plenarySession
+		return "Speech [id=" + id + ", text=" + text + ", plenarnaSednica=" + plenarySession
 				+ ", sessionDate=" + sessionDate + "]";
 	}
 

@@ -11,17 +11,23 @@ import javax.ws.rs.core.MediaType;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.PlenarySession;
+import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.parsers.PlenarySessionJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
 import rs.otvoreniparlament.api.service.PlenarySessionService;
+import rs.otvoreniparlament.api.service.SpeechService;
+import rs.otvoreniparlament.api.service.SpeechServiceImp;
 import rs.otvoreniparlament.api.service.plenarySessionServiceImp;
 
 @Path("/sessions")
 public class PlenarySessionRESTService {
 
 	protected PlenarySessionService plenarySessionService;
+	protected SpeechService speechService;
 
 	public PlenarySessionRESTService() {
 		plenarySessionService = new plenarySessionServiceImp();
+		speechService = new SpeechServiceImp();
 	}
 
 	@GET
@@ -49,5 +55,25 @@ public class PlenarySessionRESTService {
 		PlenarySession ps = plenarySessionService.getPlenarySession(id);
 
 		return PlenarySessionJsonParser.serializePlenarySession(ps).toString();
+	}
+	
+	@GET
+	@Path("/{id}/speeches")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+	public String getPlenarySessionSpeeches(@PathParam("id") int id,
+											@QueryParam("limit") int limit,
+											@QueryParam("page") int page) {
+
+		if (limit == 0) {
+			limit = Settings.getInstance().config.query.limit;
+		}
+
+		if (page == 0) {
+			page = 1;
+		}
+
+		List<Speech> speeches = speechService.getPlenarySessionSpeeches(id, limit, page);
+
+		return SpeechJsonParser.serializeSpeeches(speeches).toString();
 	}
 }

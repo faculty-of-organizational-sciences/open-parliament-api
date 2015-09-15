@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.formatters.DateFormatter;
@@ -40,7 +41,28 @@ public class SpeechJsonParser {
 			jsonSpeech.addProperty("text", s.getText().replaceAll("\\<.*?>",""));
 
 			jsonSpeech.addProperty("sessionDate", DateFormatter.format(s.getSessionDate()));
-
+			
+			JsonObject creatorJson = new JsonObject();
+			
+			if(s.getMember() != null){
+				
+				Member m = s.getMember();
+				
+				creatorJson.addProperty("firstName", m.getName());
+				
+				creatorJson.addProperty("lastName", m.getLastName());
+				
+				JsonObject creatorMeta = new JsonObject();				
+				creatorMeta.addProperty("href", UriGenerator.generate(m, m.getId()));
+				
+				creatorJson.add("meta", creatorMeta);
+				
+			} else {
+				creatorJson.addProperty("error", "There is no Member with the given ID.");
+			}
+			jsonSpeech.add("creator", creatorJson);
+			
+			
 			JsonObject plenarySession = new JsonObject();
 
 			if (s.getPlenarySession() != null) {

@@ -23,4 +23,9 @@ public class SpeechServiceImp implements SpeechService {
 	public List<Speech> getSpeeches(int limit, int page) {
 		return sd.getSpeeches(limit, page);
 	}
+
+	@Override
+	public List<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
+		return sd.getPlenarySessionSpeeches(id, limit, page);
+	}
 }
