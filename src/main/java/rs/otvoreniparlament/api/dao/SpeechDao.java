@@ -40,4 +40,21 @@ public class SpeechDao {
 		return s;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Speech> getSpeeches(int limit, int page) {
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+
+		String query = "SELECT s " + "FROM Speech s " + "ORDER BY s.id";
+
+		List<Speech> all = session.createQuery(query)
+								  .setFirstResult((page - 1) * limit)
+								  .setMaxResults(limit)
+								  .list();
+
+		session.close();
+
+		return all;
+	}
+
 }

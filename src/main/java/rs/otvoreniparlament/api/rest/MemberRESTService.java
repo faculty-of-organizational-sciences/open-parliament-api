@@ -82,13 +82,5 @@ public class MemberRESTService {
 		return SpeechJsonParser.serializeSpeeches(speeches).toString();
 	}
 	
-	@GET
-	@Path("/speeches/{id}")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public String getSpeech(@PathParam("id") int id) {
-		
-		Speech s = speechService.getSpeech(id);
-		
-		return SpeechJsonParser.serializeSpeech(s).toString();
-	}
+	
 }

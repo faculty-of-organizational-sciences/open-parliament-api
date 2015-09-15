@@ -15,7 +15,7 @@ import rs.otvoreniparlament.api.rest.parsers.PlenarySessionJsonParser;
 import rs.otvoreniparlament.api.service.PlenarySessionService;
 import rs.otvoreniparlament.api.service.plenarySessionServiceImp;
 
-@Path("/plenarysessions")
+@Path("/sessions")
 public class PlenarySessionRESTService {
 
 	protected PlenarySessionService plenarySessionService;

@@ -18,4 +18,9 @@ public class SpeechServiceImp implements SpeechService {
 	public Speech getSpeech(int id) {
 		return sd.getSpeech(id);
 	}
+
+	@Override
+	public List<Speech> getSpeeches(int limit, int page) {
+		return sd.getSpeeches(limit, page);
+	}
 }

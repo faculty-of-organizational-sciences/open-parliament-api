@@ -51,7 +51,7 @@ public class SpeechJsonParser {
 				
 				plenarySessionMeta.addProperty("href", UriGenerator.generate(ps, ps.getId()));
 
-				plenarySession.add("meta", meta);
+				plenarySession.add("meta", plenarySessionMeta);
 				
 			} else {
 				plenarySession.addProperty("error", "There is no plenary Session with the given ID.");

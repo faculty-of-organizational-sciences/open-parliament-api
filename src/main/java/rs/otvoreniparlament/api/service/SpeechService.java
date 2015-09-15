@@ -10,4 +10,6 @@ public interface SpeechService {
 	
 	public Speech getSpeech(int id);
 
+	public List<Speech> getSpeeches(int limit, int page);
+
 }
