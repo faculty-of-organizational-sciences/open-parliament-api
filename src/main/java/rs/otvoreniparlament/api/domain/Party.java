@@ -10,8 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import rs.otvoreniparlament.api.domain.meta.RestServiceName;
+
 @Entity
 @Table(name = "politickaorganizacija")
+@RestServiceName("parties")
 public class Party {
 
 	@Id

@@ -9,8 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import rs.otvoreniparlament.api.domain.meta.RestServiceName;
+
 @Entity
 @Table(name = "obracanje")
+@RestServiceName("speeches")
 public class Speech {
 
 	@Id

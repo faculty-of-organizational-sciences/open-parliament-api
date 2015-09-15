@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import rs.otvoreniparlament.api.domain.meta.RestServiceName;
+
 @Entity
 @Table(name = "plenarnasednica")
+@RestServiceName("sessions")
 public class PlenarySession {
 
 	@Id

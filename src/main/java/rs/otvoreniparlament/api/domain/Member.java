@@ -13,8 +13,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import rs.otvoreniparlament.api.domain.meta.RestServiceName;
+
 @Entity
 @Table(name = "poslanik")
+@RestServiceName("members")
 public class Member {
 
 	@Id
