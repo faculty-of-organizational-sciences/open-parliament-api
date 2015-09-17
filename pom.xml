@@ -9,6 +9,7 @@
 	<name>Open Parliament API</name>
 
 	<properties>
+		<junit.version>4.12</junit.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<hibernate.version>4.3.10.Final</hibernate.version>
 		<jersey.version>1.19</jersey.version>
@@ -20,7 +21,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
