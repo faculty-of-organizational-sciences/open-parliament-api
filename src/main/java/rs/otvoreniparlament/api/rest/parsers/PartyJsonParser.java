@@ -34,7 +34,7 @@ public class PartyJsonParser {
 			meta.addProperty("href", UriGenerator.generate(p, p.getId()));
 
 			jsonParty.add("meta", meta);
-
+			
 			jsonParty.addProperty("id", p.getId());
 
 			if (p.getName() != null && p.getName() != "") {
