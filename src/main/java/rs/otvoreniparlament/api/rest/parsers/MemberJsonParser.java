@@ -2,6 +2,8 @@ package rs.otvoreniparlament.api.rest.parsers;
 
 import java.util.List;
 
+import javax.ws.rs.WebApplicationException;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -22,6 +24,8 @@ public class MemberJsonParser {
 				JsonObject jsonMember = serializeMember(m);
 				array.add(jsonMember);
 			}
+		} else {
+			throw new WebApplicationException(404);
 		}
 
 		return array;
@@ -32,7 +36,7 @@ public class MemberJsonParser {
 		JsonObject jsonMember = new JsonObject();
 
 		if (m != null) {
-			
+
 			JsonObject meta = new JsonObject();
 			meta.addProperty("href", UriGenerator.generate(m, m.getId()));
 
@@ -62,7 +66,7 @@ public class MemberJsonParser {
 			}
 
 			if (m.getBiography() != null && m.getBiography() != "") {
-				jsonMember.addProperty("biography", m.getBiography().replaceAll("\\<.*?>",""));
+				jsonMember.addProperty("biography", m.getBiography().replaceAll("\\<.*?>", ""));
 			}
 
 			if (m.getParties() != null && !m.getParties().isEmpty()) {
@@ -74,7 +78,7 @@ public class MemberJsonParser {
 				jsonMember.add("parties", parties);
 			}
 		} else {
-			jsonMember.addProperty("error", "There is no member with the given ID.");
+			throw new WebApplicationException(404);
 		}
 
 		return jsonMember;
