@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
@@ -34,7 +35,7 @@ public class MemberRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public String getMembers(@QueryParam("limit") int limit, @QueryParam("page") int page,
+	public Response getMembers(@QueryParam("limit") int limit, @QueryParam("page") int page,
 			@QueryParam("sort") String sortType) throws AppException {
 
 		if (limit == 0) {
@@ -50,8 +51,12 @@ public class MemberRESTService {
 		}
 
 		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase());
+		
+		if(members.isEmpty()) throw new AppException(Status.NOT_FOUND, "There are no members to return.");
+		
+		String json = MemberJsonParser.serializeMembers(members).toString();
 
-		return MemberJsonParser.serializeMembers(members).toString();
+		return Response.status(Response.Status.OK).entity(json).build();
 	}
 
 	@GET
@@ -62,11 +67,11 @@ public class MemberRESTService {
 		Member m = memberService.getMember(id);
 
 		if (m == null)
-			throw new AppException(Response.Status.NOT_FOUND, "There is no member with the given ID.");
+			throw new AppException(Status.NOT_FOUND, "There is no member with the given ID.");
 
 		String json = MemberJsonParser.serializeMember(m).toString();
 
-		return Response.status(200).entity(json).build();
+		return Response.status(Status.OK).entity(json).build();
 	}
 
 	@GET
@@ -86,11 +91,11 @@ public class MemberRESTService {
 		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page);
 
 		if (speeches.isEmpty())
-			throw new AppException(Response.Status.NO_CONTENT, "There are no speeches for specified member.");
+			throw new AppException(Status.NO_CONTENT, "There are no speeches for specified member.");
 
 		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
 
-		return Response.status(Response.Status.OK).entity(json).build();
+		return Response.status(Status.OK).entity(json).build();
 	}
 
 }
