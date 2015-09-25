@@ -13,7 +13,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<hibernate.version>4.3.10.Final</hibernate.version>
 		<jersey.version>1.19</jersey.version>
-		<jetty.version>8.1.16.v20140903</jetty.version>
+		<jetty.version>9.3.3.v20150827</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -67,10 +67,9 @@
 
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>1.19</version>
-		</dependency>  
-
+			<artifactId>jersey-json</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
 
 	</dependencies>
 
@@ -107,22 +106,18 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
+				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
 				<configuration>
 					<scanIntervalSeconds>0</scanIntervalSeconds>
-
-					<webAppConfig>
+					<webApp>
 						<contextPath>/</contextPath>
-						<configurationDiscovered>false</configurationDiscovered>
-					</webAppConfig>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>9090</port>
-							<maxIdleTime>3600000</maxIdleTime>
-						</connector>
-					</connectors>
+					</webApp>
+					<httpConnector>
+						<port>9090</port>
+						<idleTimeout>30000</idleTimeout>
+					</httpConnector>
 				</configuration>
 			</plugin>
 		</plugins>

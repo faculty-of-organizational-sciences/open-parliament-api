@@ -2,8 +2,6 @@ package rs.otvoreniparlament.api.rest.parsers;
 
 import java.util.List;
 
-import javax.ws.rs.WebApplicationException;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -24,10 +22,7 @@ public class MemberJsonParser {
 				JsonObject jsonMember = serializeMember(m);
 				array.add(jsonMember);
 			}
-		} else {
-			throw new WebApplicationException(404);
-		}
-
+		} 
 		return array;
 	}
 
@@ -77,10 +72,7 @@ public class MemberJsonParser {
 				}
 				jsonMember.add("parties", parties);
 			}
-		} else {
-			throw new WebApplicationException(404);
 		}
-
 		return jsonMember;
 	}
 
