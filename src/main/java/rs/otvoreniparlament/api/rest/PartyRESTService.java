@@ -8,6 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
@@ -29,10 +31,10 @@ protected PartyService partyService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public String getParties(
+	public Response getParties(
 			@QueryParam("limit") int limit, 
 			@QueryParam("page") int page,
-			@QueryParam("sort") String sortType) {
+			@QueryParam("sort") String sortType) throws AppException {
 		
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -48,27 +50,39 @@ protected PartyService partyService;
 				
 		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase());
 		
-		return PartyJsonParser.serializeParties(parties).toString();
+		if (parties.isEmpty()) throw new AppException(Status.NOT_FOUND, "There are no parties to return.");
+		
+		String json =  PartyJsonParser.serializeParties(parties).toString();
+		
+		return Response.status(Status.OK).entity(json).build();
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public String getParty(@PathParam("id") int id) {
+	public Response getParty(@PathParam("id") int id) throws AppException {
 		
 		Party p = partyService.getParty(id);
 		
-		return PartyJsonParser.serializeParty(p).toString();
+		if (p == null) throw new AppException(Status.NOT_FOUND, "There is no party with the given ID.");
+		
+		String json = PartyJsonParser.serializeParty(p).toString();
+		
+		return Response.status(Status.OK).entity(json).build();
 	}
 	
 	@GET
 	@Path("/{id}/members")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public String getPartyMembers(@PathParam("id") int id) throws AppException {
+	public Response getPartyMembers(@PathParam("id") int id) throws AppException {
 		
 		List<Member> members = partyService.getPartyMembers(id);
 		
-		return MemberJsonParser.serializeMembers(members).toString();
+		if (members.isEmpty()) throw new AppException(Status.NO_CONTENT, "The selected party has no members.");
+		
+		String json = MemberJsonParser.serializeMembers(members).toString();
+		
+		return Response.status(Status.OK).entity(json).build();
 	}
 
 }
