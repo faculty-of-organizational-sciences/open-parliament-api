@@ -36,7 +36,7 @@ public class MemberRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getMembers(@QueryParam("limit") int limit, @QueryParam("page") int page,
-			@QueryParam("sort") String sortType) throws AppException {
+			@QueryParam("sort") String sortType) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -62,7 +62,7 @@ public class MemberRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMember(@PathParam("id") int id) throws AppException {
+	public Response getMember(@PathParam("id") int id) {
 
 		Member m = memberService.getMember(id);
 
@@ -78,7 +78,7 @@ public class MemberRESTService {
 	@Path("/{id}/speeches")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getMemberSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
-			@QueryParam("page") int page) throws AppException {
+			@QueryParam("page") int page) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;

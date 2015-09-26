@@ -35,8 +35,7 @@ public class PlenarySessionRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getPlenarySessions(@QueryParam("limit") int limit, @QueryParam("page") int page)
-			throws AppException {
+	public Response getPlenarySessions(@QueryParam("limit") int limit, @QueryParam("page") int page) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -59,7 +58,7 @@ public class PlenarySessionRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getPlenarySession(@PathParam("id") int id) throws AppException {
+	public Response getPlenarySession(@PathParam("id") int id) {
 
 		PlenarySession ps = plenarySessionService.getPlenarySession(id);
 
@@ -75,7 +74,7 @@ public class PlenarySessionRESTService {
 	@Path("/{id}/speeches")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessionSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
-			@QueryParam("page") int page) throws AppException {
+			@QueryParam("page") int page) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;

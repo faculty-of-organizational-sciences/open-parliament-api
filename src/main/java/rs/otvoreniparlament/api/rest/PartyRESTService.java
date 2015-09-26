@@ -34,7 +34,7 @@ protected PartyService partyService;
 	public Response getParties(
 			@QueryParam("limit") int limit, 
 			@QueryParam("page") int page,
-			@QueryParam("sort") String sortType) throws AppException {
+			@QueryParam("sort") String sortType) {
 		
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -60,7 +60,7 @@ protected PartyService partyService;
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getParty(@PathParam("id") int id) throws AppException {
+	public Response getParty(@PathParam("id") int id) {
 		
 		Party p = partyService.getParty(id);
 		
@@ -74,7 +74,7 @@ protected PartyService partyService;
 	@GET
 	@Path("/{id}/members")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getPartyMembers(@PathParam("id") int id) throws AppException {
+	public Response getPartyMembers(@PathParam("id") int id) {
 		
 		List<Member> members = partyService.getPartyMembers(id);
 		

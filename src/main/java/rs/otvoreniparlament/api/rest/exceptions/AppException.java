@@ -2,7 +2,7 @@ package rs.otvoreniparlament.api.rest.exceptions;
 
 import javax.ws.rs.core.Response.Status;
 
-public class AppException extends Exception {
+public class AppException extends RuntimeException {
 
 	private static final long serialVersionUID = -8226744858652884537L;
 

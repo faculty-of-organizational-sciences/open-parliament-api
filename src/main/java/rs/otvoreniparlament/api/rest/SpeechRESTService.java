@@ -29,8 +29,7 @@ public class SpeechRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMemberSpeeches(@QueryParam("limit") int limit, @QueryParam("page") int page)
-			throws AppException {
+	public Response getMemberSpeeches(@QueryParam("limit") int limit, @QueryParam("page") int page) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -53,7 +52,7 @@ public class SpeechRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getSpeech(@PathParam("id") int id) throws AppException {
+	public Response getSpeech(@PathParam("id") int id) {
 
 		Speech s = speechService.getSpeech(id);
 
