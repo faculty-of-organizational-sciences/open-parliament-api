@@ -11,15 +11,22 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
 import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.SpeechServiceImp;
+import rs.otvoreniparlament.api.util.ResourceBundleUtil;
+import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
 @Path("/speeches")
 public class SpeechRESTService {
+	
+	private final Logger logger = LogManager.getLogger(SpeechRESTService.class);
 
 	protected SpeechService speechService;
 
@@ -42,7 +49,11 @@ public class SpeechRESTService {
 		List<Speech> speeches = speechService.getSpeeches(limit, page);
 
 		if (speeches.isEmpty())
-			throw new AppException(Status.NOT_FOUND, "There are no speeches to return.");
+			try {
+				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("speeches.not_found.noSpeeches"));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
 
 		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
 
@@ -57,7 +68,11 @@ public class SpeechRESTService {
 		Speech s = speechService.getSpeech(id);
 
 		if (s == null)
-			throw new AppException(Status.NOT_FOUND, "There is no speech with the given ID.");
+			try {
+				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("speeches.not_found.noSpeechId", String.valueOf(id)));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
 
 		String json = SpeechJsonParser.serializeSpeech(s).toString();
 

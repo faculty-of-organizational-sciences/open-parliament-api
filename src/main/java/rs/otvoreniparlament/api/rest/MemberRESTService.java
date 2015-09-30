@@ -11,6 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
@@ -21,9 +24,13 @@ import rs.otvoreniparlament.api.service.MembersService;
 import rs.otvoreniparlament.api.service.MembersServiceImp;
 import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.SpeechServiceImp;
+import rs.otvoreniparlament.api.util.ResourceBundleUtil;
+import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
 @Path("/members")
 public class MemberRESTService {
+
+	private final Logger logger = LogManager.getLogger(MemberRESTService.class);
 
 	protected MembersService memberService;
 	protected SpeechService speechService;
@@ -51,9 +58,14 @@ public class MemberRESTService {
 		}
 
 		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase());
-		
-		if(members.isEmpty()) throw new AppException(Status.NOT_FOUND, "There are no members to return.");
-		
+
+		if (members.isEmpty())
+			try {
+				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("members.not_found.noMembers"));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
+
 		String json = MemberJsonParser.serializeMembers(members).toString();
 
 		return Response.status(Response.Status.OK).entity(json).build();
@@ -66,8 +78,14 @@ public class MemberRESTService {
 
 		Member m = memberService.getMember(id);
 
-		if (m == null)
-			throw new AppException(Status.NOT_FOUND, "There is no member with the given ID.");
+		if (m == null) {
+			try {
+				throw new AppException(Status.NOT_FOUND,
+						ResourceBundleUtil.getMessage("members.not_found.noMemberId", String.valueOf(id)));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
+		}
 
 		String json = MemberJsonParser.serializeMember(m).toString();
 
@@ -91,7 +109,12 @@ public class MemberRESTService {
 		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page);
 
 		if (speeches.isEmpty())
-			throw new AppException(Status.NO_CONTENT, "There are no speeches for specified member.");
+			try {
+				throw new AppException(Status.NO_CONTENT,
+						ResourceBundleUtil.getMessage("members.no_content.noSpeeches", String.valueOf(id)));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
 
 		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
 

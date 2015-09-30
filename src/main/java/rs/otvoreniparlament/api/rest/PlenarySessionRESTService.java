@@ -11,6 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
@@ -21,9 +24,13 @@ import rs.otvoreniparlament.api.service.PlenarySessionService;
 import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.SpeechServiceImp;
 import rs.otvoreniparlament.api.service.plenarySessionServiceImp;
+import rs.otvoreniparlament.api.util.ResourceBundleUtil;
+import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
 @Path("/sessions")
 public class PlenarySessionRESTService {
+	
+	private final Logger logger = LogManager.getLogger(PartyRESTService.class);
 
 	protected PlenarySessionService plenarySessionService;
 	protected SpeechService speechService;
@@ -42,13 +49,17 @@ public class PlenarySessionRESTService {
 		}
 
 		if (page == 0) {
-			page = 1;
+			page = 1;	
 		}
 
 		List<PlenarySession> plenarySessions = plenarySessionService.getPlenarySessions(limit, page);
 
 		if (plenarySessions.isEmpty())
-			throw new AppException(Status.NOT_FOUND, "There are no sessions to return");
+			try {
+				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("sessions.not_found.noSessions"));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
 
 		String json = PlenarySessionJsonParser.serializePlenarySessions(plenarySessions).toString();
 
@@ -63,7 +74,11 @@ public class PlenarySessionRESTService {
 		PlenarySession ps = plenarySessionService.getPlenarySession(id);
 
 		if (ps == null)
-			throw new AppException(Status.NOT_FOUND, "There is no session with the given ID.");
+			try {
+				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("sessions.not_found.noSessionId", String.valueOf(id)));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
 
 		String json = PlenarySessionJsonParser.serializePlenarySession(ps).toString();
 
@@ -87,7 +102,11 @@ public class PlenarySessionRESTService {
 		List<Speech> speeches = speechService.getPlenarySessionSpeeches(id, limit, page);
 
 		if (speeches.isEmpty())
-			throw new AppException(Status.NO_CONTENT, "There are no speeches for specified session.");
+			try {
+				throw new AppException(Status.NO_CONTENT, ResourceBundleUtil.getMessage("sessions.no_content.noSpeeches", String.valueOf(id)));
+			} catch (KeyNotFoundInBundleException e) {
+				logger.error(e);
+			}
 
 		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
 
