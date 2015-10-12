@@ -10,8 +10,8 @@ public class MembersServiceImp implements MembersService {
 	protected MembersDao md = new MembersDao();
 
 	@Override
-	public List<Member> getMembers(int page, int limit, String sort) {
-		return md.getMembers(page, limit, sort);
+	public List<Member> getMembers(int page, int limit, String sort, String query) {
+		return md.getMembers(page, limit, sort, query);
 	}
 	
 	@Override

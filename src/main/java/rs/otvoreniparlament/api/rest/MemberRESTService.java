@@ -42,8 +42,10 @@ public class MemberRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMembers(@QueryParam("limit") int limit, @QueryParam("page") int page,
-			@QueryParam("sort") String sortType) {
+	public Response getMembers(@QueryParam("limit") int limit,
+							   @QueryParam("page") int page,
+							   @QueryParam("sort") String sortType,
+							   @QueryParam("query") String query) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -56,8 +58,12 @@ public class MemberRESTService {
 		if (sortType == null || (!sortType.equalsIgnoreCase("DESC") && sortType != null)) {
 			sortType = "ASC";
 		}
+		
+		if(query == null){
+			query = "";
+		}
 
-		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase());
+		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase(), query);
 
 		if (members.isEmpty())
 			try {

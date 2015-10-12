@@ -10,18 +10,20 @@ import rs.otvoreniparlament.api.domain.Member;
 public class MembersDao {
 
 	@SuppressWarnings("unchecked")
-	public List<Member> getMembers(int page, int limit, String sort) {
+	public List<Member> getMembers(int page, int limit, String sort, String query) {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-		String query = 
+		String q = 
 			"SELECT m " +
 			"FROM Member m " + 
+			"WHERE CONCAT(m.name, ' ', m.lastName) LIKE CONCAT('%', :name, '%'))" + 
 			"ORDER BY m.lastName " + sort + ", m.name";
 		
-		List<Member> all = session.createQuery(query)
+		List<Member> all = session.createQuery(q)
 				.setFirstResult((page - 1) * limit)
 				.setMaxResults(limit)
+				.setString("name", query)
 				.list();
 
 		session.close();
