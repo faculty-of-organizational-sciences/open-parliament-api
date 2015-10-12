@@ -11,15 +11,19 @@ import rs.otvoreniparlament.api.domain.Party;
 public class PartyDao {
 
 	@SuppressWarnings("unchecked")
-	public List<Party> getParties(int page, int limit, String sort) {
+	public List<Party> getParties(int page, int limit, String sort, String query) {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
-		String query = "SELECT p " + "FROM Party p " + "ORDER BY p.name " + sort;
+		String q = "SELECT p " + 
+				   "FROM Party p " +
+				   "WHERE p.name LIKE CONCAT('%', :name, '%'))" + 
+				   "ORDER BY p.name " + sort;
 
-		List<Party> all = session.createQuery(query)
+		List<Party> all = session.createQuery(q)
 				.setFirstResult((page - 1) * limit)
 				.setMaxResults(limit)
+				.setString("name", query)
 				.list();
 
 		session.close();

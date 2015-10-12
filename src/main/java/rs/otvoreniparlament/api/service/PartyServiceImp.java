@@ -11,8 +11,8 @@ public class PartyServiceImp implements PartyService {
 	protected PartyDao pd = new PartyDao();
 
 	@Override
-	public List<Party> getParties(int page, int limit, String sort) {
-		return pd.getParties(page, limit, sort);
+	public List<Party> getParties(int page, int limit, String sort, String query) {
+		return pd.getParties(page, limit, sort, query);
 	}
 
 	@Override

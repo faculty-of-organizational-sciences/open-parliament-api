@@ -38,8 +38,10 @@ public class PartyRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getParties(@QueryParam("limit") int limit, @QueryParam("page") int page,
-			@QueryParam("sort") String sortType) {
+	public Response getParties(@QueryParam("limit") int limit,
+							   @QueryParam("page") int page,
+							   @QueryParam("sort") String sortType,
+							   @QueryParam("query") String query) {
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -52,8 +54,12 @@ public class PartyRESTService {
 		if (sortType == null || (!sortType.equalsIgnoreCase("DESC") && sortType != null)) {
 			sortType = "ASC";
 		}
+		
+		if(query == null){
+			query = "";
+		}
 
-		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase());
+		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase(), query);
 
 		if (parties.isEmpty())
 			try {
