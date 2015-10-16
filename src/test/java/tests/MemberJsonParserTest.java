@@ -78,7 +78,7 @@ public class MemberJsonParserTest {
 	}
 
 	@Test
-	public void testSerializeMemberS() {
+	public void testSerializeMember() {
 		assertEquals(test, data);
 	}
 }
