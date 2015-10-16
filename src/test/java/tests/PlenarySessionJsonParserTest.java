@@ -38,13 +38,13 @@ public class PlenarySessionJsonParserTest {
 		
 		JsonObject plenarySessionJson = new JsonObject();
 		JsonObject meta = new JsonObject();
-		meta.addProperty("href", "http://localhost:9090/api/plenarysessions/123");
+		meta.addProperty("href", "http://localhost:9090/sessions/123");
 		
 		plenarySessionJson.add("meta", meta);
 		plenarySessionJson.addProperty("id", 123);
+		plenarySessionJson.addProperty("date", "16.10.2014.");
 		plenarySessionJson.addProperty("agenda", "tekst dnevnog reda");
 		plenarySessionJson.addProperty("transcriptText", "tekst transkripta");
-		plenarySessionJson.addProperty("date", "16.10.2014.");
 		
 		return Arrays.asList(new Object[][] { { plenarySessionJson, PlenarySessionJsonParser.serializePlenarySession(ps1) } });
 	}
