@@ -1,0 +1,14 @@
+body {
+    padding-top: 50px;
+}
+
+#speechText {
+    padding: 10px 20px;
+}
+
+a[ng-click] {
+    cursor: pointer;
+}
+h2 {
+    margin-bottom: 30px;
+}

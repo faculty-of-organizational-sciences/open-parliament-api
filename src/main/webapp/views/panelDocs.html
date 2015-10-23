@@ -1,0 +1,73 @@
+<section id="member" class="col-md-8 col-md-offset-4 col-xs-offset-4">
+    <div class="container" ng-repeat="d in docs">
+        <div class="row">
+            <div id="{{d.id}}" class="panel">
+                <h1 class="section-heading">{{d.title}}</h1>
+
+                <p>{{d.description}}</p>
+
+                <h3>Resource URL</h3>
+
+                <code>{{d.url}}</code>
+
+                <h3>Resource information</h3>
+
+                <div class="table-responsive table-bordered col-sm-5">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Response Formats</td>
+                            <td>{{d.info[0]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Requires authentication</td>
+                            <td>{{d.info[1]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Rate limited</td>
+                            <td>{{d.info[2]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-7"></div>
+                <div class="col-sm-8">
+                    <h3>Parameters</h3>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="p in d.params">
+                                <td>
+                                    <h3>{{p.name}}</h3>
+
+                                    <p>{{p.req}}</p>
+                                </td>
+                                <td>
+                                    <p>{{p.desc}}</p>
+                                    <br>
+
+                                    <p>Example Value: {{p.example}}</p>
+
+                                    <p>Default Value: {{p.default}}</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8">
+                    <h3>Example Request</h3>
+
+                    <p>{{d.request}}</p>
+                </div>
+                <div class="col-sm-8">
+                    <h3>Example Result</h3>
+                    <pre><code>{{formatJson(d.result)}}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
