@@ -474,3 +474,30 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #222;
 }
+
+@media only screen and (max-width: 480px) {
+    .dropdown-menu {
+        display: block;
+        position: static;
+        background-color: transparent;
+        border: 0 none;
+        box-shadow: none;
+        margin-top: 0;
+        position: static;
+        width: 100%;
+    }
+
+    .navbar-nav .dropdown-menu > li > a,
+    .navbar-nav .dropdown-menu .dropdown-header {
+        padding: 5px 15px 5px 25px;
+    }
+
+    .navbar-nav .dropdown-menu > li > a {
+        line-height: 20px;
+    }
+
+    .navbar-default .navbar-nav .dropdown-menu > li > a {
+
+        color: #777;
+    }
+}
