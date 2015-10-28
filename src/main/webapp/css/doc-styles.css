@@ -6,8 +6,8 @@
 }
 
 #sidebar, #sidebar a {
-    color: cornflowerblue;
-    background-color: #021C35;
+    color: black;
+    background-color: #F05F40;
 }
 
 section {
@@ -17,14 +17,10 @@ section {
     overflow-x: hidden;
 }
 
-.panel {
-    padding-top: 15px;
-}
-
 #sidebar > .nav-stacked > li > a:hover,
 #sidebar > .nav-stacked > li > .active,
 #sidebar > .nav-stacked > li > .focus {
-    color: indianred;
+    color: white;
 }
 
 #sidebar > .nav-stacked > li > a {
