@@ -1,70 +1,73 @@
 <section id="member" class="col-md-8 col-md-offset-4 col-xs-offset-4">
     <div class="container" ng-repeat="d in docs">
         <div class="row">
-            <div id="{{d.id}}">
-                <h1 class="section-heading">{{d.title}}</h1>
+            <div id="{{d.id}}" class="endpoint-doc">
 
-                <p>{{d.description}}</p>
+                <h1 class="heading">{{d.title}}</h1>
+                <br>
 
-                <h3>Resource URL</h3>
+                <h2><i>{{d.description}}</i></h2>
 
-                <code>{{d.url}}</code>
+                <div class="col-md-12">
+                    <h3 class="heading">Resource URL</h3>
 
-                <h3>Resource information</h3>
-
-                <div class="table-responsive table-bordered col-sm-5">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>Response Formats</td>
-                            <td>{{d.info[0]}}</td>
-                        </tr>
-                        <tr>
-                            <td>Requires authentication</td>
-                            <td>{{d.info[1]}}</td>
-                        </tr>
-                        <tr>
-                            <td>Rate limited</td>
-                            <td>{{d.info[2]}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <p>{{d.url}}</p>
                 </div>
-                <div class="col-sm-7"></div>
-                <div class="col-sm-8">
-                    <h3>Parameters</h3>
+                <div class="col-md-12">
+                    <h3 class="heading">Resource information</h3>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive table-striped col-sm-4">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>Response Formats</td>
+                                <td>{{d.info[0]}}</td>
+                            </tr>
+                            <tr>
+                                <td>Requires authentication</td>
+                                <td>{{d.info[1]}}</td>
+                            </tr>
+                            <tr>
+                                <td>Rate limited</td>
+                                <td>{{d.info[2]}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3 class="heading">Parameters</h3>
+
+                    <div class="table-responsive table-condensed col-md-7">
                         <table class="table">
                             <tbody>
                             <tr ng-repeat="p in d.params">
-                                <td>
-                                    <h3>{{p.name}}</h3>
+                                <td class="col-md-2">
+                                    <h3 class="heading"><b>{{p.name}}</b></h3>
 
-                                    <p>{{p.req}}</p>
+                                    <p><i>{{p.req}}</i></p>
                                 </td>
                                 <td>
-                                    <p>{{p.desc}}</p>
+                                    <p class="text-justify">{{p.desc}}</p>
                                     <br>
 
-                                    <p>Example Value: {{p.example}}</p>
+                                    <p class="values"><b>Example Value:</b> {{p.example}}</p>
 
-                                    <p>Default Value: {{p.default}}</p>
+                                    <p class="values"><b>Example Value:</b> {{p.default}}</p>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-sm-4"></div>
-                <div class="col-sm-8">
-                    <h3>Example Request</h3>
+                <div class="col-md-12">
+                    <h3 class="heading">Example Request</h3>
 
                     <p>{{d.request}}</p>
                 </div>
-                <div class="col-sm-8">
-                    <h3>Example Result</h3>
-                    <pre><code>{{formatJson(d.result)}}</code></pre>
+                <div class="col-sm-7">
+                    <h3 class="heading">Example Result</h3>
+                    <pre><p>{{formatJson(d.result)}}</p></pre>
                 </div>
             </div>
         </div>

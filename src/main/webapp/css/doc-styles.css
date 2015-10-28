@@ -31,3 +31,24 @@ section {
 #sidebar > .nav-stacked > li > a {
     transform: scale(1.1);
 }
+
+.endpoint-doc {
+    padding-top: 50px;
+}
+
+h3 {
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.values {
+    margin-bottom: 5px;
+}
+
+.heading {
+    color: #f05f40;
+}
+
+pre {
+    background-color: #FFD393;
+}
