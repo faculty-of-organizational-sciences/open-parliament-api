@@ -7,7 +7,7 @@
             <th>Agenda</th>
         </tr>
         </thead>
-        <tr ng-repeat="s in speeches" ng-click="showSpeechText(s)" data-toggle="modal" data-target="#myModal">
+        <tr ng-repeat="s in speeches" ng-class="{'selected':$index == selectedRowSpeech}" ng-click="showSpeechText(s, $index)" data-toggle="modal" data-target="#myModal">
             <td>{{$index + 1 + count1}}.</td>
             <td ng-if="s.sessionDate">{{s.sessionDate}}</td>
             <td>

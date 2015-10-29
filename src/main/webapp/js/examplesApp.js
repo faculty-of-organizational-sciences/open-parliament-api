@@ -42,6 +42,8 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
             $scope.members = data;
             $scope.count = (n - 1) * 10;
             $scope.totalItems = n * $scope.itemsPerPage + 1;
+
+            $scope.selectedRow = null;
         });
     };
 
@@ -51,7 +53,10 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
     $scope.currentPage1 = 1;
     $scope.count1 = 0;
 
-    $scope.showSpeechText = function(speech) {
+    $scope.showSpeechText = function(speech, index) {
+
+        $scope.selectedRowSpeech = index;
+
         $scope.text = speech.text;
         $scope.date = speech.sessionDate;
     };
@@ -62,6 +67,8 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
             $scope.count1 = (pageNum - 1) * 10;
             $scope.id = member;
             $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
+
+            $scope.selectedRowSpeech = null;
         });
 
     };
@@ -75,7 +82,11 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
         });
     };
 
-    $scope.showBio = function (member) {
+    $scope.showBio = function (member, index) {
+
+        $scope.selectedRow = index;
+        $scope.selectedRowSpeech = null;
+
         $scope.bio = member;
         $scope.getSpeeches(member.id, 1);
     };
@@ -96,6 +107,9 @@ app.controller('PartyCtrl', ['$scope', 'partyService', function($scope, partySer
 
     $scope.getParties = function(n, name){
         partyService.PartiesR.query({page: n.toString(), query: name}, function (data) {
+
+            $scope.selectedRow = null;
+
             $scope.parties = data;
             $scope.count = (n - 1) * 10;
             $scope.totalItems = n * $scope.itemsPerPage + 1;
@@ -111,7 +125,10 @@ app.controller('PartyCtrl', ['$scope', 'partyService', function($scope, partySer
     $scope.currentPage1 = 1;
     $scope.count1 = 0;
 
-    $scope.getMembers = function (id, n) {
+    $scope.getMembers = function (id, n, index) {
+
+        $scope.selectedRow = index;
+
         partyService.PartyMembersR.query({page: n.toString(), id: id}, function (data) {
             $scope.members = data;
             $scope.count1 = (n - 1) * 10;

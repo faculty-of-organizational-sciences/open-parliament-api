@@ -17,7 +17,7 @@
                         <th>Title</th>
                     </tr>
                     </thead>
-                    <tr ng-repeat="p in parties" ng-click="getMembers(p.id, currentPage1)">
+                    <tr ng-repeat="p in parties" ng-class="{'selected':$index == selectedRow}" ng-click="getMembers(p.id, currentPage1, $index)">
                         <td>{{$index + 1 + count}}.</td>
                         <td>{{p.title}}</td>
                     </tr>
@@ -35,7 +35,7 @@
             <h2 class="heading">Members</h2>
 
             <div class="table-responsive">
-                <table class="table table-hover table-condensed">
+                <table class="table table-hover table-condensed" id="table">
                     <thead>
                     <tr>
                         <th>No</th>

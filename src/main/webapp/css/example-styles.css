@@ -9,6 +9,7 @@ body {
 tr[ng-click] {
     cursor: pointer;
 }
+
 h2 {
     margin-bottom: 30px;
 }
@@ -19,14 +20,20 @@ h2 {
     overflow-y: auto;
 }
 
-.pagination>li>a {
+.pagination > li > a {
     color: #f05f40;
 }
-.pagination>.active>a {
+
+.pagination > .active > a {
     background-color: #f05f40;
     border-color: #f05f40;
 }
 
 form {
     padding-bottom: 30px;
+}
+
+.selected {
+    background-color: #f05f40;
+    color: white;
 }
