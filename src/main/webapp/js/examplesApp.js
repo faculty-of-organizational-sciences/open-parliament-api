@@ -82,8 +82,43 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
 
 }]);
 
-app.controller('PartyCtrl', ['$scope', function($scope){
+app.controller('PartyCtrl', ['$scope', 'partyService', function($scope, partyService){
 
+    partyService.PartiesR.query({page: '1'}, function (data) {
+        $scope.parties = data;
+    });
+
+    $scope.maxSize = 1;
+    $scope.totalItems = 11;
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.count = 0;
+
+    $scope.getParties = function(n, name){
+        partyService.PartiesR.query({page: n.toString(), query: name}, function (data) {
+            $scope.parties = data;
+            $scope.count = (n - 1) * 10;
+            $scope.totalItems = n * $scope.itemsPerPage + 1;
+
+            $scope.currentPage1 = 1;
+            $scope.members = {};
+        });
+    };
+
+    $scope.maxSize1 = 1;
+    $scope.totalItems1 = 11;
+    $scope.itemsPerPage1 = 10;
+    $scope.currentPage1 = 1;
+    $scope.count1 = 0;
+
+    $scope.getMembers = function (id, n) {
+        partyService.PartyMembersR.query({page: n.toString(), id: id}, function (data) {
+            $scope.members = data;
+            $scope.count1 = (n - 1) * 10;
+            $scope.id = id;
+            $scope.totalItems1 = n * $scope.itemsPerPage1 + 1;
+        });
+    };
 }]);
 
 app.controller('SessionCtrl', ['$scope', function($scope){
@@ -101,4 +136,9 @@ app.service('memberService', ['$resource', function ($resource) {
 
 app.service('sessionService', ['$resource', function ($resource) {
     this.sessionR = $resource(host + '/sessions/:id');
+}]);
+
+app.service('partyService', ['$resource', function ($resource) {
+    this.PartiesR = $resource(host + '/parties');
+    this.PartyMembersR = $resource(host + '/parties/:id/members');
 }]);

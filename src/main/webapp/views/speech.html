@@ -8,7 +8,7 @@
         </tr>
         </thead>
         <tr ng-repeat="s in speeches" ng-click="showSpeechText(s)" data-toggle="modal" data-target="#myModal">
-            <td>{{$index + 1 + count}}.</td>
+            <td>{{$index + 1 + count1}}.</td>
             <td ng-if="s.sessionDate">{{s.sessionDate}}</td>
             <td>
                 <div ng-repeat="p in s.sessionAgenda">{{p}}</div>
