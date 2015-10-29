@@ -1,1 +1,91 @@
-<h1>Session</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="heading">SESSIONS</h2>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Agenda</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="s in sessions" ng-class="{'selected':$index == selectedRow}"
+                        ng-click="getSpeeches(s, 1, $index)">
+                        <td>{{$index + 1 + count}}.</td>
+                        <td> {{s.date}}</td>
+                        <td>
+                            <div ng-repeat="a in s.agenda">{{$index + 1}}. {{a}}</div>
+                        </td>
+                    </tr>
+                </table>
+                <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
+                                class="pagination-sm text-center"
+                                boundary-links="true" rotate="false"
+                                ng-change="getSessions(currentPage)"></uib-pagination>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h2 class="heading">SPEECHES</h2>
+
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="qtext">
+                </div>
+                <button ng-click="getSpeechesQuery(id, currentPage1, qtext)" class="btn btn-default">Search</button>
+            </form>
+
+
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Member</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="s in speeches" ng-class="{'selected':$index == selectedRowSpeech}"
+                        ng-click="showSpeechText(s, $index)" data-toggle="modal" data-target="#myModal">
+                        <td>{{$index + 1 + count1}}.</td>
+                        <td ng-if="s.sessionDate">{{s.sessionDate}}</td>
+                        <td ng-if="s.creator">{{s.creator.lastName}} {{s.creator.firstName}}</td>
+                    </tr>
+                </table>
+                <uib-pagination total-items="totalItems1" ng-model="currentPage1" max-size="maxSize1"
+                                class="pagination-md"
+                                boundary-links="true" rotate="false"
+                                ng-change="getSpeeches(session, currentPage1, null)"></uib-pagination>
+
+                <h2 class="heading">TRANSCRIPT</h2>
+
+                <div id="bio" class="panel">
+                    <p>{{transcript}}</p>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Speech date: {{date}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="speechText">{{text}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

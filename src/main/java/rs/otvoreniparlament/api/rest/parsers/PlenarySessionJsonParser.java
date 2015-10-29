@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.formatters.DateFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class PlenarySessionJsonParser {
-	
+
 	public static JsonArray serializePlenarySessions(List<PlenarySession> plenarySessions) {
 		JsonArray array = new JsonArray();
 
@@ -25,7 +26,7 @@ public class PlenarySessionJsonParser {
 	}
 
 	public static JsonObject serializePlenarySession(PlenarySession ps) {
-		
+
 		JsonObject plenarySession = new JsonObject();
 
 		if (ps != null) {
@@ -40,8 +41,18 @@ public class PlenarySessionJsonParser {
 			if (ps.getDate() != null)
 				plenarySession.addProperty("date", DateFormatter.format(ps.getDate()));
 
+			String[] agenda = null;
+
 			if (ps.getAgenda() != null && !ps.getAgenda().isEmpty())
-				plenarySession.addProperty("agenda", ps.getAgenda());
+				agenda = ps.getAgenda().split("\\s\\(\\d\\d\\d\\d\\)\\s");
+
+			JsonArray agendaArray = new JsonArray();
+
+			for (String a : agenda) {
+				agendaArray.add(new JsonPrimitive(a));
+			}
+
+			plenarySession.add("agenda", agendaArray);
 
 			if (ps.getTranscriptText() != null && !ps.getTranscriptText().isEmpty())
 				plenarySession.addProperty("transcriptText", ps.getTranscriptText().replaceAll("\\<.*?>", ""));

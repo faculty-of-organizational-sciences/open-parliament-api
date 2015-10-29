@@ -53,7 +53,7 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
     $scope.currentPage1 = 1;
     $scope.count1 = 0;
 
-    $scope.showSpeechText = function(speech, index) {
+    $scope.showSpeechText = function (speech, index) {
 
         $scope.selectedRowSpeech = index;
 
@@ -61,11 +61,11 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
         $scope.date = speech.sessionDate;
     };
 
-    $scope.getSpeeches = function (member, pageNum) {
-        memberService.SpeechesR.query({id: member.toString(), page: pageNum.toString()}, function (data) {
+    $scope.getSpeeches = function (memberId, pageNum) {
+        memberService.SpeechesR.query({id: memberId.toString(), page: pageNum.toString()}, function (data) {
             $scope.speeches = data;
             $scope.count1 = (pageNum - 1) * 10;
-            $scope.id = member;
+            $scope.id = memberId;
             $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
 
             $scope.selectedRowSpeech = null;
@@ -73,7 +73,7 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
 
     };
 
-    $scope.getSpeechesQuery = function(member, pageNum, qtext){
+    $scope.getSpeechesQuery = function (member, pageNum, qtext) {
         memberService.SpeechesR.query({id: member.toString(), page: pageNum.toString(), qtext: qtext}, function (data) {
             $scope.speeches = data;
             $scope.count1 = (pageNum - 1) * 10;
@@ -93,7 +93,7 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
 
 }]);
 
-app.controller('PartyCtrl', ['$scope', 'partyService', function($scope, partyService){
+app.controller('PartyCtrl', ['$scope', 'partyService', function ($scope, partyService) {
 
     partyService.PartiesR.query({page: '1'}, function (data) {
         $scope.parties = data;
@@ -105,7 +105,7 @@ app.controller('PartyCtrl', ['$scope', 'partyService', function($scope, partySer
     $scope.currentPage = 1;
     $scope.count = 0;
 
-    $scope.getParties = function(n, name){
+    $scope.getParties = function (n, name) {
         partyService.PartiesR.query({page: n.toString(), query: name}, function (data) {
 
             $scope.selectedRow = null;
@@ -138,13 +138,62 @@ app.controller('PartyCtrl', ['$scope', 'partyService', function($scope, partySer
     };
 }]);
 
-app.controller('SessionCtrl', ['$scope', function($scope){
+app.controller('SessionCtrl', ['$scope', 'sessionService', function ($scope, sessionService) {
+
+    sessionService.sessionsR.query({page: '1'}, function (data) {
+        $scope.sessions = data;
+    });
+
+    $scope.maxSize = 1;
+    $scope.totalItems = 11;
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.count = 0;
+
+    $scope.getSessions = function (n) {
+        sessionService.sessionsR.query({page: n.toString()}, function (data) {
+
+            $scope.selectedRow = null;
+
+            $scope.sessions = data;
+            $scope.count = (n - 1) * 10;
+            $scope.totalItems = n * $scope.itemsPerPage + 1;
+
+            $scope.currentPage1 = 1;
+        });
+    };
+
+    $scope.maxSize1 = 1;
+    $scope.totalItems1 = 11;
+    $scope.itemsPerPage1 = 10;
+    $scope.currentPage1 = 1;
+    $scope.count1 = 0;
+
+    $scope.getSpeeches = function (session, pageNum, index) {
+        sessionService.sessionSpeechesR.query({id: session.id, page: pageNum.toString()}, function (data) {
+            $scope.session = session;
+            $scope.speeches = data;
+            $scope.count1 = (pageNum - 1) * 10;
+            $scope.id = session.id;
+            $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
+
+            $scope.selectedRow = index;
+            $scope.selectedRowSpeech = null;
+
+            $scope.transcript = session.transcriptText;
+        });
+    };
+
+    $scope.showSpeechText = function (speech, index) {
+
+        $scope.selectedRowSpeech = index;
+
+        $scope.text = speech.text;
+        $scope.date = speech.sessionDate;
+    };
 
 }]);
 
-app.controller('MainCtrl', ['$scope', function($scope){
-
-}]);
 
 app.service('memberService', ['$resource', function ($resource) {
     this.MembersR = $resource(host + '/members');
@@ -152,7 +201,8 @@ app.service('memberService', ['$resource', function ($resource) {
 }]);
 
 app.service('sessionService', ['$resource', function ($resource) {
-    this.sessionR = $resource(host + '/sessions/:id');
+    this.sessionsR = $resource(host + '/sessions');
+    this.sessionSpeechesR = $resource(host + '/sessions/:id/speeches');
 }]);
 
 app.service('partyService', ['$resource', function ($resource) {
