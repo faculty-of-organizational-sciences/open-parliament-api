@@ -101,8 +101,14 @@ public class MemberRESTService {
 	@GET
 	@Path("/{id}/speeches")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMemberSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
-			@QueryParam("page") int page) {
+	public Response getMemberSpeeches(@PathParam("id") int id,
+								      @QueryParam("limit") int limit,
+								      @QueryParam("page") int page,
+								      @QueryParam("qtext") String qtext) {
+		
+		if(qtext == null) {
+			qtext = "";
+		}
 
 		if (limit == 0) {
 			limit = Settings.getInstance().config.query.limit;
@@ -112,7 +118,7 @@ public class MemberRESTService {
 			page = 1;
 		}
 
-		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page);
+		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page, qtext);
 
 		if (speeches.isEmpty())
 			try {

@@ -6,9 +6,27 @@ body {
     padding: 10px 20px;
 }
 
-a[ng-click] {
+tr[ng-click] {
     cursor: pointer;
 }
 h2 {
     margin-bottom: 30px;
+}
+
+#bio {
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.pagination>li>a {
+    color: #f05f40;
+}
+.pagination>.active>a {
+    background-color: #f05f40;
+    border-color: #f05f40;
+}
+
+form {
+    padding-bottom: 30px;
 }

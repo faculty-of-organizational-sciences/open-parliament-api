@@ -50,6 +50,15 @@ app.controller('ExampleCtrl', ['$scope', 'memberService', '$http', function ($sc
 
     };
 
+    $scope.getSpeechesQuery = function(member, pageNum, qtext){
+        memberService.SpeechesR.query({id: member.toString(), page: pageNum.toString(), qtext: qtext}, function (data) {
+            $scope.speeches = data;
+            $scope.count1 = (pageNum - 1) * 10;
+            $scope.id = member;
+            $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
+        });
+    };
+
     $scope.showBio = function (member) {
         $scope.bio = member;
         $scope.getSpeeches(member.id, 1);

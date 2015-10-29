@@ -6,7 +6,7 @@ import rs.otvoreniparlament.api.domain.Speech;
 
 public interface SpeechService {
 	
-	public List<Speech> getMemberSpeeches(int id, int limit, int page);
+	public List<Speech> getMemberSpeeches(int id, int limit, int page, String qtext);
 	
 	public Speech getSpeech(int id);
 
