@@ -39,11 +39,12 @@
     <!-- Core Angular-->
     <script type="text/javascript" src="js/angular/angular.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-route.min.js"></script>
     <script type="text/javascript" src="js/angular/ui-bootstrap-tpls-0.14.2.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
 </head>
 
-<body id="page-top" ng-app="examplesApp">
+<body id="page-top" ng-app="examplesApp" ng-controller="MainCtrl">
 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -66,14 +67,14 @@
                     <a class="page-scroll" href="./documentation-page.html">Documentation</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Examples <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="example-page.html">Members</a></li>
+                        <li><a href="#members-example">Members</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Parties</a></li>
+                        <li><a href="#party-example">Parties</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Sessions</a></li>
+                        <li><a href="#session-example">Sessions</a></li>
                     </ul>
                 </li>
             </ul>
@@ -83,61 +84,7 @@
     <!-- /.container-fluid -->
 </nav>
 
-<div class="container" ng-controller="ExampleCtrl">
-    <div class="row">
-        <div class="col-md-6">
-            <h2 class="heading">SEARCH</h2>
-            <form class="form-inline" role="form">
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="memberName">
-                </div>
-                <button ng-click="getMembers(1, memberName)" class="btn btn-default">Search</button>
-            </form>
-            <div ng-include src="'views/member.html'"></div>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-5">
-            <h2 class="heading">BIO</h2>
-
-            <div id="bio" class="panel">
-                <p><span ng-if="bio.birthPlace">{{bio.birthPlace}}</span><span
-                        ng-if="bio.birthPlace && bio.birthDate">, </span>{{bio.birthDate}}</p>
-
-                <p ng-if="bio.biography" class="text-justify">{{bio.biography}}</p>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <h2 class="heading">SPEECHES</h2>
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <input type="text" class="form-control" ng-model="qtext">
-            </div>
-            <button ng-click="getSpeechesQuery(id, currentPage1, qtext)" class="btn btn-default">Search</button>
-        </form>
-
-        <div class="col-md-12" ng-include src="'views/speech.html'"></div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Speech date: {{date}}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p id="speechText">{{text}}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div ng-view></div>
 
 <!-- jQuery -->
 <script src="js/jquery.js"></script>

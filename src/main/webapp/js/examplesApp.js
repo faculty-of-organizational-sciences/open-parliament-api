@@ -7,9 +7,25 @@
 
 var host = "http://localhost:9090/api";
 
-var app = angular.module("examplesApp", ['ngAnimate', 'ui.bootstrap', 'ngResource']);
+var app = angular.module("examplesApp", ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngResource']);
 
-app.controller('ExampleCtrl', ['$scope', 'memberService', '$http', function ($scope, memberService, $http) {
+app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+        .when('/members-example', {
+            templateUrl: 'views/members-example.html',
+            controller: 'MembersCtrl'
+        })
+        .when('/party-example', {
+            templateUrl: 'views/party-example.html',
+            controller: 'PartyCtrl'
+        })
+        .when('/session-example', {
+            templateUrl: 'views/session-example.html',
+            controller: 'SessionCtrl'
+        })
+}]);
+
+app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memberService) {
 
     $scope.maxSize = 1;
     $scope.totalItems = 11;
@@ -63,6 +79,18 @@ app.controller('ExampleCtrl', ['$scope', 'memberService', '$http', function ($sc
         $scope.bio = member;
         $scope.getSpeeches(member.id, 1);
     };
+
+}]);
+
+app.controller('PartyCtrl', ['$scope', function($scope){
+
+}]);
+
+app.controller('SessionCtrl', ['$scope', function($scope){
+
+}]);
+
+app.controller('MainCtrl', ['$scope', function($scope){
 
 }]);
 
