@@ -11,5 +11,5 @@ public interface PartyService {
 
 	Party getParty(int id);
 
-	List<Member> getPartyMembers(int id);
+	List<Member> getPartyMembers(int id, int limit, int page);
 }

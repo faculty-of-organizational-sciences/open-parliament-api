@@ -53,7 +53,7 @@ public class PartyDao {
 	}
 	
 
-	public List<Member> getPartyMembers(int id) {
+	public List<Member> getPartyMembers(int id, int limit, int page) {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		
@@ -63,8 +63,10 @@ public class PartyDao {
 				"WHERE p.id = :id";
 		
 		@SuppressWarnings("unchecked")
-		List<Member> result = session.createQuery(query).
-				setLong("id", id)
+		List<Member> result = session.createQuery(query)
+				.setFirstResult((page - 1) * limit)
+				.setMaxResults(limit)
+				.setLong("id", id)
 				.list();
 		
 		session.close();

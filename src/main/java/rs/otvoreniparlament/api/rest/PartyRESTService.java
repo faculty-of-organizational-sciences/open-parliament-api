@@ -96,9 +96,19 @@ public class PartyRESTService {
 	@GET
 	@Path("/{id}/members")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getPartyMembers(@PathParam("id") int id) {
+	public Response getPartyMembers(@PathParam("id") int id,
+									@QueryParam("limit") int limit,
+									@QueryParam("page") int page) {
+		
+		if (limit == 0) {
+			limit = Settings.getInstance().config.query.limit;
+		}
 
-		List<Member> members = partyService.getPartyMembers(id);
+		if (page == 0) {
+			page = 1;
+		}
+
+		List<Member> members = partyService.getPartyMembers(id, limit, page);
 
 		if (members.isEmpty())
 			try {
