@@ -1,24 +1,20 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-5">
             <h2 class="heading">SESSIONS</h2>
 
-            <div class="table-responsive">
+            <div class="table-responsive col-md-11">
                 <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
                         <th>No</th>
                         <th>Date</th>
-                        <th>Agenda</th>
                     </tr>
                     </thead>
                     <tr ng-repeat="s in sessions" ng-class="{'selected':$index == selectedRow}"
                         ng-click="getSpeeches(s, 1, $index)">
                         <td>{{$index + 1 + count}}.</td>
                         <td> {{s.date}}</td>
-                        <td>
-                            <div ng-repeat="a in s.agenda">{{$index + 1}}. {{a}}</div>
-                        </td>
                     </tr>
                 </table>
                 <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
@@ -27,17 +23,8 @@
                                 ng-change="getSessions(currentPage)"></uib-pagination>
             </div>
         </div>
-
-        <div class="col-md-4">
+        <div class="col-md-7">
             <h2 class="heading">SPEECHES</h2>
-
-            <form class="form-inline" role="form">
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="qtext">
-                </div>
-                <button ng-click="getSpeechesQuery(id, currentPage1, qtext)" class="btn btn-default">Search</button>
-            </form>
-
 
             <div class="table-responsive">
                 <table class="table table-hover table-condensed">
@@ -59,14 +46,7 @@
                                 class="pagination-md"
                                 boundary-links="true" rotate="false"
                                 ng-change="getSpeeches(session, currentPage1, null)"></uib-pagination>
-
-                <h2 class="heading">TRANSCRIPT</h2>
-
-                <div id="bio" class="panel">
-                    <p>{{transcript}}</p>
-                </div>
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog modal-lg">
@@ -85,6 +65,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <h2 class="heading">AGENDA</h2>
+
+            <div class="panel">
+                <p ng-repeat="a in agenda" class="text-justify">{{$index + 1}}. {{a}}</p>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h2 class="heading">TRANSCRIPT</h2>
+
+            <div class="panel">
+                <p class="text-justify">{{transcript}}</p>
             </div>
         </div>
     </div>

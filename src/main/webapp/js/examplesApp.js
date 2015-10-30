@@ -26,7 +26,6 @@ app.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memberService) {
-
     $scope.maxSize = 1;
     $scope.totalItems = 11;
     $scope.itemsPerPage = 10;
@@ -44,6 +43,8 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
             $scope.totalItems = n * $scope.itemsPerPage + 1;
 
             $scope.selectedRow = null;
+
+            $scope.agenda = null;
         });
     };
 
@@ -59,6 +60,7 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
 
         $scope.text = speech.text;
         $scope.date = speech.sessionDate;
+        $scope.agenda = speech.sessionAgenda;
     };
 
     $scope.getSpeeches = function (memberId, pageNum) {
@@ -89,6 +91,7 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
 
         $scope.bio = member;
         $scope.getSpeeches(member.id, 1);
+
     };
 
 }]);
@@ -181,6 +184,7 @@ app.controller('SessionCtrl', ['$scope', 'sessionService', function ($scope, ses
             $scope.selectedRowSpeech = null;
 
             $scope.transcript = session.transcriptText;
+            $scope.agenda = session.agenda;
         });
     };
 
