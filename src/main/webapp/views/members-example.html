@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <h2 class="heading">SEARCH</h2>
+        <div class="col-md-7">
+            <h2 class="heading">MEMBERS</h2>
 
             <form class="form-inline" role="form">
                 <div class="form-group">
@@ -11,46 +11,54 @@
             </form>
             <div ng-include src="'views/member.html'"></div>
         </div>
-        <div class="col-md-1"></div>
         <div class="col-md-5">
+            <h2 class="heading">SPEECHES</h2>
+
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="qtext">
+                </div>
+                <button ng-click="getSpeechesQuery(id, currentPage1, qtext)" class="btn btn-default">Search</button>
+            </form>
+
+            <div ng-include src="'views/speech.html'"></div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Speech date: {{date}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="speechText">{{text}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
             <h2 class="heading">BIO</h2>
 
-            <div id="bio" class="panel">
+            <div class="panel col-md-11">
                 <p><span ng-if="bio.birthPlace">{{bio.birthPlace}}</span><span
                         ng-if="bio.birthPlace && bio.birthDate">, </span>{{bio.birthDate}}</p>
 
                 <p ng-if="bio.biography" class="text-justify">{{bio.biography}}</p>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <h2 class="heading">SPEECHES</h2>
+        <div class="col-md-5">
+            <h2 class="heading">AGENDA</h2>
 
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <input type="text" class="form-control" ng-model="qtext">
-            </div>
-            <button ng-click="getSpeechesQuery(id, currentPage1, qtext)" class="btn btn-default">Search</button>
-        </form>
-
-        <div class="col-md-12" ng-include src="'views/speech.html'"></div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Speech date: {{date}}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p id="speechText">{{text}}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+            <div class="panel">
+                <p ng-repeat="a in agenda" class="text-justify">{{$index + 1}}. {{a}}</p>
             </div>
         </div>
     </div>

@@ -14,8 +14,8 @@ h2 {
     margin-bottom: 30px;
 }
 
-#bio {
-    max-height: 500px;
+.bio {
+    max-height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
 }
