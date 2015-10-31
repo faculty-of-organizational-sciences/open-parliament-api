@@ -132,7 +132,7 @@ aside {
     }
 
     .navbar-default .navbar-header .navbar-brand {
-        color: #000;
+        color: #fff;
     }
 
     .navbar-default .navbar-header .navbar-brand:hover,
@@ -142,7 +142,7 @@ aside {
 
     .navbar-default .nav > li > a,
     .navbar-default .nav > li > a:focus {
-        color: black;
+        color: #fff;
     }
 
     .navbar-default .nav > li > a:hover,
@@ -182,7 +182,7 @@ header {
     min-height: auto;
     text-align: center;
     color: #fff;
-    background-image: url(../img/parliament.jpg);
+    background-image: url(../img/ParlamentBelgrad1.jpg);
     background-position: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -504,4 +504,14 @@ body {
 
         color: #777;
     }
+}
+
+/*****************
+* OVERRIDES
+*****************/
+#contact a,
+#contact a:hover, 
+#contact a:focus {
+    color: #FFF;
+    text-decoration: underline;
 }
