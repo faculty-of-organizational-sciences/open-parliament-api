@@ -2,7 +2,6 @@
     height: 100%;
     position: fixed;
     overflow: hidden;
-    padding-top: 55px;
 }
 
 #sidebar, #sidebar a {
@@ -10,10 +9,8 @@
     background-color: #F05F40;
 }
 
-section {
-    padding-top: 30px;
-    padding-bottom: 100px;
-    margin-bottom: -100px;
+#member {
+    padding-top: 0px;
     overflow-x: hidden;
 }
 
@@ -33,7 +30,7 @@ section {
 }
 
 .endpoint-doc {
-    padding-top: 50px;
+    padding-top: 30px;
 }
 
 h3 {
@@ -47,4 +44,12 @@ h3 {
 
 pre {
     background-color: #FFD393;
+}
+
+.documentation {
+    padding-top: 50px;
+}
+
+body {
+    margin-top: -20px;
 }

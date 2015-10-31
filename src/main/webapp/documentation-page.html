@@ -86,22 +86,36 @@
     <div class="col-md-3 col-xs-4" id="sidebar">
         <!-- sidebar -->
         <ul class="nav nav-stacked col-sm-offset-2">
-            <li><a href="#page-top" du-smooth-scroll du-scrollspy><h3>Endpoints <i class="glyphicon glyphicon glyphicon-chevron-up pull-right"></i></h3></a></li>
+            <li><a href="#page-top" du-smooth-scroll du-scrollspy><h3>Endpoints <i
+                    class="glyphicon glyphicon glyphicon-chevron-up pull-right"></i></h3></a></li>
             <li><a href="#members" du-smooth-scroll du-scrollspy offset="30">GET members/</a></li>
             <li><a href="#memberId" du-smooth-scroll du-scrollspy offset="30">GET members/:id</a></li>
             <li><a href="#memberIdSpeeches" du-smooth-scroll du-scrollspy offset="30">GET members/:id/speeches</a></li>
-            <li><a href="#parties" du-smooth-scroll  du-scrollspy offset="30">GET parties/</a></li>
-            <li><a href="#partyId" du-smooth-scroll  du-scrollspy offset="30">GET parties/:id</a></li>
-            <li><a href="#partyIdMembers" du-smooth-scroll  du-scrollspy offset="30">GET parties/:id/members</a></li>
-            <li><a href="#sessions" du-smooth-scroll  du-scrollspy offset="30">GET sessions/</a></li>
-            <li><a href="#sessionId" du-smooth-scroll  du-scrollspy offset="30">GET sessions/:id</a></li>
-            <li><a href="#sessionIdSpeeches" du-smooth-scroll  du-scrollspy offset="30">GET sessions/:id/speeches</a></li>
-            <li><a href="#speeches" du-smooth-scroll  du-scrollspy offset="30">GET speeches/</a></li>
-            <li><a href="#speechId" du-smooth-scroll  du-scrollspy offset="30">GET speeches/:id</a></li>
+            <li><a href="#parties" du-smooth-scroll du-scrollspy offset="30">GET parties/</a></li>
+            <li><a href="#partyId" du-smooth-scroll du-scrollspy offset="30">GET parties/:id</a></li>
+            <li><a href="#partyIdMembers" du-smooth-scroll du-scrollspy offset="30">GET parties/:id/members</a></li>
+            <li><a href="#sessions" du-smooth-scroll du-scrollspy offset="30">GET sessions/</a></li>
+            <li><a href="#sessionId" du-smooth-scroll du-scrollspy offset="30">GET sessions/:id</a></li>
+            <li><a href="#sessionIdSpeeches" du-smooth-scroll du-scrollspy offset="30">GET sessions/:id/speeches</a>
+            </li>
+            <li><a href="#speeches" du-smooth-scroll du-scrollspy offset="30">GET speeches/</a></li>
+            <li><a href="#speechId" du-smooth-scroll du-scrollspy offset="30">GET speeches/:id</a></li>
         </ul>
     </div>
     <!-- /sidebar -->
 
+    <div class="col-md-8 col-md-offset-4 col-xs-offset-4 documentation">
+            <h2 class="heading"> <i>REST API</i> endpoints</h2>
+            <br>
+            <div class="col-md-8">
+                <p class="text-justify">The <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> endpoints provide programmatic access to read Serbian Parliament data.
+                    Find out who is specific parliament member, what He/She said, on which date, at which session and
+                    much more.</p>
+
+                <p> Responses are available in <a href="http://www.json.org/">JSON</a> format, and everything is for free.</p>
+            </div>
+    </div>
+     <hr class="primary">
     <!-- documentation -->
     <div ng-include="'views/panelDocs.html'"></div>
     <!-- /documentation -->
@@ -124,7 +138,6 @@
 
 <!-- Angular app module -->
 <script type="text/javascript" src="js/docApp.js"></script>
-
 
 
 </body>
