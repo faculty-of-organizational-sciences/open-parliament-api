@@ -58,6 +58,7 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
 
         $scope.text = speech.text;
         $scope.date = speech.sessionDate;
+        $scope.agenda = speech.sessionAgenda;
     };
 
     $scope.getSpeeches = function (memberId, pageNum) {
@@ -189,6 +190,7 @@ app.controller('SessionCtrl', ['$scope', 'sessionService', function ($scope, ses
 
         $scope.text = speech.text;
         $scope.date = speech.sessionDate;
+        $scope.agenda = speech.sessionAgenda;
     };
 
 }]);

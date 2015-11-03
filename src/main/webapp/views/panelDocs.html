@@ -13,10 +13,10 @@
 
                     <p>{{d.url}}</p>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 col-xs-12">
                     <h3 class="heading">Resource information</h3>
 
-                    <div class="table-responsive table-striped col-sm-4">
+                    <div class="table-responsive table-striped col-sm-4 col-xs-8">
                         <table class="table">
                             <tbody>
                             <tr>
@@ -38,7 +38,7 @@
                 <div class="col-md-12">
                     <h3 class="heading">Parameters</h3>
 
-                    <div class="table-responsive table-condensed col-md-7">
+                    <div class="table-responsive table-condensed col-md-7 col-xs-12">
                         <table class="table">
                             <tbody>
                             <tr ng-repeat="p in d.params">
@@ -53,7 +53,7 @@
 
                                     <p class="values"><b>Example Value:</b> {{p.example}}</p>
 
-                                    <p class="values"><b>Example Value:</b> {{p.default}}</p>
+                                    <p class="values"><b>Default Value:</b> {{p.default}}</p>
                                 </td>
                             </tr>
                             </tbody>
@@ -65,7 +65,7 @@
 
                     <p>{{d.request}}</p>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-7 col-xs-12">
                     <h3 class="heading">Example Result</h3>
                     <pre><p>{{formatJson(d.result)}}</p></pre>
                 </div>

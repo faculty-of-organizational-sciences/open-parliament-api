@@ -31,10 +31,17 @@
           "desc": "Used for sorting the result; specifies order of a result to be returned. Possible values are ASC for ascending and DESC for descending order.",
           "example": "DESC",
           "default": "ASC"
+        },
+        {
+          "name": "query",
+          "req": "Optional",
+          "desc": "Used for searching members by name and lastname.",
+          "example": "John Davids",
+          "default": "empty string"
         }
       ],
       "request": "http://api.otvoreniparlament.rs/v1/members?page=2&limit=3",
-      "result": "[{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]},{\"meta\":{\"href\":\"http://localhost:9090/api/members/414897\"},\"id\":414897,\"name\":\"Ivan\",\"lastName\":\"Ivanovi?\",\"birthDate\":\"01.01.1974.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/430\"},\"id\":430,\"title\":\"Stranka Srbije\",\"members\":\"http://localhost:9090/api/parties/430/members\"}]},{\"meta\":{\"href\":\"http://localhost:9090/api/members/407001\"},\"id\":407001,\"name\":\"Petar\",\"lastName\":\"Petrovi?\",\"birthDate\":\"01.01.1960.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/430\"},\"id\":430,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/430/members\"}]}]"
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"},\"id\":123,\"name\":\"Marko\",\"lastName\":\"Markovic\",\"mail\":\"marko.markovic@site.rs\",\"birthDate\":\"01.01.1960.\",\"birthPlace\":\"Beograd\",\"placeOfResidence\":\"Beograd\",\"gender\":\"m\",\"biography\":\"biography text\",\"parties\":[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":444,\"title\":\"Partija Srbije\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}]},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/321\"},\"id\":321,\"name\":\"Petar\",\"lastName\":\"Petrovic\",\"mail\":\"petar.petrovic@site.rs\",\"birthDate\":\"01.01.1970.\",\"birthPlace\":\"Nis\",\"placeOfResidence\":\"Nis\",\"gender\":\"m\",\"biography\":\"biography text\",\"parties\":[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/222\"},\"id\":222,\"title\":\"Partija Srbije 2\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/222/members\"}]},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/231\"},\"id\":231,\"name\":\"Ivana\",\"lastName\":\"Ivanovic\",\"mail\":\"ivana.ivanovic@site.rs\",\"birthDate\":\"01.01.1965.\",\"birthPlace\":\"Novi Sad\",\"placeOfResidence\":\"Novi Sad\",\"gender\":\"f\",\"biography\":\"biography text\",\"parties\":[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":444,\"title\":\"Partija Srbije\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}]}]"
     },
     {
       "id": "memberId",
@@ -55,8 +62,8 @@
           "default": "/"
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/members/33",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/members/123",
+      "result": "{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"},\"id\":123,\"name\":\"Marko\",\"lastName\":\"Markovic\",\"mail\":\"marko.markovic@site.rs\",\"birthDate\":\"01.01.1960.\",\"birthPlace\":\"Beograd\",\"placeOfResidence\":\"Beograd\",\"gender\":\"m\",\"biography\":\"biography text\",\"parties\":[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":444,\"title\":\"Partija Srbije\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}]}"
     },
     {
       "id": "memberIdSpeeches",
@@ -75,10 +82,31 @@
           "desc": "The id of the requested member.",
           "example": 123,
           "default": "/"
+        },
+        {
+          "name": "limit",
+          "req": "Optional",
+          "desc": "Specifies maximum number of speeches to return in a single request. ",
+          "example": 30,
+          "default": 10
+        },
+        {
+          "name": "page",
+          "req": "Optional",
+          "desc": "Used for result pagination; specifies a page to be returned. It should be combined with a number of speeches returned on the page that is specified by the limit parameter.",
+          "example": 2,
+          "default": 1
+        },
+        {
+          "name": "qtext",
+          "req": "Optional",
+          "desc": "Used for searching speeches of specific members by specific string value.",
+          "example": "John Davids",
+          "default": "empty string"
         }
       ],
       "request": "http://api.otvoreniparlament.rs/v1/members/33/speeches",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/33333\"},\"id\":33333,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Marko\",\"lastName\":\"Markovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/1212\"}}},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/22222\"},\"id\":22222,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Marko\",\"lastName\":\"Markovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/1212\"}}}]"
     },
     {
       "id": "parties",
@@ -101,7 +129,7 @@
         {
           "name": "page",
           "req": "Optional",
-          "desc": "Used for result pagination; specifies a page to be returned. It should be combined with a number of parliament members returned on the page is specified by the limit parameter.",
+          "desc": "Used for result pagination; specifies a page to be returned. It should be combined with a number of parliament parties returned on the page that is specified by the limit parameter.",
           "example": 2,
           "default": 1
         },
@@ -111,10 +139,17 @@
           "desc": "Used for sorting the result; specifies order of a result to be returned. Possible values are ASC for ascending and DESC for descending order.",
           "example": "DESC",
           "default": "ASC"
+        },
+        {
+          "name": "query",
+          "req": "Optional",
+          "desc": "Used for searching parties by tittle.",
+          "example": "parliament party",
+          "default": "empty string"
         }
       ],
       "request": "http://api.otvoreniparlament.rs/v1/parties?page=1&limit=1",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":111,\"title\":\"Party tittle\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}]"
     },
     {
       "id": "partyId",
@@ -135,8 +170,8 @@
           "default": "/"
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/parties/476",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/parties/111",
+      "result": "{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":11,\"title\":\"Party title 1\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}"
     },
     {
       "id": "partyIdMembers",
@@ -155,15 +190,29 @@
           "desc": "The id of the requested party.",
           "example": 123,
           "default": "/"
+        },
+        {
+          "name": "limit",
+          "req": "Optional",
+          "desc": "Specifies maximum number of parties to return in a single request. ",
+          "example": 30,
+          "default": 10
+        },
+        {
+          "name": "page",
+          "req": "Optional",
+          "desc": "Used for result pagination; specifies a page to be returned. It should be combined with a number of parliament parties returned on the page that is specified by the limit parameter.",
+          "example": 2,
+          "default": 1
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/parties/476/members",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/parties/111/members",
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"},\"id\":123,\"name\":\"Marko\",\"lastName\":\"Markovic\",\"mail\":\"marko.markovic@site.rs\",\"birthDate\":\"01.01.1960.\",\"birthPlace\":\"Beograd\",\"placeOfResidence\":\"Beograd\",\"gender\":\"m\",\"biography\":\"biography text\",\"parties\":[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":444,\"title\":\"Partija Srbije\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}]},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/231\"},\"id\":231,\"name\":\"Ivana\",\"lastName\":\"Ivanovic\",\"mail\":\"ivana.ivanovic@site.rs\",\"birthDate\":\"01.01.1965.\",\"birthPlace\":\"Novi Sad\",\"placeOfResidence\":\"Novi Sad\",\"gender\":\"f\",\"biography\":\"biography text\",\"parties\":[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/parties/111\"},\"id\":444,\"title\":\"Partija Srbije\",\"members\":\"http://api.otvoreniparlament.rs/v1/parties/111/members\"}]}]"
     },
     {
       "id": "sessions",
       "title": "GET sessions/",
-      "description": "Returns list of all sessions.",
+      "description": "Returns list of all plenary sessions.",
       "url": "http://api.otvoreniparlament.rs/v1/sessions",
       "info": [
         "JSON",
@@ -187,7 +236,7 @@
         }
       ],
       "request": "http://api.otvoreniparlament.rs/v1/sessions?page=1&limit=2",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/222\"},\"id\":222,\"date\":\"29.12.2000.\",\"agenda\":[\"agenda point 1\",\"agenda point 2\",\"agenda point 3\"],\"transcriptText\":\"Transcript text\"},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/444\"},\"id\":444,\"date\":\"29.12.1997.\",\"agenda\":[\"agenda point 1\",\"agenda point 2\",\"agenda point 3\"],\"transcriptText\":\"Transcript text\"}]"
     },
     {
       "id": "sessionId",
@@ -208,8 +257,8 @@
           "default": "/"
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/sessions/657",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/sessions/222",
+      "result": "{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/222\"},\"id\":222,\"date\":\"29.12.2000.\",\"agenda\":[\"agenda point 1\",\"agenda point 2\",\"agenda point 3\"],\"transcriptText\":\"Transcript text\"}"
     },
     {
       "id": "sessionIdSpeeches",
@@ -244,8 +293,8 @@
           "default": 1
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/sessions/657/speeches",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/sessions/222/speeches",
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/33333\"},\"id\":33333,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Marko\",\"lastName\":\"Markovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/11\"}}},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/22222\"},\"id\":22222,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Ivan\",\"lastName\":\"Ivanovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/321\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/11\"}}}]"
     },
     {
       "id": "speeches",
@@ -273,14 +322,14 @@
           "default": 1
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/speeches",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/speeches?page=2&limit=2",
+      "result": "[{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/33333\"},\"id\":33333,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Marko\",\"lastName\":\"Markovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/11\"}}},{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/22222\"},\"id\":22222,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Ivan\",\"lastName\":\"Ivanovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/321\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/11\"}}}]"
     },
     {
       "id": "speechId",
       "title": "GET speeches/:id",
       "description": "Returns specific speech.",
-      "url": "http://api.otvoreniparlament.rs/v1/speeches/{id}",
+      "url": "http://api.otvoreniparlament.rs/v1/speeches/:id",
       "info": [
         "JSON",
         "NO",
@@ -295,8 +344,8 @@
           "default": "/"
         }
       ],
-      "request": "http://api.otvoreniparlament.rs/v1/speeches/123",
-      "result": "{\"meta\":{\"href\":\"http://localhost:9090/api/members/33\"},\"id\":33,\"name\":\"Marko\",\"lastName\":\"Markovi?\",\"birthDate\":\"01.01.1946.\",\"parties\":[{\"meta\":{\"href\":\"http://localhost:9090/api/parties/429\"},\"id\":429,\"title\":\"Partija Srbije\",\"members\":\"http://localhost:9090/api/parties/429/members\"}]}"
+      "request": "http://api.otvoreniparlament.rs/v1/speeches/33333",
+      "result": "{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/speeches/33333\"},\"id\":33333,\"text\":\"Speech text\",\"sessionDate\":\"13.05.2003.\",\"sessionAgenda\":[\"agenda point 1\",\"agenda point 2\"],\"creator\":{\"firstName\":\"Marko\",\"lastName\":\"Markovic\",\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/members/123\"}},\"plenarySession\":{\"meta\":{\"href\":\"http://api.otvoreniparlament.rs/v1/sessions/11\"}}}"
     }
   ]
 }
