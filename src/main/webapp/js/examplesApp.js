@@ -68,6 +68,8 @@ app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memb
             $scope.id = memberId;
             $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
 
+            $scope.agenda = {};
+
             $scope.selectedRowSpeech = null;
         });
 
@@ -180,6 +182,7 @@ app.controller('SessionCtrl', ['$scope', 'sessionService', function ($scope, ses
             $scope.selectedRow = index;
             $scope.selectedRowSpeech = null;
 
+            $scope.agenda = session.agenda;
             $scope.transcript = session.transcriptText;
         });
     };
@@ -190,7 +193,6 @@ app.controller('SessionCtrl', ['$scope', 'sessionService', function ($scope, ses
 
         $scope.text = speech.text;
         $scope.date = speech.sessionDate;
-        $scope.agenda = speech.sessionAgenda;
     };
 
 }]);
