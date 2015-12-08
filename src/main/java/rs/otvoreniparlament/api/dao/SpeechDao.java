@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.dao;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
