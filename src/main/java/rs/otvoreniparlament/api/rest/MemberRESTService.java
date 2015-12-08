@@ -104,7 +104,17 @@ public class MemberRESTService {
 	public Response getMemberSpeeches(@PathParam("id") int id,
 								      @QueryParam("limit") int limit,
 								      @QueryParam("page") int page,
-								      @QueryParam("qtext") String qtext) {
+								      @QueryParam("qtext") String qtext,
+								      @QueryParam("fromDate") String from,
+								      @QueryParam("toDate") String to) {
+		
+		if (from == null) {
+			from = "";
+		}
+		
+		if (to == null) {
+			to = "";
+		}
 		
 		if(qtext == null) {
 			qtext = "";
@@ -118,7 +128,7 @@ public class MemberRESTService {
 			page = 1;
 		}
 
-		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page, qtext);
+		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page, qtext, from, to);
 
 		if (speeches.isEmpty())
 			try {

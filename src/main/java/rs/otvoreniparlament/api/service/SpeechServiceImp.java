@@ -10,8 +10,8 @@ public class SpeechServiceImp implements SpeechService {
 	protected SpeechDao sd = new SpeechDao();
 
 	@Override
-	public List<Speech> getMemberSpeeches(int id, int limit, int page, String qtext) {
-		return sd.getMemberSpeeches(id, limit, page, qtext);
+	public List<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
+		return sd.getMemberSpeeches(id, limit, page, qtext, from, to);
 	}
 
 	@Override

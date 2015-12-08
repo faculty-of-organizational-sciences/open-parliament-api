@@ -53,7 +53,7 @@ public class Settings {
 			logger.info("Used OPEN_DATA variable.");
 		} else {
 			absoluteConfigPath = System.getProperty("user.home") + File.separator + ".parlament" + File.separator;
-			logger.info("Used user home variable. OPEN_DATA is not set.");
+			logger.info("Used user home variable. OPEN_PARLIAMENT is not set.");
 		}
 
 		String homeConfigFile = absoluteConfigPath + configFileName;
