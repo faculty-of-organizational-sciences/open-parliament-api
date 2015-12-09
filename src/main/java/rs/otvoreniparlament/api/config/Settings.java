@@ -50,7 +50,7 @@ public class Settings {
 
 		if (System.getenv("OPEN_PARLIAMENT") != null) {
 			absoluteConfigPath = System.getenv("OPEN_PARLIAMENT") + File.separator + ".parlament" + File.separator;
-			logger.info("Used OPEN_DATA variable.");
+			logger.info("Used OPEN_PARLIAMENT variable.");
 		} else {
 			absoluteConfigPath = System.getProperty("user.home") + File.separator + ".parlament" + File.separator;
 			logger.info("Used user home variable. OPEN_PARLIAMENT is not set.");
