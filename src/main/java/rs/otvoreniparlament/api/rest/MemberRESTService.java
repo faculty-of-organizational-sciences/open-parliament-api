@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
@@ -62,6 +63,8 @@ public class MemberRESTService {
 		if(query == null){
 			query = "";
 		}
+		
+		
 
 		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase(), query);
 
@@ -83,6 +86,7 @@ public class MemberRESTService {
 	public Response getMember(@PathParam("id") int id) {
 
 		Member m = memberService.getMember(id);
+		
 
 		if (m == null) {
 			try {

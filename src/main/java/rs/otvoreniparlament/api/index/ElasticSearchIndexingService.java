@@ -13,7 +13,9 @@ public class ElasticSearchIndexingService {
 //	
 		
 				//Search
-				
+				public void searchQuery(String query){
+					
+				}
 				SearchResponse searchResponse = ElasticClient.getInstance().getClient().prepareSearch("dataSearch")
 				        .setTypes("members", "parties")
 				        .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)

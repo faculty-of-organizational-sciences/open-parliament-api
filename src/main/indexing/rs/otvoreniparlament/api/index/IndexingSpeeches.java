@@ -17,7 +17,7 @@ public class IndexingSpeeches {
 	public void indexSpeeches (){
 		for (Speech speechs : speechesForIndexing) {
 			try {
-				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "member", "1")
+				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "speach", IndexType.SPEACH_TYPE)
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
 				                        .field("member", speechs.getMember())

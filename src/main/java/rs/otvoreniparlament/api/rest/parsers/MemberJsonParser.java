@@ -28,7 +28,7 @@ public class MemberJsonParser {
 
 	public static JsonObject serializeMember(Member m) {
 
-		JsonObject jsonMember = new JsonObject();
+		 JsonObject jsonMember = new JsonObject();
 
 		if (m != null) {
 

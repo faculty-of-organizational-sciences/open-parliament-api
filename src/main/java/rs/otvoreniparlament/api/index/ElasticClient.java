@@ -1,11 +1,12 @@
 package rs.otvoreniparlament.api.index;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
-
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
@@ -16,6 +17,7 @@ public class ElasticClient {
 
 	private static ElasticClient INSTANCE = null;
     private static Object lock = new Object();
+    private final Logger logger = LogManager.getLogger(ElasticClient.class);
     
     private Client client;
     private Node node;
@@ -37,17 +39,15 @@ public class ElasticClient {
     }
 
     public void createClient(){
-//    	TODO: cluster, port, path - config
-    	Settings settings = Settings.settingsBuilder().put("cluster.name", "openParliamentElastic").build();
+    	Settings settings = Settings.settingsBuilder().put("cluster.name", rs.otvoreniparlament.api.config.Settings.getInstance().config.elasticConfig.clusterName).build();
         
         TransportClient transportClient = TransportClient.builder().settings(settings).build();
 
         try {
-			transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+			transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), rs.otvoreniparlament.api.config.Settings.getInstance().config.elasticConfig.port));
 		} catch (UnknownHostException e) {
-			// TODO u logger
+			logger.error("Could not create transport client: ", e);
 			
-			e.printStackTrace();
 		}
         
         if(transportClient.connectedNodes().size() == 0)

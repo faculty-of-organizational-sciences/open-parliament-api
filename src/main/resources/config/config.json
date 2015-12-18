@@ -13,4 +13,9 @@
 	uriGenerator: {
 	    uriPrefix : "http://api.otvoreniparlament.rs/v1/"
 	}
+	
+	elasticConfig: {
+		clusterName: "openParliamentElastic"
+		port: 9300
+	}
 }

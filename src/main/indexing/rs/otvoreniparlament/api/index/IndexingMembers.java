@@ -11,12 +11,13 @@ import rs.otvoreniparlament.api.index.ElasticClient;
 public class IndexingMembers {
 
 	
-	MembersDao md = new MembersDao();
-	List<Member> membersForIndexing = md.getMembers(1, 1000 ,null, null );
+	private MembersDao md = new MembersDao();
+	private List<Member> membersForIndexing = md.getMembers(1, 1000 ,null, null );
+	
 	public void indexMembers (){
 		for (Member member : membersForIndexing) {
 			try {
-				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "member", "1")
+				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "member", IndexType.MEMBER_TYPE)
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
 				                        .field("name", member.getName())
