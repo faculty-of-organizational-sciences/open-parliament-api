@@ -13,10 +13,13 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.action.search.SearchResponse;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
+import rs.otvoreniparlament.api.index.ElasticSearchIndexingService;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
@@ -62,7 +65,11 @@ public class MemberRESTService {
 		if(query == null){
 			query = "";
 		}
-
+		
+		ElasticSearchIndexingService es = new ElasticSearchIndexingService();
+		SearchResponse member = es.searchQuery("members", query);
+		System.out.println(member.toString());
+		
 		List<Member> members = memberService.getMembers(page, limit, sortType.toUpperCase(), query);
 
 		if (members.isEmpty())
@@ -83,6 +90,7 @@ public class MemberRESTService {
 	public Response getMember(@PathParam("id") int id) {
 
 		Member m = memberService.getMember(id);
+		
 
 		if (m == null) {
 			try {

@@ -1,6 +1,6 @@
 {
 	dbConfig: {
-		url: "jdbc:mysql://localhost:3306/parlament?zeroDateTimeBehavior=convertToNull",
+		url: "jdbc:mysql://localhost:3306/parliament?zeroDateTimeBehavior=convertToNull",
 		user: "user",
 		pass: "user123",
 		poolSize: 10
@@ -12,5 +12,10 @@
 	
 	uriGenerator: {
 	    uriPrefix : "http://api.otvoreniparlament.rs/v1/"
+	},
+	
+	elasticConfig: {
+		clusterName: "openParliamentElastic",
+		port: 9300
 	}
 }

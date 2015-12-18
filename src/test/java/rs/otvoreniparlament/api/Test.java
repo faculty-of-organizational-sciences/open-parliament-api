@@ -1,5 +1,7 @@
 package rs.otvoreniparlament.api;
 
+import org.elasticsearch.bootstrap.Elasticsearch;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -34,6 +36,7 @@ public class Test {
 		
 		Gson gson = new GsonBuilder().create();
 		System.out.println(gson.toJson(partyJson));
+		
 		
 	}
 }

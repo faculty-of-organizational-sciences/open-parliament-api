@@ -8,6 +8,16 @@ public class Config {
 	public QueryConfig query;
 
 	public UriConfig uriGenerator;
+	
+	public ElasticConfig elasticConfig;
+
+	public ElasticConfig getElasticConfig() {
+		return elasticConfig;
+	}
+
+	public void setElasticConfig(ElasticConfig elasticConfig) {
+		this.elasticConfig = elasticConfig;
+	}
 
 	public DbConfig getDbConfig() {
 		return dbConfig;
