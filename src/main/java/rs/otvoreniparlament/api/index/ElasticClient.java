@@ -44,7 +44,7 @@ public class ElasticClient {
         TransportClient transportClient = TransportClient.builder().settings(settings).build();
 
         try {
-			transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), rs.otvoreniparlament.api.config.Settings.getInstance().config.elasticConfig.port));
+			transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(rs.otvoreniparlament.api.config.Settings.getInstance().config.elasticConfig.ipAddress), rs.otvoreniparlament.api.config.Settings.getInstance().config.elasticConfig.port));
 		} catch (UnknownHostException e) {
 			logger.error("Could not create transport client: ", e);
 			
