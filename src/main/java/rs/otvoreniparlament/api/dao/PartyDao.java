@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
@@ -18,10 +19,26 @@ public class PartyDao {
 
 		String queryString = "SELECT p FROM Party p ";
 		
+		if (limit == 0) {
+			limit = Settings.getInstance().config.query.limit;
+		}
+
+		if (page == 0) {
+			page = 1;
+		}
+
+		if (sort == null || (!sort.equalsIgnoreCase("DESC") && sort != null)) {
+			sort = "ASC";
+		}
+		
+		if(q == null){
+			q = "";
+		}
+		
 		if (!q.isEmpty()) {
 			queryString += "WHERE p.name LIKE CONCAT('%', :name, '%'))" ;
 		}
-			queryString += "ORDER BY p.name " + sort;
+		queryString += "ORDER BY p.name " + sort;
 
 		Query query = session.createQuery(queryString);
 		

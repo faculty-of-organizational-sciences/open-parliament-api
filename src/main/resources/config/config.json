@@ -15,7 +15,7 @@
 	},
 	
 	elasticConfig: {
-		clusterName: "openParliamentElastic",
+		clusterName: "elasticsearch",
 		port: 9300
 	}
 }

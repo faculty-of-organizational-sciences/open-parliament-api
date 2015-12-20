@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.api.index;
+package rs.otvoreniparlament.indexing;
 
 public class IndexType {
 
