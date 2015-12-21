@@ -15,6 +15,10 @@ public class IndexMain {
 		ip.deleteParties();
 		System.out.println("Deleted... Indexing started for parties!");
 		ip.indexParties();
+		IndexingPlearySessions ips = new IndexingPlearySessions();
+		ips.deleteParties();
+		System.out.println("Deleted... Indexing started for sessions!");
+		ips.indexPlenarySessions();
 		System.out.println("THE END!");
 	}
 }

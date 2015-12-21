@@ -24,6 +24,7 @@ public class IndexingParties {
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "party", IndexType.PARTY_TYPE)
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
+				                    	.field("id", party.getId())
 				                        .field("name", party.getName())
 				                    .endObject()
 				                  )

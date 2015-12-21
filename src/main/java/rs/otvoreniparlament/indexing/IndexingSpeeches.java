@@ -17,14 +17,16 @@ public class IndexingSpeeches {
 	SpeechDao sd = new SpeechDao();
 	List<Speech> speechesForIndexing = sd.getSpeeches(1000, 1);
 	public void indexSpeeches (){
-		for (Speech speechs : speechesForIndexing) {
+		for (Speech speech : speechesForIndexing) {
 			try {
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "speech", IndexType.SPEACH_TYPE)
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
-				                        .field("member", speechs.getMember())
-				                        .field("text", speechs.getText())
-				                        .field("session", speechs.getPlenarySession())
+				                    		.field("speechid", speech.getId())
+				                        .field("member", speech.getMember())
+				                        .field("text", speech.getText())
+				                        .field("session", speech.getPlenarySession())
+				                        .field("sessiondate", speech.getSessionDate())
 				                    .endObject()
 				                  )
 				        .get();
