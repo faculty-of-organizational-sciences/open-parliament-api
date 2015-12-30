@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
 import rs.otvoreniparlament.api.domain.Member;
-import rs.otvoreniparlament.api.rest.MemberRESTService;
 
 public class MembersDao {
 	
@@ -21,12 +20,20 @@ public class MembersDao {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		
+
+		int validLimit;
+		int validPage;
+		
 		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
 		}
 
 		if (page == 0) {
-			page = 1;
+			validPage = 1;
+		} else {
+			validPage = page;
 		}
 
 		if (sort == null || (!sort.equalsIgnoreCase("DESC") && sort != null)) {
@@ -52,8 +59,8 @@ public class MembersDao {
 			query.setString("name", q);
 		}
 		List<Member> all = query
-				.setFirstResult((page - 1) * limit)
-				.setMaxResults(limit)
+				.setFirstResult((validPage - 1) * validLimit)
+				.setMaxResults(validLimit)
 				.list();
 
 		session.close();
