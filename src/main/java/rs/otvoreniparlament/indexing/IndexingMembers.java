@@ -18,7 +18,7 @@ public class IndexingMembers {
 	
 	private MembersDao md = new MembersDao();
 	private SpeechDao sd = new SpeechDao();
-	private List<Member> membersForIndexing = md.getMembers(1, 1000 ,null, null );
+	private List<Member> membersForIndexing = md.getMembers(1, 10000 ,null, null );
 	
 	public void indexMembers (){
 		for (Member member : membersForIndexing) {
@@ -40,18 +40,18 @@ public class IndexingMembers {
 				                    .endObject()
 				                  )
 				        .get();
-				List<Speech> speechesOfMember = sd.getMemberSpeeches(member.getId(), 1000, 1, null, null, null);
-//				for (Speech speech : speechesOfMember) {
-//					IndexResponse responseMembers = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "member", IndexType.PARTY_TYPE+".1")
-//					        .setSource(XContentFactory.jsonBuilder()
-//					                    .startObject()
-//					                        .field("speeches", speech.getText())
-//					                        .field("plenarysession", speech.getPlenarySession())
-//					                        .field("sessiondate", speech.getSessionDate())
-//					                    .endObject()
-//					                  )
-//					        .get();
-//				}
+				List<Speech> speechesOfMember = sd.getMemberSpeeches(member.getId(), 1000, 1, null, "", "");
+				for (Speech speech : speechesOfMember) {
+					IndexResponse responseMembers = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "member", IndexType.PARTY_TYPE+".1")
+					        .setSource(XContentFactory.jsonBuilder()
+					                    .startObject()
+					                        .field("speeches", speech.getText())
+					                        .field("plenarysession", speech.getPlenarySession())
+					                        .field("sessiondate", speech.getSessionDate())
+					                    .endObject()
+					                  )
+					        .get();
+				}
 //				String _index = response.getIndex();
 //				System.out.println(_index);
 //				// Type name

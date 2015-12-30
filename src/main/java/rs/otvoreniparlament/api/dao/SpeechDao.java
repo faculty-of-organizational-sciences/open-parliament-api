@@ -9,16 +9,54 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
 import rs.otvoreniparlament.api.domain.Speech;
 
 public class SpeechDao {
-	
+
 	private final Logger logger = LogManager.getLogger(SpeechDao.class);
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 
 	@SuppressWarnings("unchecked")
 	public List<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
+
+		int validLimit;
+		int validPage;
+		String validFromDate;
+		String validToDate;
+		String validQueryText;
+
+		if (from == null) {
+			validFromDate = "";
+		} else {
+			validFromDate = from;
+		}
+
+		if (to == null) {
+			validToDate = "";
+		} else {
+			validToDate = to;
+		}
+
+		if (qtext == null) {
+			validQueryText = "";
+		} else {
+			validQueryText = qtext;
+		}
+
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
@@ -26,20 +64,17 @@ public class SpeechDao {
 		java.util.Date toDate = null;
 
 		try {
-			if (!from.isEmpty())
-				fromDate = sdf1.parse(from);
-			if (!to.isEmpty())
-				toDate = sdf1.parse(to);
+			if (!validFromDate.isEmpty())
+				fromDate = sdf1.parse(validFromDate);
+			if (!validToDate.isEmpty())
+				toDate = sdf1.parse(validToDate);
 		} catch (ParseException e) {
 			logger.warn(e);
 		}
 
-		String queryString = 
-				"SELECT s " + 
-				"FROM Speech s " + 
-				"WHERE s.member.id = :memberId";
+		String queryString = "SELECT s " + "FROM Speech s " + "WHERE s.member.id = :memberId";
 
-		if (!qtext.isEmpty()) {
+		if (!validQueryText.isEmpty()) {
 			queryString += " AND s.text LIKE CONCAT('%', :text, '%')";
 		}
 
@@ -53,8 +88,8 @@ public class SpeechDao {
 
 		Query query = session.createQuery(queryString);
 
-		if (!qtext.isEmpty()) {
-			query.setString("text", qtext);
+		if (!validQueryText.isEmpty()) {
+			query.setString("text", validQueryText);
 		}
 
 		if (fromDate != null && toDate == null) {
@@ -65,14 +100,11 @@ public class SpeechDao {
 			query.setDate("fromDate", fromDate);
 			query.setDate("toDate", toDate);
 		}
-		
+
 		System.out.println(queryString);
 
-		List<Speech> all = query
-				.setParameter("memberId", id)
-				.setFirstResult((page - 1) * limit)
-				.setMaxResults(limit)
-				.list();
+		List<Speech> all = query.setParameter("memberId", id).setFirstResult((validPage - 1) * validLimit)
+				.setMaxResults(validLimit).list();
 		logger.info(query.toString());
 
 		session.close();
@@ -97,12 +129,28 @@ public class SpeechDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Speech> getSpeeches(int limit, int page) {
+		
+		int validLimit;
+		int validPage;
+
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
 		String query = "SELECT s " + "FROM Speech s " + "ORDER BY s.id";
 
-		List<Speech> all = session.createQuery(query).setFirstResult((page - 1) * limit).setMaxResults(limit).list();
+		List<Speech> all = session.createQuery(query).setFirstResult((validPage - 1) * validLimit).setMaxResults(validLimit).list();
 
 		session.close();
 
@@ -111,6 +159,22 @@ public class SpeechDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
+
+		int validLimit;
+		int validPage;
+
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 
@@ -118,7 +182,7 @@ public class SpeechDao {
 				+ "ORDER BY s.id";
 
 		List<Speech> all = session.createQuery(query).setParameter("plenarySessionId", id)
-				.setFirstResult((page - 1) * limit).setMaxResults(limit).list();
+				.setFirstResult((validPage - 1) * validLimit).setMaxResults(validLimit).list();
 
 		session.close();
 

@@ -1,5 +1,6 @@
 package rs.otvoreniparlament.api.rest;
 
+
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -13,13 +14,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.search.SearchResponse;
 
-import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.index.ElasticSearchIndexingService;
+import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
@@ -50,23 +49,8 @@ public class MemberRESTService {
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
 
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;
-		}
-
-		if (sortType == null || (!sortType.equalsIgnoreCase("DESC") && sortType != null)) {
-			sortType = "ASC";
-		}
 		
-		if(query == null){
-			query = "";
-		}
-		
-		ElasticSearchIndexingService es = new ElasticSearchIndexingService();
+		ElasticSearchService es = new ElasticSearchService();
 		SearchResponse member = es.searchQuery("members", query);
 		System.out.println(member.toString());
 		
@@ -116,26 +100,6 @@ public class MemberRESTService {
 								      @QueryParam("fromDate") String from,
 								      @QueryParam("toDate") String to) {
 		
-		if (from == null) {
-			from = "";
-		}
-		
-		if (to == null) {
-			to = "";
-		}
-		
-		if(qtext == null) {
-			qtext = "";
-		}
-
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;
-		}
-
 		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page, qtext, from, to);
 
 		if (speeches.isEmpty())
