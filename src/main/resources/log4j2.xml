@@ -10,35 +10,68 @@
 				<ThresholdFilter level="error" onMatch="ACCEPT" />
 			</Filters>
 		</Console>
-		<File name="AllLogs" fileName="logs/allLogs.log">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-		</File>
-		<File name="debugLogs" fileName="logs/debugLogs.log">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-			<Filters>
-				<ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL" />
-				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
-				<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
-				<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />
-			</Filters>
-		</File>
-		<RollingFile name="RollingAllLogs" fileName="logs/RollingAllLogs.log"
-			filePattern="logs/RollingAllLogs-%i.log">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-			<Policies>
-				<SizeBasedTriggeringPolicy size="1 MB" />
-			</Policies>
-		</RollingFile>
-		<File name="HTMLAppender" fileName="logs/html/mainlog.html">
-			<HTMLLayout charset="UTF-8" title="All Logs"></HTMLLayout>
-		</File>
+		<Routing name="RoutingAppenderRollingAllLogs">
+			<Routes pattern="${ctx:logFileName}">
+				<Route>
+					<RollingFile name="RollingAllLogs"
+						fileName="${ctx:logFilename}/logs/RollingAllLogs.log" filePattern="logs/RollingAllLogs-%i.log">
+						<PatternLayout
+							pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+						<Policies>
+							<SizeBasedTriggeringPolicy size="1 MB" />
+						</Policies>
+					</RollingFile>
+				</Route>
+			</Routes>
+		</Routing>
+		<Routing name="RoutingAppenderAllLogs">
+			<Routes pattern="${ctx:logFileName}">
+				<Route>
+					<File name="AllLogs" fileName="${ctx:logFilename}/logs/allLogs.log">
+						<PatternLayout
+							pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+					</File>
+				</Route>
+			</Routes>
+		</Routing>
+		<Routing name="RoutingAppenderHTMLAppender">
+			<Routes pattern="${ctx:logFileName}">
+				<Route>
+					<File name="HTMLAppender" fileName="${ctx:logFilename}/logs/html/mainlog.html">
+						<HTMLLayout charset="UTF-8" title="All Logs"></HTMLLayout>
+					</File>
+				</Route>
+			</Routes>
+		</Routing>
+		<Routing name="RoutingAppenderDebugLogs">
+			<Routes pattern="${ctx:logFileName}">
+				<Route>
+					<File name="debugLogs" fileName="${ctx:logFilename}/logs/debugLogs.log">
+						<PatternLayout
+							pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+						<Filters>
+							<ThresholdFilter level="fatal" onMatch="DENY"
+								onMismatch="NEUTRAL" />
+							<ThresholdFilter level="error" onMatch="DENY"
+								onMismatch="NEUTRAL" />
+							<ThresholdFilter level="warn" onMatch="DENY"
+								onMismatch="NEUTRAL" />
+							<ThresholdFilter level="info" onMatch="DENY"
+								onMismatch="NEUTRAL" />
+						</Filters>
+					</File>
+				</Route>
+			</Routes>
+		</Routing>
+
 	</Appenders>
 	<Loggers>
 		<Root level="All">
-			<AppenderRef ref="debugLogs" />
+			<AppenderRef ref="RoutingAppenderRollingAllLogs" />
+			<AppenderRef ref="RoutingAppenderAllLogs" />
+			<AppenderRef ref="RoutingAppenderHTMLAppender" />
+			<AppenderRef ref="RoutingAppenderDebugLogs" />
 			<AppenderRef ref="Console" />
-			<AppenderRef ref="AllLogs" />
-			<AppenderRef ref="RollingAllLogs" />
 		</Root>
 	</Loggers>
 </Configuration>

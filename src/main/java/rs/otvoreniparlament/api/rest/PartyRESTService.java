@@ -42,7 +42,7 @@ public class PartyRESTService {
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
 
-		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase(), query);
+		List<Party> parties = partyService.getParties(page, limit, sortType, query);
 
 		if (parties.isEmpty())
 			try {
