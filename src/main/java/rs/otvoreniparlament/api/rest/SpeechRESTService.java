@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
@@ -37,14 +36,6 @@ public class SpeechRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getMemberSpeeches(@QueryParam("limit") int limit, @QueryParam("page") int page) {
-
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;
-		}
 
 		List<Speech> speeches = speechService.getSpeeches(limit, page);
 

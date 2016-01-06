@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
@@ -42,22 +41,6 @@ public class PartyRESTService {
 							   @QueryParam("page") int page,
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
-
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;
-		}
-
-		if (sortType == null || (!sortType.equalsIgnoreCase("DESC") && sortType != null)) {
-			sortType = "ASC";
-		}
-		
-		if(query == null){
-			query = "";
-		}
 
 		List<Party> parties = partyService.getParties(page, limit, sortType.toUpperCase(), query);
 
@@ -100,14 +83,6 @@ public class PartyRESTService {
 									@QueryParam("limit") int limit,
 									@QueryParam("page") int page) {
 		
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;
-		}
-
 		List<Member> members = partyService.getPartyMembers(id, limit, page);
 
 		if (members.isEmpty())

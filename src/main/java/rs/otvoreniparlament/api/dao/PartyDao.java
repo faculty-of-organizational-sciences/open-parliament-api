@@ -19,12 +19,19 @@ public class PartyDao {
 
 		String queryString = "SELECT p FROM Party p ";
 		
+		int validLimit;
+		int validPage;
+		
 		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
 		}
 
 		if (page == 0) {
-			page = 1;
+			validPage = 1;
+		} else {
+			validPage = page;
 		}
 
 		if (sort == null || (!sort.equalsIgnoreCase("DESC") && sort != null)) {
@@ -47,8 +54,8 @@ public class PartyDao {
 		}
 		
 		List<Party> all = query
-				.setFirstResult((page - 1) * limit)
-				.setMaxResults(limit)
+				.setFirstResult((validPage - 1) * validLimit)
+				.setMaxResults(validLimit)
 				.list();
 
 		session.close();
@@ -74,6 +81,21 @@ public class PartyDao {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		
+		int validLimit;
+		int validPage;
+		
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+		
 		String query = 
 				"SELECT p.members " + 
 				"FROM Party p " + 
@@ -81,8 +103,8 @@ public class PartyDao {
 		
 		@SuppressWarnings("unchecked")
 		List<Member> result = session.createQuery(query)
-				.setFirstResult((page - 1) * limit)
-				.setMaxResults(limit)
+				.setFirstResult((validPage - 1) * validLimit)
+				.setMaxResults(validLimit)
 				.setLong("id", id)
 				.list();
 		

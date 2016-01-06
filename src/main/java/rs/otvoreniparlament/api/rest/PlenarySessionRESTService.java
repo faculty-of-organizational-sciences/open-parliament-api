@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
@@ -43,14 +42,6 @@ public class PlenarySessionRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessions(@QueryParam("limit") int limit, @QueryParam("page") int page) {
-
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;	
-		}
 
 		List<PlenarySession> plenarySessions = plenarySessionService.getPlenarySessions(limit, page);
 
@@ -90,14 +81,6 @@ public class PlenarySessionRESTService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessionSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
 			@QueryParam("page") int page) {
-
-		if (limit == 0) {
-			limit = Settings.getInstance().config.query.limit;
-		}
-
-		if (page == 0) {
-			page = 1;
-		}
 
 		List<Speech> speeches = speechService.getPlenarySessionSpeeches(id, limit, page);
 
