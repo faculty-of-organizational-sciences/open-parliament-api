@@ -9,11 +9,23 @@ import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import rs.otvoreniparlament.api.util.ResourceBundleUtil;
+import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
+
 public class Settings {
+	
+	static {
+		try {
+			ThreadContext.put("logFilename", ResourceBundleUtil.getString("logs_location_path", "logs_path"));
+		} catch (KeyNotFoundInBundleException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private final Logger logger = LogManager.getLogger(Settings.class);
 
@@ -38,7 +50,6 @@ public class Settings {
 
 	private Settings() {
 		gson = new GsonBuilder().setPrettyPrinting().create();
-
 		try {
 			loadConfig();
 		} catch (Exception e) {
