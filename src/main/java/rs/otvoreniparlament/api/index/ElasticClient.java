@@ -18,7 +18,7 @@ public class ElasticClient {
 	private static ElasticClient INSTANCE = null;
     private static Object lock = new Object();
     private final Logger logger = LogManager.getLogger(ElasticClient.class);
-    
+    public static String connectionStatus = "connected";
     private Client client;
     private Node node;
     
@@ -53,6 +53,7 @@ public class ElasticClient {
         if(transportClient.connectedNodes().size() == 0)
         {
         	System.out.println("There are no active nodes available for the transport, it will be automatically added once nodes are live!");
+        	connectionStatus = "disconnected";
         }
         client = transportClient;
     }
@@ -77,6 +78,7 @@ public class ElasticClient {
     public void printThis() {
         System.out.println(this);
     }
+    
     
 }
 

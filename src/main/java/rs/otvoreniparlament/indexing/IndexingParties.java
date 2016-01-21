@@ -3,45 +3,54 @@ package rs.otvoreniparlament.indexing;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
 import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
-import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.index.ElasticClient;
 
 public class IndexingParties {
-
 	
-	PartyDao pd = new PartyDao();
-	List<Party> partiesForIndexing = pd.getParties(1, 1000 ,null, null );
+	private static final Logger logger = LogManager.getLogger(IndexingParties.class);
+	
+	private PartyDao pd;
+	private List<Party> partiesForIndexing;
+	
+	public IndexingParties() {
+		pd = new PartyDao();
+		partiesForIndexing = pd.getParties(1, 1000 , "ASC", "");
+	}
+	
 	public void indexParties (){
-		for (Party party : partiesForIndexing) {
-			try {
-				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "party", IndexType.PARTY_TYPE)
-				        .setSource(XContentFactory.jsonBuilder()
-				                    .startObject()
-				                    	.field("id", party.getId())
-				                        .field("name", party.getName())
-				                    .endObject()
-				                  )
-				        .get();
-				List<Member> partiyMembrsForIndexing = pd.getPartyMembers(party.getId(), 1000,1);
-				for (Member member : partiyMembrsForIndexing) {
-					IndexResponse responseMembers = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "party", IndexType.PARTY_TYPE+".1")
-					        .setSource(XContentFactory.jsonBuilder()
-					                    .startObject()
-					                        .field("member", member)
-					                    .endObject()
-					                  )
-					        .get();
+		try {
+			for (Party party : partiesForIndexing) {
+				XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
+				builder
+	            	.field("party-id", party.getId())
+	                .field("party-name", party.getName());
 
-//					String _index = responseMembers.getIndex();
-//					System.out.println(_index);
+				List<Member> partiyMembrsForIndexing = pd.getPartyMembers(party.getId(), 1000,1);
+				
+				builder.startArray("party-members");
+				
+				for (Member member : partiyMembrsForIndexing) {
+					builder.startObject()
+						.field("member-name", member.getName())
+						.field("member-lastname", member.getLastName())
+					.endObject();
 				}
+				
+				builder.endArray();
+				builder.endObject();
+				
+				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, party.getId().toString())
+						.setSource(builder).execute().actionGet();
 				
 //				String _index = response.getIndex();
 //				System.out.println(_index);
@@ -61,16 +70,15 @@ public class IndexingParties {
 //				boolean created = response.isCreated();
 //				
 //				System.out.println(created);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		} catch (IOException e) {
+			logger.error(e);
 		}
 	}
+	
 	public void deleteParties(){
-		for (Party parties : partiesForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete("datasearch", "party", IndexType.PARTY_TYPE).get();
-			
+		for (Party party : partiesForIndexing) {			
+			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, party.getId().toString()).get();
 		}
 	}
 }

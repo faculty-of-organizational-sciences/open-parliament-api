@@ -2,7 +2,8 @@ package rs.otvoreniparlament.api.index;
 
 import java.util.Map;
 
-import org.elasticsearch.action.get.GetResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.common.unit.TimeValue;
@@ -10,39 +11,32 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 
-import rs.otvoreniparlament.indexing.IndexType;
 
 public class ElasticSearchService {
 
-	public String q;
-	public String n;
+	
+	private static final Logger logger = LogManager.getLogger(ElasticSearchService.class);
 
 	// Search
-	public  SearchResponse searchQuery(String name, String query) {
-		q = query;
-		n = name;
-		
+	public  SearchResponse searchQuery(String index, String name, String query) {
+				
 		QueryBuilder qb = QueryBuilders.queryStringQuery(query);
-		searchResponse = ElasticClient.getInstance().getClient().prepareSearch("datasearch")
-				.setTypes("member", "party", "speech", "plenarysessions").setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb) // Query
 				.setFrom(0).setSize(60).setExplain(true).execute().actionGet();
-		System.out.println("test... >>>>" + searchResponse );
+		logger.info("test... >>>>" + searchResponse );
 		
 		SearchHit[] hits = searchResponse.getHits().getHits();
         System.out.println("Current results: " + hits.length);
         for (SearchHit hit : hits) {
-            System.out.println("------------------------------");
             Map<String,Object> result = hit.getSource();   
             System.out.println(result);
         }
-		GetResponse response = ElasticClient.getInstance().getClient().prepareGet("datasearch", "speech",IndexType.SPEACH_TYPE).get();
-		
-		System.out.println("response ###" +response.getSourceAsString());
 	
 		return searchResponse;
-		
 	}
+	
 	public SearchResponse test (String query){
 		QueryBuilder qb =QueryBuilders.queryStringQuery(query);
 
@@ -77,7 +71,7 @@ public class ElasticSearchService {
 
 	public static void main(String[] args) {
 		ElasticSearchService elastic = new ElasticSearchService();
-		elastic.test("aleksandar");
+		elastic.searchQuery("","member", "aleksandar");
 
 	}
 

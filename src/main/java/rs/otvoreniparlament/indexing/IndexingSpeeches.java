@@ -3,6 +3,8 @@ package rs.otvoreniparlament.indexing;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -16,17 +18,22 @@ public class IndexingSpeeches {
 
 	SpeechDao sd = new SpeechDao();
 	List<Speech> speechesForIndexing = sd.getSpeeches(1000, 1);
+	
+	private static final Logger logger = LogManager.getLogger(IndexingSpeeches.class);
 	public void indexSpeeches (){
 		for (Speech speech : speechesForIndexing) {
 			try {
-				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "speech", IndexType.SPEACH_TYPE)
+				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
-				                    		.field("speechid", speech.getId())
-				                        .field("member", speech.getMember())
+			                    		.field("speechid", speech.getId())
 				                        .field("text", speech.getText())
-				                        .field("session", speech.getPlenarySession())
+				                        .field("sessionId", speech.getPlenarySession().getId())
 				                        .field("sessiondate", speech.getSessionDate())
+				                        .startObject("speech-member")
+					                        .field("speech-member-name", speech.getMember().getName())
+					        				.field("speech-member-surname", speech.getMember().getLastName())
+				        				.endObject()
 				                    .endObject()
 				                  )
 				        .get();
@@ -49,17 +56,13 @@ public class IndexingSpeeches {
 //				
 //				System.out.println(created);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
 	}
 	public void deleteSpeeches(){
-		for (Speech speechs : speechesForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete("datasearch", "speech", IndexType.SPEACH_TYPE).get();
-			
+		for (Speech speech : speechesForIndexing) {			
+			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString()).get();
 		}
 	}
-	
-	
 }

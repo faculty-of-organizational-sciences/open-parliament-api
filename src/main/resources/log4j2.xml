@@ -66,6 +66,8 @@
 
 	</Appenders>
 	<Loggers>
+		<logger name="org.hibernate" level="OFF" additivity="false">
+		</logger>
 		<Root level="All">
 			<AppenderRef ref="RoutingAppenderRollingAllLogs" />
 			<AppenderRef ref="RoutingAppenderAllLogs" />

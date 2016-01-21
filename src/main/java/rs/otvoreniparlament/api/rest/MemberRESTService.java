@@ -48,11 +48,6 @@ public class MemberRESTService {
 							   @QueryParam("page") int page,
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
-
-		
-		ElasticSearchService es = new ElasticSearchService();
-		SearchResponse member = es.searchQuery("members", query);
-		System.out.println(member.toString());
 		
 		List<Member> members = memberService.getMembers(page, limit, sortType, query);
 

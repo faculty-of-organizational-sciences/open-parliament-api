@@ -3,6 +3,8 @@ package rs.otvoreniparlament.indexing;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -14,14 +16,16 @@ import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.index.ElasticClient;
 
-public class IndexingPlearySessions {
+public class IndexingPlenarySessions {
 
 	PlenarySessionDao psd = new PlenarySessionDao();
 	List<PlenarySession> sessionsForIndexing = psd.getPlenarySessions(10000, 1);
+	
+	private static final Logger logger = LogManager.getLogger(IndexingPlenarySessions.class);
 	public void indexPlenarySessions (){
 		for (PlenarySession plenarySession : sessionsForIndexing) {
 			try {
-				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex("datasearch", "plenarysessions", IndexType.SESSION_TYPE)
+				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, plenarySession.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
 				                    	.field("id", plenarySession.getId())
@@ -52,14 +56,13 @@ public class IndexingPlearySessions {
 //				
 //				System.out.println(created);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
 	}
 	public void deleteParties(){
 		for (PlenarySession plenarySession : sessionsForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete("datasearch", "plenarysessions", IndexType.SESSION_TYPE).get();
+			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, plenarySession.getId().toString()).get();
 			
 		}
 	}
