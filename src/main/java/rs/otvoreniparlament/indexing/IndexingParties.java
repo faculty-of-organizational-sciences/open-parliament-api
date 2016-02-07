@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
@@ -77,8 +78,6 @@ public class IndexingParties {
 	}
 	
 	public void deleteParties(){
-		for (Party party : partiesForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, party.getId().toString()).get();
-		}
+		ElasticClient.getInstance().getClient().admin().indices().delete(Requests.deleteIndexRequest(IndexName.PARTY_INDEX));
 	}
 }

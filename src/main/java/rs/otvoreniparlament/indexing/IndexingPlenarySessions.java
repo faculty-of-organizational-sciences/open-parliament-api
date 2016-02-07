@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
 import rs.otvoreniparlament.api.dao.PartyDao;
@@ -61,9 +62,6 @@ public class IndexingPlenarySessions {
 		}
 	}
 	public void deleteParties(){
-		for (PlenarySession plenarySession : sessionsForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, plenarySession.getId().toString()).get();
-			
-		}
+		ElasticClient.getInstance().getClient().admin().indices().delete(Requests.deleteIndexRequest(IndexName.SESSION_INDEX));
 	}
 }

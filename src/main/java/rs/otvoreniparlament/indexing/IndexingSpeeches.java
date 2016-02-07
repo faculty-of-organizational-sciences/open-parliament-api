@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import rs.otvoreniparlament.api.dao.SpeechDao;
 import rs.otvoreniparlament.api.domain.Speech;
@@ -31,6 +30,7 @@ public class IndexingSpeeches {
 				                        .field("sessionId", speech.getPlenarySession().getId())
 				                        .field("sessiondate", speech.getSessionDate())
 				                        .startObject("speech-member")
+				                        	.field("speech-member-id", speech.getMember().getId())
 					                        .field("speech-member-name", speech.getMember().getName())
 					        				.field("speech-member-surname", speech.getMember().getLastName())
 				        				.endObject()
@@ -61,8 +61,6 @@ public class IndexingSpeeches {
 		}
 	}
 	public void deleteSpeeches(){
-		for (Speech speech : speechesForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString()).get();
-		}
+		ElasticClient.getInstance().getClient().admin().indices().delete(Requests.deleteIndexRequest(IndexName.SPEECH_INDEX));
 	}
 }

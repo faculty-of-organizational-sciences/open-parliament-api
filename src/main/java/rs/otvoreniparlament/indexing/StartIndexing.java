@@ -11,9 +11,9 @@ public class StartIndexing {
 		logger.info("Indexing started");
 		
 		indexMembers();
-		indexSpeeches();
-		indexParties();
-		indexSessions();
+//		indexSpeeches();
+//		indexParties();
+//		indexSessions();
 		
 		logger.info("Indexing ended");
 	}

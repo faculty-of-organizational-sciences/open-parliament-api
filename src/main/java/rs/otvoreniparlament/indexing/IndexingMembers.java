@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
@@ -16,9 +16,13 @@ import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.index.ElasticClient;
 
 public class IndexingMembers {
-	private MembersDao md = new MembersDao();
-	private List<Member> membersForIndexing = md.getMembers(1, 10000 , "ASC", "");
 	
+	private MembersDao md;
+	private List<Member> membersForIndexing;
+	public IndexingMembers(){
+		md = new MembersDao();
+		membersForIndexing = md.getMembers(1, 10000 , "ASC", "");
+	}
 	private static final Logger logger = LogManager.getLogger(IndexingMembers.class);
 	
 	public void indexMembers (){
@@ -33,24 +37,30 @@ public class IndexingMembers {
                     .field("dateofbirth", member.getDateOfBirth())
                     .field("gender", member.getGender())
                     .field("mail", member.getEmail())
-                    .field("biography", member.getBiography())
-                    .field("placeofbirth", builder.startObject()
-												.field("member-birth-town", member.getPlaceOfBirth().getName())
-												.field("member-birth-region", member.getPlaceOfBirth().getRegion())
-												.field("member-birth-country", member.getPlaceOfBirth().getCountry())
-											.endObject())
-                    .field("placeofresidence", builder.startObject()
-                    								.field("member-residence-town", member.getPlaceOfResidence().getName())
-                    								.field("member-residence-region", member.getPlaceOfResidence().getRegion())
-                    								.field("member-residence-country", member.getPlaceOfResidence().getCountry())
-                    							.endObject());
-                        
-                builder.startArray("member-parties");
+                    .field("biography", member.getBiography());
+				
+				if (member.getPlaceOfBirth() != null) {
+					builder.startObject("placeofbirth")
+						.field("birth-town", member.getPlaceOfBirth().getName())
+						.field("birth-region", member.getPlaceOfBirth().getRegion())
+						.field("birth-country", member.getPlaceOfBirth().getCountry())
+					.endObject();
+				}
+				
+				if (member.getPlaceOfResidence() != null) {
+					builder.startObject("placeofresidence")
+						.field("residence-town", member.getPlaceOfResidence().getName())
+						.field("residence-region", member.getPlaceOfResidence().getRegion())
+						.field("residence-country", member.getPlaceOfResidence().getCountry())
+					.endObject();
+				}
+					
+				builder.startArray("member-parties");
 				
 				for (Party party : member.getParties()) {
 					builder.startObject()
-						.field("member-party-id", party.getId().toString())
-						.field("member-party-name1", party.getName())
+						.field("party-id", party.getId().toString())
+						.field("party-name1", party.getName())
 					.endObject();
 				}
 				
@@ -88,9 +98,6 @@ public class IndexingMembers {
 	}
 	
 	public void deleteMembers(){
-		for (Member member : membersForIndexing) {			
-			DeleteResponse deleteResponse = ElasticClient.getInstance().getClient().prepareDelete(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, member.getId().toString()).get();
-			
-		}
+		ElasticClient.getInstance().getClient().admin().indices().delete(Requests.deleteIndexRequest(IndexName.MEMBER_INDEX));
 	}
 }
