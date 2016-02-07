@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.index;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchResponse;
@@ -8,9 +7,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
-
 public class ElasticSearchService {
-
 	
 	private static final Logger logger = LogManager.getLogger(ElasticSearchService.class);
 
