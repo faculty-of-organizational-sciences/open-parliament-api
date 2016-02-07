@@ -2,6 +2,7 @@ package rs.otvoreniparlament.api.service;
 
 import java.util.List;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
@@ -15,9 +16,11 @@ public class PartyServiceImp implements PartyService {
 	protected PartyDao pd = new PartyDao();
 
 	@Override
-	public List<Party> getParties(int page, int limit, String sort, String query) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
-			return pd.getParties(page, limit, sort, query);
+	public ServiceResponse<Party> getParties(int page, int limit, String sort, String query) {
+		ServiceResponse<Party> response = new ServiceResponse<>();
+		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+//					pd.getParties(page, limit, sort, query);
+			return response;
 		}else {
 			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query);
 			return null; //transform hits in list!
@@ -26,7 +29,7 @@ public class PartyServiceImp implements PartyService {
 
 	@Override
 	public Party getParty(int id) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return pd.getParty(id);
 		}else {
 			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE , String.valueOf(id) );
@@ -36,7 +39,7 @@ public class PartyServiceImp implements PartyService {
 
 	@Override
 	public List<Member> getPartyMembers(int id, int limit, int page) {		
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return pd.getPartyMembers(id, limit, page);
 		}else {
 			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"" );

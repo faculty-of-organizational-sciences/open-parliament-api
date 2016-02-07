@@ -7,7 +7,7 @@ import rs.otvoreniparlament.api.domain.Party;
 
 public interface PartyService {
 
-	List<Party> getParties(int page, int limit, String sort, String query);
+	ServiceResponse<Party> getParties(int page, int limit, String sort, String query);
 
 	Party getParty(int id);
 

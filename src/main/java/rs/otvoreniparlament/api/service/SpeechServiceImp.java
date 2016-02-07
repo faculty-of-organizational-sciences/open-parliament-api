@@ -16,7 +16,7 @@ public class SpeechServiceImp implements SpeechService {
 
 	@Override
 	public List<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus == false){
 			return sd.getMemberSpeeches(id, limit, page, qtext, from, to);
 		}else {
 			es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE , qtext);
@@ -26,7 +26,7 @@ public class SpeechServiceImp implements SpeechService {
 
 	@Override
 	public Speech getSpeech(int id) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus== false){
 			return sd.getSpeech(id);
 		}else {
 			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , String.valueOf(id));
@@ -36,7 +36,7 @@ public class SpeechServiceImp implements SpeechService {
 
 	@Override
 	public List<Speech> getSpeeches(int limit, int page) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus== false){
 			return sd.getSpeeches(limit, page);
 		}else {
 			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "");
@@ -46,7 +46,7 @@ public class SpeechServiceImp implements SpeechService {
 
 	@Override
 	public List<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus == false){
 			return sd.getPlenarySessionSpeeches(id, limit, page);
 		}else {
 			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , String.valueOf(id));

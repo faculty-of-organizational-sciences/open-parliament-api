@@ -18,5 +18,6 @@
 		clusterName: "elasticsearch",
 		port: 9300,
 		ipAddress: "127.0.0.1"
+		usingElastic: true;
 	}
 }
