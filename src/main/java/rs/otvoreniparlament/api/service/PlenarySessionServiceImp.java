@@ -9,14 +9,14 @@ import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.indexing.IndexName;
 import rs.otvoreniparlament.indexing.IndexType;
 
-public class plenarySessionServiceImp implements PlenarySessionService {
+public class PlenarySessionServiceImp implements PlenarySessionService {
 
 	protected ElasticSearchService es = new ElasticSearchService();
 	protected PlenarySessionDao psd = new PlenarySessionDao();
 
 	@Override
 	public List<PlenarySession> getPlenarySessions(int limit, int page) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus== false){
 			return psd.getPlenarySessions(limit, page);
 		}else {
 			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "");
@@ -26,7 +26,7 @@ public class plenarySessionServiceImp implements PlenarySessionService {
 
 	@Override
 	public PlenarySession getPlenarySession(int id) {
-		if (ElasticClient.connectionStatus.equals("disconnected")){
+		if (ElasticClient.connectionStatus== false){
 			return psd.getPlenarySession(id);
 		}else {
 			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , String.valueOf(id));

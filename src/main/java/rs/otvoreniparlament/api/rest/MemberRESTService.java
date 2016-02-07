@@ -14,16 +14,15 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.search.SearchResponse;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
 import rs.otvoreniparlament.api.service.MembersService;
 import rs.otvoreniparlament.api.service.MembersServiceImp;
+import rs.otvoreniparlament.api.service.ServiceResponse;
 import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.SpeechServiceImp;
 import rs.otvoreniparlament.api.util.ResourceBundleUtil;
@@ -49,7 +48,14 @@ public class MemberRESTService {
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
 		
-		List<Member> members = memberService.getMembers(page, limit, sortType, query);
+//		List<Member> members = memberService.getMembers(page, limit, sortType, query);
+		
+		if(query == null){
+			query = "";
+		}
+		
+		ServiceResponse<Member> response = memberService.getMembers(page, limit, sortType, query);
+		List<Member> members = response.getRecords();
 
 		if (members.isEmpty())
 			try {

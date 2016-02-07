@@ -22,7 +22,7 @@ import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
 import rs.otvoreniparlament.api.service.PlenarySessionService;
 import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.SpeechServiceImp;
-import rs.otvoreniparlament.api.service.plenarySessionServiceImp;
+import rs.otvoreniparlament.api.service.PlenarySessionServiceImp;
 import rs.otvoreniparlament.api.util.ResourceBundleUtil;
 import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
@@ -35,7 +35,7 @@ public class PlenarySessionRESTService {
 	protected SpeechService speechService;
 
 	public PlenarySessionRESTService() {
-		plenarySessionService = new plenarySessionServiceImp();
+		plenarySessionService = new PlenarySessionServiceImp();
 		speechService = new SpeechServiceImp();
 	}
 

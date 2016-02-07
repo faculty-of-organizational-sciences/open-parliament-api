@@ -21,6 +21,7 @@ import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
 import rs.otvoreniparlament.api.rest.parsers.PartyJsonParser;
 import rs.otvoreniparlament.api.service.PartyService;
 import rs.otvoreniparlament.api.service.PartyServiceImp;
+import rs.otvoreniparlament.api.service.ServiceResponse;
 import rs.otvoreniparlament.api.util.ResourceBundleUtil;
 import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
@@ -42,8 +43,9 @@ public class PartyRESTService {
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
 
-		List<Party> parties = partyService.getParties(page, limit, sortType, query);
-
+//		List<Party> parties = partyService.getParties(page, limit, sortType, query);
+		ServiceResponse<Party> response = partyService.getParties(page, limit, sortType, query);
+		List<Party> parties = response.getRecords();
 		if (parties.isEmpty())
 			try {
 				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("parties.not_found.noParties"));
