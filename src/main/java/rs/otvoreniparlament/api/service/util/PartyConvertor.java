@@ -32,4 +32,21 @@ public class PartyConvertor {
 		
 		return parties;
 	}
+	public static Party convertToParty(SearchResponse partyData){
+		Party party = new Party();
+		for (SearchHit m : partyData.getHits()) {
+			Map<String, Object> source = m.getSource();
+			party.setId((int) source.get("party-id"));
+			party.setName((String) source.get("party-name"));
+
+			if (source.get("member-parties") != null) {
+				List<Member> members = new LinkedList<>();
+				for (Object member : (List<?>) source.get("party-members")) {
+					System.out.println(member.getClass());
+				}
+				party.setMembers(members);
+			}
+		}
+		return party;
+	}
 }

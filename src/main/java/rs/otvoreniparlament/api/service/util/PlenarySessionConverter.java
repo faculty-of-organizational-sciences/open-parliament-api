@@ -28,4 +28,18 @@ public class PlenarySessionConverter {
 		}
 		return sessions;
 	}
+	public static PlenarySession convertToPlenarySession(SearchResponse sessionDate){
+		PlenarySession ps = new PlenarySession();
+		for (SearchHit s : sessionDate.getHits()) {
+			Map<String, Object> source = s.getSource();
+			
+			ps.setId((int) source.get("id"));
+			ps.setAgenda((String) source.get("agenda"));
+			ps.setTranscriptText((String) source.get("transcript"));
+			ps.setDate((Date) DateFormatter.parseFullTimeDate(source.get("date").toString()));
+			
+			
+		}
+		return ps;
+	}
 }
