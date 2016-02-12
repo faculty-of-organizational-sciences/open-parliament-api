@@ -25,7 +25,7 @@ public class MembersServiceImp implements MembersService {
 			response.setTotalHits(-1);
 			
 		}else {
-			SearchResponse searchResponse = es.searchQuery(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query);
+			SearchResponse searchResponse = es.searchQuery(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query, limit);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(MembersConvertor.convertToMembers(searchResponse));
 		}
@@ -34,7 +34,16 @@ public class MembersServiceImp implements MembersService {
 	
 	@Override
 	public Member getMember(int id) {		
-		return md.getMember(id);
+		ServiceResponse<Member> response = new ServiceResponse<>();
+		
+		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+			return md.getMember(id);
+			
+		}else {
+			SearchResponse searchResponse = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", id);
+			response.setTotalHits(searchResponse.getHits().getTotalHits());
+			return MembersConvertor.convertToMember(searchResponse);
+		}
 	}
 	
 }

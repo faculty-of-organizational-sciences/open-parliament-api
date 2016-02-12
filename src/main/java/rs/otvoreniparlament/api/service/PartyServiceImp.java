@@ -2,12 +2,15 @@ package rs.otvoreniparlament.api.service;
 
 import java.util.List;
 
+import org.elasticsearch.action.search.SearchResponse;
+
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
+import rs.otvoreniparlament.api.service.util.PartyConvertor;
 import rs.otvoreniparlament.indexing.IndexName;
 import rs.otvoreniparlament.indexing.IndexType;
 
@@ -19,12 +22,13 @@ public class PartyServiceImp implements PartyService {
 	public ServiceResponse<Party> getParties(int page, int limit, String sort, String query) {
 		ServiceResponse<Party> response = new ServiceResponse<>();
 		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
-//					pd.getParties(page, limit, sort, query);
-			return response;
+			response.setRecords(pd.getParties(page, limit, sort, query));
 		}else {
-			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query);
-			return null; //transform hits in list!
+			SearchResponse searchResponse = es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query, limit);
+			response.setTotalHits(searchResponse.getHits().getTotalHits());
+			response.setRecords(PartyConvertor.convertToParties(searchResponse));
 		}
+		return response;
 	}
 
 	@Override
@@ -32,8 +36,8 @@ public class PartyServiceImp implements PartyService {
 		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return pd.getParty(id);
 		}else {
-			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE , String.valueOf(id) );
-			return null; //transform hits in list!
+			SearchResponse searchResponse =es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", id);
+			return PartyConvertor.convertToParty(searchResponse);
 		}
 	}
 
@@ -42,7 +46,7 @@ public class PartyServiceImp implements PartyService {
 		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return pd.getPartyMembers(id, limit, page);
 		}else {
-			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"" );
+			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"", limit);
 			return null; //transform hits in list!
 		}
 	}
