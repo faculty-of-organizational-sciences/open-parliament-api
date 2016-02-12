@@ -1,28 +1,68 @@
 package rs.otvoreniparlament.api.index;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 public class ElasticSearchService {
 	
-	private static final Logger logger = LogManager.getLogger(ElasticSearchService.class);
-
 	// Search
-	public  SearchResponse searchQuery(String index, String name, String query) {
-				
-		QueryBuilder qb = QueryBuilders.queryStringQuery(query + "*");
-		
+	public  SearchResponse searchQuery(String index, String name, String query, int limit) {
+		QueryBuilder qb;
+		if(query == "")	{
+		 qb = QueryBuilders.matchAllQuery();
+		}else{
+		 qb = QueryBuilders.queryStringQuery(query + "*");
+		}
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb) // Query
+				.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
+	
+		return searchResponse;
+	}
+	public  SearchResponse searchSpecificID(String index, String name, String field, Integer id) {
+		
+		QueryBuilder qb = QueryBuilders.matchQuery(field, id.toString());
+		
+		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+				.setQuery(qb)// Query
 				.setFrom(0).setSize(60).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
 	}
+	//speeches of a member with given id
+	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit, String qtext, String from, String to) {
+		
+		QueryBuilder qb = QueryBuilders.queryStringQuery(qtext +"*");
+		
+		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+				.setQuery(qb)
+				.addAggregation(AggregationBuilders.terms(id.toString()).field("speech-member-id"))
+				.addAggregation(AggregationBuilders.terms(from).field("sessiondate"))
+				.addAggregation(AggregationBuilders.terms(to).field("sessiondate"))
+				.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
+	
+		return searchResponse;
+	}
+	//speeches of a plenary session with given id
+		public  SearchResponse searchSpecificListSession(String index, String name, Integer id, Integer limit) {
+			
+			QueryBuilder qb = QueryBuilders.queryStringQuery("sessionId");
+			
+			searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+					.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+					.setQuery(qb)
+					.addAggregation(AggregationBuilders.terms(id.toString()).field("sessionId"))
+					.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
+		
+			return searchResponse;
+		}
+		
 	
 //	public SearchResponse test (String query){
 //		QueryBuilder qb =QueryBuilders.queryStringQuery(query);
