@@ -1,11 +1,14 @@
 package rs.otvoreniparlament.api.service;
 
-import java.util.List;
 
+import org.elasticsearch.action.search.SearchResponse;
+
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.SpeechDao;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
+import rs.otvoreniparlament.api.service.util.SpeechConverter;
 import rs.otvoreniparlament.indexing.IndexName;
 import rs.otvoreniparlament.indexing.IndexType;
 
@@ -15,42 +18,53 @@ public class SpeechServiceImp implements SpeechService {
 	protected SpeechDao sd = new SpeechDao();
 
 	@Override
-	public List<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
-		if (ElasticClient.connectionStatus == false){
-			return sd.getMemberSpeeches(id, limit, page, qtext, from, to);
+	public ServiceResponse<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
+		ServiceResponse<Speech> response = new ServiceResponse<>();
+		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+			response.setRecords(sd.getMemberSpeeches(id, limit, page, qtext, from, to));
+			response.setTotalHits(-1);
 		}else {
-			es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE , qtext);
-			return null; //transform hits in list!
+			SearchResponse searchResponse = es.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit, qtext, from, to);
+			response.setTotalHits(searchResponse.getHits().getTotalHits());
+			response.setRecords(SpeechConverter.convertToMemberSpeeches(searchResponse));
 		}
+		return response;
 	}
 
 	@Override
 	public Speech getSpeech(int id) {
-		if (ElasticClient.connectionStatus== false){
+		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return sd.getSpeech(id);
 		}else {
-			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , String.valueOf(id));
-			return null; //transform hits in list!
+			SearchResponse searchresponse= es.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", id);
+			return SpeechConverter.convertToSpeech(searchresponse);
 		}
 	}
 
 	@Override
-	public List<Speech> getSpeeches(int limit, int page) {
-		if (ElasticClient.connectionStatus== false){
-			return sd.getSpeeches(limit, page);
+	public ServiceResponse<Speech> getSpeeches(int limit, int page) {
+		ServiceResponse<Speech> response = new ServiceResponse<>();
+		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+			response.setRecords(sd.getSpeeches(limit, page));
 		}else {
-			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "");
-			return null; //transform hits in list!
+			SearchResponse searchRespons =es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "", limit);
+			response.setTotalHits(searchRespons.getHits().getTotalHits());
+			response.setRecords(SpeechConverter.convertToSpeeches(searchRespons));
 		}
+		return response;
 	}
 
 	@Override
-	public List<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
-		if (ElasticClient.connectionStatus == false){
-			return sd.getPlenarySessionSpeeches(id, limit, page);
+	public ServiceResponse<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
+		ServiceResponse<Speech> response = new ServiceResponse<>();
+		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+			response.setRecords(sd.getPlenarySessionSpeeches(id, limit, page));
+			response.setTotalHits(-1);
 		}else {
-			es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , String.valueOf(id));
-			return null; //transform hits in list!
+			SearchResponse searchResponse = es.searchSpecificListSession(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, id, limit);
+			response.setTotalHits(searchResponse.getHits().getTotalHits());
+			response.setRecords(SpeechConverter.convertToSessionSpeeches(searchResponse));
 		}
+		return response;
 	}
 }

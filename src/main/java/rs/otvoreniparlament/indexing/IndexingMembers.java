@@ -71,7 +71,8 @@ public class IndexingMembers {
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, member.getId().toString())
 				        .setSource(builder)
 				        .get();
-			
+
+//				Uncomment this to follow process of indexing
 //				String _index = response.getIndex();
 //				System.out.println(_index);
 //				// Type name
