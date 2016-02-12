@@ -101,8 +101,8 @@ public class MemberRESTService {
 								      @QueryParam("fromDate") String from,
 								      @QueryParam("toDate") String to) {
 		
-		List<Speech> speeches = speechService.getMemberSpeeches(id, limit, page, qtext, from, to);
-
+		ServiceResponse<Speech> speechesresponse = speechService.getMemberSpeeches(id, limit, page, qtext, from, to);
+		List<Speech> speeches = speechesresponse.getRecords();
 		if (speeches.isEmpty())
 			try {
 				throw new AppException(Status.NO_CONTENT,

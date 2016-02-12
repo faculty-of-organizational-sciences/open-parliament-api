@@ -23,6 +23,7 @@ import rs.otvoreniparlament.api.service.PlenarySessionService;
 import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.SpeechServiceImp;
 import rs.otvoreniparlament.api.service.PlenarySessionServiceImp;
+import rs.otvoreniparlament.api.service.ServiceResponse;
 import rs.otvoreniparlament.api.util.ResourceBundleUtil;
 import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
@@ -43,7 +44,8 @@ public class PlenarySessionRESTService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessions(@QueryParam("limit") int limit, @QueryParam("page") int page) {
 
-		List<PlenarySession> plenarySessions = plenarySessionService.getPlenarySessions(limit, page);
+		ServiceResponse<PlenarySession> response =plenarySessionService.getPlenarySessions(limit, page);
+		List<PlenarySession> plenarySessions = response.getRecords();
 
 		if (plenarySessions.isEmpty())
 			try {
@@ -82,7 +84,8 @@ public class PlenarySessionRESTService {
 	public Response getPlenarySessionSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
 			@QueryParam("page") int page) {
 
-		List<Speech> speeches = speechService.getPlenarySessionSpeeches(id, limit, page);
+		ServiceResponse<Speech> speechresponse = speechService.getPlenarySessionSpeeches(id, limit, page);
+		List<Speech> speeches = speechresponse.getRecords();
 
 		if (speeches.isEmpty())
 			try {
