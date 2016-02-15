@@ -92,7 +92,7 @@ public class ElasticClient {
 	}
 
 	public void setConnectionStatus(boolean connectionStatus) {
-		this.connectionStatus = connectionStatus;
+		ElasticClient.connectionStatus = connectionStatus;
 	}
 
 }
