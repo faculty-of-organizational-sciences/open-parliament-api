@@ -13,9 +13,11 @@ import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class MemberJsonParser {
 
+	static int countElasticMembers= 0;
 	public static JsonArray serializeMembers(List<Member> members) {
 		JsonArray array = new JsonArray();
 
+		
 		if (members != null && !members.isEmpty()) {
 
 			for (Member m : members) {
@@ -72,6 +74,7 @@ public class MemberJsonParser {
 				}
 				jsonMember.add("parties", parties);
 			}
+			jsonMember.addProperty("count", countElasticMembers);
 		}
 		return jsonMember;
 	}

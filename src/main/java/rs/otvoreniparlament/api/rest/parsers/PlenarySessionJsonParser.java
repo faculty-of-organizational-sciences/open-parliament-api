@@ -11,6 +11,7 @@ import rs.otvoreniparlament.api.formatters.DateFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class PlenarySessionJsonParser {
+	static int countElasticSession = 0;
 
 	public static JsonArray serializePlenarySessions(List<PlenarySession> plenarySessions) {
 		JsonArray array = new JsonArray();
@@ -59,6 +60,7 @@ public class PlenarySessionJsonParser {
 		} else {
 			plenarySession.addProperty("error", "There is no plenary session with the given ID.");
 		}
+		plenarySession.addProperty("count", countElasticSession);
 		return plenarySession;
 	}
 

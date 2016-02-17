@@ -10,6 +10,7 @@ import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class PartyJsonParser {
 
+	static int countElasticParty = 0;
 	public static JsonArray serializeParties(List<Party> parties) {
 		JsonArray array = new JsonArray();
 
@@ -45,6 +46,7 @@ public class PartyJsonParser {
 		} else {
 			jsonParty.addProperty("error", "There is no party with the given ID.");
 		}
+		jsonParty.addProperty("count", countElasticParty);
 		return jsonParty;
 	}
 }
