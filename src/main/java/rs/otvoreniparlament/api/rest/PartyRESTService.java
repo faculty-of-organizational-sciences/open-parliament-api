@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.monitor.jvm.JvmInfo.Mem;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
@@ -75,6 +76,7 @@ public class PartyRESTService {
 		
 		ServiceResponse<Party> response = partyService.getParties(validPage, validLimit, validSortType, validQuery);
 		List<Party> parties = response.getRecords();
+		long counter = response.getTotalHits();
 		if (parties.isEmpty())
 			try {
 				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("parties.not_found.noParties"));
@@ -82,7 +84,7 @@ public class PartyRESTService {
 				logger.error(e);
 			}
 
-		String json = PartyJsonParser.serializeParties(parties).toString();
+		String json = PartyJsonParser.serializeParties(parties, counter).toString();
 
 		return Response.status(Status.OK).entity(json).build();
 	}
@@ -128,8 +130,9 @@ public class PartyRESTService {
 		} else {
 			validPage = page;
 		}
-		
-		List<Member> members = partyService.getPartyMembers(id, validLimit, validPage);
+		ServiceResponse<Member> response = partyService.getPartyMembers(id, validLimit, validPage);
+		List<Member> members = response.getRecords();
+		long counter = response.getTotalHits();
 
 		if (members.isEmpty())
 			try {
@@ -139,7 +142,7 @@ public class PartyRESTService {
 				logger.error(e);
 			}
 
-		String json = MemberJsonParser.serializeMembers(members).toString();
+		String json = MemberJsonParser.serializeMembers(members, counter).toString();
 
 		return Response.status(Status.OK).entity(json).build();
 	}

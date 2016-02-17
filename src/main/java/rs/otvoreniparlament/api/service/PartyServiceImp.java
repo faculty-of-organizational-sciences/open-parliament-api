@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.service;
 
-import java.util.List;
 
 import org.elasticsearch.action.search.SearchResponse;
 
@@ -42,12 +41,14 @@ public class PartyServiceImp implements PartyService {
 	}
 
 	@Override
-	public List<Member> getPartyMembers(int id, int limit, int page) {		
+	public ServiceResponse<Member> getPartyMembers(int id, int limit, int page) {
+		ServiceResponse<Member> response = new ServiceResponse<>();
 		if (ElasticClient.connectionStatus == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
-			return pd.getPartyMembers(id, limit, page);
+			response.setRecords( pd.getPartyMembers(id, limit, page));
 		}else {
 			SearchResponse searchResponse =es.searchSpecificPartyMember(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, id, limit, page);
-			return PartyConvertor.convertToPartyMembers(searchResponse);
+			response.setRecords( PartyConvertor.convertToPartyMembers(searchResponse));
 		}
+		return response;
 	}
 }

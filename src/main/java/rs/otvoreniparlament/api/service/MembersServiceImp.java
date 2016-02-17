@@ -6,6 +6,7 @@ import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.MembersDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.index.ElasticClient;
+import rs.otvoreniparlament.api.index.ElasticCount;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.service.util.MembersConvertor;
 import rs.otvoreniparlament.indexing.IndexName;
@@ -15,6 +16,7 @@ public class MembersServiceImp implements MembersService {
 
 	protected MembersDao md = new MembersDao();
 	protected ElasticSearchService es = new ElasticSearchService();
+	ElasticCount ec = new ElasticCount();
 	
 	@Override
 	public ServiceResponse<Member> getMembers(int page, int limit, String sort, String query) {
@@ -28,6 +30,7 @@ public class MembersServiceImp implements MembersService {
 			SearchResponse searchResponse = es.searchQuery(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query, limit, page);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(MembersConvertor.convertToMembers(searchResponse));
+			
 		}
 		return response;
 	}
