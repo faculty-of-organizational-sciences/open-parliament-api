@@ -20,7 +20,7 @@ public class MembersServiceImp implements MembersService {
 	public ServiceResponse<Member> getMembers(int page, int limit, String sort, String query) {
 		ServiceResponse<Member> response = new ServiceResponse<>();
 		
-		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.connectionStatus == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(md.getMembers(page, limit, sort, query));
 			response.setTotalHits(-1);
 			
@@ -36,7 +36,7 @@ public class MembersServiceImp implements MembersService {
 	public Member getMember(int id) {		
 		ServiceResponse<Member> response = new ServiceResponse<>();
 		
-		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.connectionStatus == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return md.getMember(id);
 			
 		}else {

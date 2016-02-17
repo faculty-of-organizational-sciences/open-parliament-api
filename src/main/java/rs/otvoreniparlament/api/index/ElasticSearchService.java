@@ -42,9 +42,8 @@ public class ElasticSearchService {
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb)
+				.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from).to(to))
 				.addAggregation(AggregationBuilders.terms(id.toString()).field("speech-member-id"))
-				.addAggregation(AggregationBuilders.terms(from).field("sessiondate"))
-				.addAggregation(AggregationBuilders.terms(to).field("sessiondate"))
 				.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;

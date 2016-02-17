@@ -18,7 +18,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 	@Override
 	public ServiceResponse<PlenarySession> getPlenarySessions(int limit, int page) {
 		ServiceResponse<PlenarySession> response = new ServiceResponse<>();
-		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.connectionStatus== false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords( psd.getPlenarySessions(limit, page));
 		}else {
 			SearchResponse searchResponse = es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "", limit);
@@ -30,7 +30,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 
 	@Override
 	public PlenarySession getPlenarySession(int id) {
-		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.connectionStatus== false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return psd.getPlenarySession(id);
 		}else {
 			
