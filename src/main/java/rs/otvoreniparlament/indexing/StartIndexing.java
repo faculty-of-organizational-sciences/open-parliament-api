@@ -2,20 +2,27 @@ package rs.otvoreniparlament.indexing;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
+
+import rs.otvoreniparlament.api.util.ResourceBundleUtil;
+import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
 public class StartIndexing {
 	
 	private static final Logger logger = LogManager.getLogger(StartIndexing.class);
 
 	public static void main(String[] args) {
-		logger.info("Indexing started");
 		
-		indexMembers();
-//		indexSpeeches();
-//		indexParties();
-//		indexSessions();
+		System.out.println("Indexing started");
+		//logger.info("Indexing started");
 		
-		logger.info("Indexing ended");
+		//indexMembers();
+		//indexParties();
+		//indexSessions();
+		indexSpeeches();
+		
+//		logger.info("Indexing ended");
+		System.out.println("Indexing finished");
 	}
 
 	private static void indexSessions() {
@@ -40,12 +47,10 @@ public class StartIndexing {
 	}
 
 	private static void indexSpeeches() {
-		logger.info("Indexing speeches");
-		
 		IndexingSpeeches is = new IndexingSpeeches();
 		is.deleteSpeeches();
-		logger.info("Speeches deleted");
+//		logger.info("Deleted... Indexing started for Speeches!");
+		System.out.println("Deleting, and starting");
 		is.indexSpeeches();
-		logger.info("Indexing speeches completed");
 	}
 }

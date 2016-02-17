@@ -16,23 +16,74 @@ import rs.otvoreniparlament.api.index.ElasticClient;
 public class IndexingSpeeches {
 
 	SpeechDao sd = new SpeechDao();
-	List<Speech> speechesForIndexing = sd.getSpeeches(1000, 1);
+	List<Speech> speechesForIndexing = sd.getSpeeches(1000000, 1);
 	
 	private static final Logger logger = LogManager.getLogger(IndexingSpeeches.class);
 	public void indexSpeeches (){
 		for (Speech speech : speechesForIndexing) {
 			try {
+				String id;
+				String text;
+				String plenarySessionId;
+				String sessionDate;
+				String memberId;
+				String memberName;
+				String memberLastName;
+				
+				if (speech.getId() != null) {
+					id = speech.getId().toString();
+				} else {
+					id = "";
+				}
+				
+				if(speech.getText() != null) {
+					text = speech.getText();
+				} else {
+					text = "";
+				}
+				
+				if(speech.getPlenarySession().getId() != null) {
+					plenarySessionId = speech.getPlenarySession().getId().toString();
+				} else {
+					plenarySessionId = "";
+				}
+				
+				if(speech.getSessionDate() != null) {
+					sessionDate = speech.getSessionDate().toString();
+				} else {
+					sessionDate = "";
+				}
+				
+				if(speech.getMember().getId() != null) {
+					memberId = speech.getMember().getId().toString();
+				} else {
+					memberId = "";
+				}
+				
+				if(speech.getMember().getName() != null){
+					memberName = speech.getMember().getName();
+				} else {
+					memberName = "";
+				}
+				
+				if (speech.getMember().getLastName() != null) {
+					memberLastName = speech.getMember().getLastName();
+				} else {
+					memberLastName = "";
+				}
+				
+				
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
-			                    		.field("speechid", speech.getId())
-				                        .field("text", speech.getText())
-				                        .field("sessionId", speech.getPlenarySession().getId())
-				                        .field("sessiondate", speech.getSessionDate())
+			                    		.field("speechid", id)
+				                        .field("text", text)
+				                        .field("sessionId", plenarySessionId)
+				                        .field("sessiondate", sessionDate)
 				                        .startObject("speech-member")
-				                        	.field("speech-member-id", speech.getMember().getId())
-					                        .field("speech-member-name", speech.getMember().getName())
-					        				.field("speech-member-surname", speech.getMember().getLastName())
+				                        	.field("speech-member-id", memberId)
+					                        .field("speech-member-name", memberName)
+					        				.field("speech-member-surname", memberLastName)
 				        				.endObject()
 				                    .endObject()
 				                  )
