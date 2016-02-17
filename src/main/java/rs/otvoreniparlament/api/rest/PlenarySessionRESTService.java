@@ -62,6 +62,7 @@ public class PlenarySessionRESTService {
 
 		ServiceResponse<PlenarySession> response =plenarySessionService.getPlenarySessions(validLimit, validPage);
 		List<PlenarySession> plenarySessions = response.getRecords();
+		long counter = response.getTotalHits();
 
 		if (plenarySessions.isEmpty())
 			try {
@@ -70,7 +71,7 @@ public class PlenarySessionRESTService {
 				logger.error(e);
 			}
 
-		String json = PlenarySessionJsonParser.serializePlenarySessions(plenarySessions).toString();
+		String json = PlenarySessionJsonParser.serializePlenarySessions(plenarySessions, counter).toString();
 
 		return Response.status(Status.OK).entity(json).build();
 	}
@@ -117,6 +118,7 @@ public class PlenarySessionRESTService {
 
 		ServiceResponse<Speech> speechresponse = speechService.getPlenarySessionSpeeches(id, validLimit, validPage);
 		List<Speech> speeches = speechresponse.getRecords();
+		long counter = speechresponse.getTotalHits();
 
 		if (speeches.isEmpty())
 			try {
@@ -125,7 +127,7 @@ public class PlenarySessionRESTService {
 				logger.error(e);
 			}
 
-		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
+		String json = SpeechJsonParser.serializeSpeeches(speeches, counter).toString();
 
 		return Response.status(Status.OK).entity(json).build();
 	}

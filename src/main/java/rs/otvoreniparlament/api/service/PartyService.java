@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.service;
 
-import java.util.List;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
@@ -11,5 +10,5 @@ public interface PartyService {
 
 	Party getParty(int id);
 
-	List<Member> getPartyMembers(int id, int limit, int page);
+	ServiceResponse<Member> getPartyMembers(int id, int limit, int page);
 }

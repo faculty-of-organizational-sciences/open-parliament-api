@@ -15,7 +15,9 @@ import rs.otvoreniparlament.api.uri.UriGenerator;
 public class SpeechJsonParser {
 
 	static int countElasticSpeech = 0;
-	public static JsonArray serializeSpeeches(List<Speech> speeches) {
+	public static JsonObject serializeSpeeches(List<Speech> speeches, long counter) {
+		
+		JsonObject json = new JsonObject();
 		JsonArray array = new JsonArray();
 
 		if (speeches != null && !speeches.isEmpty()) {
@@ -25,7 +27,9 @@ public class SpeechJsonParser {
 				array.add(jsonSpeech);
 			}
 		}
-		return array;
+		json.add("dataArray", array);
+		json.addProperty("count",counter );
+		return json;
 	}
 
 	public static JsonObject serializeSpeech(Speech s) {

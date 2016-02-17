@@ -77,6 +77,7 @@ public class MemberRESTService {
 
 		ServiceResponse<Member> response = memberService.getMembers(validPage, validLimit, validSortType, validQuery);
 		List<Member> members = response.getRecords();
+		long counter = response.getTotalHits();
 
 		if (members.isEmpty())
 			try {
@@ -85,7 +86,7 @@ public class MemberRESTService {
 				logger.error(e);
 			}
 
-		String json = MemberJsonParser.serializeMembers(members).toString();
+		String json = MemberJsonParser.serializeMembers(members, counter ).toString();
 
 		return Response.status(Response.Status.OK).entity(json).build();
 	}
@@ -156,6 +157,7 @@ public class MemberRESTService {
 
 		ServiceResponse<Speech> speechesresponse = speechService.getMemberSpeeches(id, validLimit, validPage, validQueryText, validFromDate, validToDate);
 		List<Speech> speeches = speechesresponse.getRecords();
+		long counter = speechesresponse.getTotalHits();
 		if (speeches.isEmpty())
 			try {
 				throw new AppException(Status.NO_CONTENT,
@@ -164,7 +166,7 @@ public class MemberRESTService {
 				logger.error(e);
 			}
 
-		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
+		String json = SpeechJsonParser.serializeSpeeches(speeches, counter).toString();
 
 		return Response.status(Status.OK).entity(json).build();
 	}

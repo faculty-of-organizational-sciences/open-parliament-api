@@ -56,6 +56,7 @@ public class SpeechRESTService {
 
 		ServiceResponse<Speech> response = speechService.getSpeeches(validLimit, validPage);
 		List<Speech> speeches = response.getRecords();
+		long counter = response.getTotalHits();
 
 		if (speeches.isEmpty())
 			try {
@@ -64,7 +65,7 @@ public class SpeechRESTService {
 				logger.error(e);
 			}
 
-		String json = SpeechJsonParser.serializeSpeeches(speeches).toString();
+		String json = SpeechJsonParser.serializeSpeeches(speeches, counter).toString();
 
 		return Response.status(Status.OK).entity(json).build();
 	}
