@@ -58,7 +58,12 @@ public class MembersServiceImp implements MembersService {
 			SearchResponse searchResponse = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id",
 					id);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
-			return MembersConvertor.convertToMember(searchResponse);
+			
+			if (searchResponse.getHits().getTotalHits() == 0) {
+				return null;
+			}
+			
+			return MembersConvertor.convertToMember(searchResponse.getHits().getAt(0));
 		}
 	}
 
