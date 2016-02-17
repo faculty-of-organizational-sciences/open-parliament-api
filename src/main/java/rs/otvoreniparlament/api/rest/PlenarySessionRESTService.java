@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
@@ -43,8 +44,23 @@ public class PlenarySessionRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessions(@QueryParam("limit") int limit, @QueryParam("page") int page) {
+		
+		int validLimit;
+		int validPage;
 
-		ServiceResponse<PlenarySession> response =plenarySessionService.getPlenarySessions(limit, page);
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
+		ServiceResponse<PlenarySession> response =plenarySessionService.getPlenarySessions(validLimit, validPage);
 		List<PlenarySession> plenarySessions = response.getRecords();
 
 		if (plenarySessions.isEmpty())
@@ -83,8 +99,23 @@ public class PlenarySessionRESTService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessionSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
 			@QueryParam("page") int page) {
+		
+		int validLimit;
+		int validPage;
 
-		ServiceResponse<Speech> speechresponse = speechService.getPlenarySessionSpeeches(id, limit, page);
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
+		ServiceResponse<Speech> speechresponse = speechService.getPlenarySessionSpeeches(id, validLimit, validPage);
 		List<Speech> speeches = speechresponse.getRecords();
 
 		if (speeches.isEmpty())

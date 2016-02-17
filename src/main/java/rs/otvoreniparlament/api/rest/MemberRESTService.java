@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.rest;
 
-
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -15,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
@@ -43,18 +43,39 @@ public class MemberRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMembers(@QueryParam("limit") int limit,
-							   @QueryParam("page") int page,
-							   @QueryParam("sort") String sortType,
-							   @QueryParam("query") String query) {
+	public Response getMembers(@QueryParam("limit") int limit, @QueryParam("page") int page,
+			@QueryParam("sort") String sortType, @QueryParam("query") String query) {
 		
-//		List<Member> members = memberService.getMembers(page, limit, sortType, query);
+		int validLimit;
+		int validPage;
+		String validSortType;
+		String validQuery;
 		
-		if(query == null){
-			query = "";
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
 		}
-		
-		ServiceResponse<Member> response = memberService.getMembers(page, limit, sortType, query);
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
+		if (sortType != null && sortType.equalsIgnoreCase("DESC")) {
+			validSortType = "DESC";
+		} else {
+			validSortType = "ASC";
+		}
+
+		if (query == null) {
+			validQuery = "";
+		} else {
+			validQuery = query;
+		}
+
+		ServiceResponse<Member> response = memberService.getMembers(validPage, validLimit, validSortType, validQuery);
 		List<Member> members = response.getRecords();
 
 		if (members.isEmpty())
@@ -75,7 +96,6 @@ public class MemberRESTService {
 	public Response getMember(@PathParam("id") int id) {
 
 		Member m = memberService.getMember(id);
-		
 
 		if (m == null) {
 			try {
@@ -94,14 +114,47 @@ public class MemberRESTService {
 	@GET
 	@Path("/{id}/speeches")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMemberSpeeches(@PathParam("id") int id,
-								      @QueryParam("limit") int limit,
-								      @QueryParam("page") int page,
-								      @QueryParam("qtext") String qtext,
-								      @QueryParam("fromDate") String from,
-								      @QueryParam("toDate") String to) {
+	public Response getMemberSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
+			@QueryParam("page") int page, @QueryParam("qtext") String qtext, @QueryParam("fromDate") String from,
+			@QueryParam("toDate") String to) {
 		
-		ServiceResponse<Speech> speechesresponse = speechService.getMemberSpeeches(id, limit, page, qtext, from, to);
+		int validLimit;
+		int validPage;
+		String validFromDate;
+		String validToDate;
+		String validQueryText;
+
+		if (from == null) {
+			validFromDate = "";
+		} else {
+			validFromDate = from;
+		}
+
+		if (to == null) {
+			validToDate = "";
+		} else {
+			validToDate = to;
+		}
+
+		if (qtext == null) {
+			validQueryText = "";
+		} else {
+			validQueryText = qtext;
+		}
+
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
+		ServiceResponse<Speech> speechesresponse = speechService.getMemberSpeeches(id, validLimit, validPage, validQueryText, validFromDate, validToDate);
 		List<Speech> speeches = speechesresponse.getRecords();
 		if (speeches.isEmpty())
 			try {

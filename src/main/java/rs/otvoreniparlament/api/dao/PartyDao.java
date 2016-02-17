@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.database.HibernateUtil;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
@@ -19,29 +18,6 @@ public class PartyDao {
 
 		String queryString = "SELECT p FROM Party p ";
 		
-		int validLimit;
-		int validPage;
-		
-		if (limit == 0) {
-			validLimit = Settings.getInstance().config.query.limit;
-		} else {
-			validLimit = limit;
-		}
-
-		if (page == 0) {
-			validPage = 1;
-		} else {
-			validPage = page;
-		}
-
-		if (sort == null || (!sort.equalsIgnoreCase("DESC") && sort != null)) {
-			sort = "ASC";
-		}
-		
-		if(q == null){
-			q = "";
-		}
-		
 		if (!q.isEmpty()) {
 			queryString += "WHERE p.name LIKE CONCAT('%', :name, '%'))" ;
 		}
@@ -54,8 +30,8 @@ public class PartyDao {
 		}
 		
 		List<Party> all = query
-				.setFirstResult((validPage - 1) * validLimit)
-				.setMaxResults(validLimit)
+				.setFirstResult((page - 1) * limit)
+				.setMaxResults(limit)
 				.list();
 
 		session.close();
@@ -81,21 +57,6 @@ public class PartyDao {
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		int validLimit;
-		int validPage;
-		
-		if (limit == 0) {
-			validLimit = Settings.getInstance().config.query.limit;
-		} else {
-			validLimit = limit;
-		}
-
-		if (page == 0) {
-			validPage = 1;
-		} else {
-			validPage = page;
-		}
-		
 		String query = 
 				"SELECT p.members " + 
 				"FROM Party p " + 
@@ -103,8 +64,8 @@ public class PartyDao {
 		
 		@SuppressWarnings("unchecked")
 		List<Member> result = session.createQuery(query)
-				.setFirstResult((validPage - 1) * validLimit)
-				.setMaxResults(validLimit)
+				.setFirstResult((page - 1) * limit)
+				.setMaxResults(limit)
 				.setLong("id", id)
 				.list();
 		

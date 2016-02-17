@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
@@ -42,9 +43,37 @@ public class PartyRESTService {
 							   @QueryParam("page") int page,
 							   @QueryParam("sort") String sortType,
 							   @QueryParam("query") String query) {
+		
+		int validLimit;
+		int validPage;
+		String validSortType;
+		String validQuery;
+		
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
 
-//		List<Party> parties = partyService.getParties(page, limit, sortType, query);
-		ServiceResponse<Party> response = partyService.getParties(page, limit, sortType, query);
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+
+		if (sortType != null && sortType.equalsIgnoreCase("DESC")) {
+			validSortType = "DESC";
+		} else {
+			validSortType = "ASC";
+		}
+
+		if (query == null) {
+			validQuery = "";
+		} else {
+			validQuery = query;
+		}
+		
+		ServiceResponse<Party> response = partyService.getParties(validPage, validLimit, validSortType, validQuery);
 		List<Party> parties = response.getRecords();
 		if (parties.isEmpty())
 			try {
@@ -85,7 +114,22 @@ public class PartyRESTService {
 									@QueryParam("limit") int limit,
 									@QueryParam("page") int page) {
 		
-		List<Member> members = partyService.getPartyMembers(id, limit, page);
+		int validLimit;
+		int validPage;
+
+		if (limit == 0) {
+			validLimit = Settings.getInstance().config.query.limit;
+		} else {
+			validLimit = limit;
+		}
+
+		if (page == 0) {
+			validPage = 1;
+		} else {
+			validPage = page;
+		}
+		
+		List<Member> members = partyService.getPartyMembers(id, validLimit, validPage);
 
 		if (members.isEmpty())
 			try {
