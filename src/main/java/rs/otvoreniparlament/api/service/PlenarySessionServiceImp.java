@@ -21,7 +21,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 		if (ElasticClient.connectionStatus== false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords( psd.getPlenarySessions(limit, page));
 		}else {
-			SearchResponse searchResponse = es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "", limit);
+			SearchResponse searchResponse = es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "", limit, page);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(PlenarySessionConverter.convertToSession(searchResponse));
 		}

@@ -24,7 +24,7 @@ public class PartyServiceImp implements PartyService {
 		if (ElasticClient.connectionStatus== false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(pd.getParties(page, limit, sort, query));
 		}else {
-			SearchResponse searchResponse = es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query, limit);
+			SearchResponse searchResponse = es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query, limit, page);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(PartyConvertor.convertToParties(searchResponse));
 		}
@@ -46,8 +46,8 @@ public class PartyServiceImp implements PartyService {
 		if (ElasticClient.connectionStatus == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return pd.getPartyMembers(id, limit, page);
 		}else {
-			es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"", limit);
-			return null; //transform hits in list!
+			SearchResponse searchResponse =es.searchSpecificPartyMember(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, id, limit, page);
+			return PartyConvertor.convertToPartyMembers(searchResponse);
 		}
 	}
 }

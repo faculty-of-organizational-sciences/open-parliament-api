@@ -9,7 +9,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 public class ElasticSearchService {
 	
 	// Search
-	public  SearchResponse searchQuery(String index, String name, String query, int limit) {
+	public  SearchResponse searchQuery(String index, String name, String query, int limit, int page) {
+		int paggination = (page-1)*limit;
 		QueryBuilder qb;
 		if(query == "")	{
 		 qb = QueryBuilders.matchAllQuery();
@@ -17,14 +18,13 @@ public class ElasticSearchService {
 		 qb = QueryBuilders.queryStringQuery(query + "*");
 		}
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
-				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+				.setTypes(name).setSearchType( SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb) // Query
-				.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
+				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
 	}
 	public  SearchResponse searchSpecificID(String index, String name, String field, Integer id) {
-		
 		QueryBuilder qb = QueryBuilders.matchQuery(field, id.toString());
 		
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
@@ -35,8 +35,8 @@ public class ElasticSearchService {
 		return searchResponse;
 	}
 	//speeches of a member with given id
-	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit, String qtext, String from, String to) {
-		
+	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit,int page, String qtext, String from, String to) {
+		int paggination = (page-1)*limit;
 		QueryBuilder qb = QueryBuilders.queryStringQuery(qtext +"*");
 		
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
@@ -44,47 +44,40 @@ public class ElasticSearchService {
 				.setQuery(qb)
 				.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from).to(to))
 				.addAggregation(AggregationBuilders.terms(id.toString()).field("speech-member-id"))
-				.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
+				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
 	}
 	//speeches of a plenary session with given id
-		public  SearchResponse searchSpecificListSession(String index, String name, Integer id, Integer limit) {
+		public  SearchResponse searchSpecificListSession(String index, String name, Integer id, Integer limit, int page) {
 			
 			QueryBuilder qb = QueryBuilders.queryStringQuery("sessionId");
-			
+			int paggination = (page-1)*limit;
 			searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 					.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb)
 					.addAggregation(AggregationBuilders.terms(id.toString()).field("sessionId"))
-					.setFrom(0).setSize(limit).setExplain(true).execute().actionGet();
+					.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
+		
+			return searchResponse;
+		}
+		
+//		List of members from specific party
+public  SearchResponse searchSpecificPartyMember(String index, String name, Integer id, Integer limit, int page) {
+			
+			QueryBuilder qb = QueryBuilders.queryStringQuery("party-members");
+			int paggination = (page-1)*limit;
+			searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+					.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+					.setQuery(qb)
+					.addAggregation(AggregationBuilders.terms(id.toString()).field("party-id"))
+					.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 		
 			return searchResponse;
 		}
 		
 	
-//	public SearchResponse test (String query){
-//		QueryBuilder qb =QueryBuilders.queryStringQuery(query);
-//
-//		SearchResponse scrollResp = ElasticClient.getInstance().getClient().prepareSearch("datasearch")
-//		        .setSearchType(SearchType.SCAN)
-//		        .setScroll(new TimeValue(60000))
-//		        .setQuery(qb)
-//		        .setSize(100).execute().actionGet(); //100 hits per shard will be returned for each scroll
-//		//Scroll until no hits are returned
-//		while (true) {
-//
-//		    for (SearchHit hit : scrollResp.getHits().getHits()) {
-//		    	 Map<String,Object> result = hit.getSource();   
-//		            System.out.println(result);
-//
-//		    }
-//		    scrollResp = ElasticClient.getInstance().getClient().prepareSearchScroll(scrollResp.getScrollId()).setScroll(new TimeValue(600000)).execute().actionGet();
-//		    //Break condition: No hits are returned
-//		    if (scrollResp.getHits().getHits().length == 0) {
-//		        break; }}
-//		    return scrollResp;
-//	}
+
 
 	public SearchResponse searchResponse;
 

@@ -24,7 +24,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setRecords(sd.getMemberSpeeches(id, limit, page, qtext, from, to));
 			response.setTotalHits(-1);
 		}else {
-			SearchResponse searchResponse = es.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit, qtext, from, to);
+			SearchResponse searchResponse = es.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit,page, qtext, from, to);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToMemberSpeeches(searchResponse));
 		}
@@ -47,7 +47,7 @@ public class SpeechServiceImp implements SpeechService {
 		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(sd.getSpeeches(limit, page));
 		}else {
-			SearchResponse searchRespons =es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "", limit);
+			SearchResponse searchRespons =es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "", limit, page);
 			response.setTotalHits(searchRespons.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSpeeches(searchRespons));
 		}
@@ -61,7 +61,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setRecords(sd.getPlenarySessionSpeeches(id, limit, page));
 			response.setTotalHits(-1);
 		}else {
-			SearchResponse searchResponse = es.searchSpecificListSession(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, id, limit);
+			SearchResponse searchResponse = es.searchSpecificListSession(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, id, limit, page);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSessionSpeeches(searchResponse));
 		}

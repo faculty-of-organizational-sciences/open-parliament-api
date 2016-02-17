@@ -25,7 +25,7 @@ public class MembersServiceImp implements MembersService {
 			response.setTotalHits(-1);
 			
 		}else {
-			SearchResponse searchResponse = es.searchQuery(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query, limit);
+			SearchResponse searchResponse = es.searchQuery(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query, limit, page);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(MembersConvertor.convertToMembers(searchResponse));
 		}
