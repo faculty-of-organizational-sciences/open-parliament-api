@@ -1,5 +1,6 @@
 package rs.otvoreniparlament.api.index;
 
+import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -23,6 +24,8 @@ public class ElasticSearchService {
 				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
+		
+	
 	}
 	public  SearchResponse searchSpecificID(String index, String name, String field, Integer id) {
 		QueryBuilder qb = QueryBuilders.matchQuery(field, id.toString());
