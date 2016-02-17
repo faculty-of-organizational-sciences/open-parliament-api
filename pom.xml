@@ -15,7 +15,7 @@
 		<jersey.version>1.19</jersey.version>
 		<jetty.version>9.3.3.v20150827</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<es.version>2.1.0</es.version>
+		<es.version>2.0.0</es.version>
 	</properties>
 
 	<dependencies>
