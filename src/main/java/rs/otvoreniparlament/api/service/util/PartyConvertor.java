@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.monitor.jvm.JvmInfo.Mem;
 import org.elasticsearch.search.SearchHit;
 
 import rs.otvoreniparlament.api.domain.Member;
@@ -48,5 +49,21 @@ public class PartyConvertor {
 			}
 		}
 		return party;
+	}
+	
+	public static List<Member> convertToPartyMembers(SearchResponse partyData){
+		Party party = new Party();
+		List<Member> members = new LinkedList<>();
+		for (SearchHit m : partyData.getHits()) {
+			Map<String, Object> source = m.getSource();
+
+			if (source.get("member-parties") != null) {
+				for (Object member : (List<?>) source.get("party-members")) {
+					System.out.println(member.getClass());
+				}
+				party.setMembers(members);
+			}
+		}
+		return members;
 	}
 }
