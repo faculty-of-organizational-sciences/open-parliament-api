@@ -22,7 +22,7 @@ public class MembersConvertor {
 			Map<String, Object> source = m.getSource();
 
 			Member member = new Member();
-			member.setId((int) source.get("id"));
+			member.setId((Integer) source.get("id"));
 			member.setName((String) source.get("name"));
 			member.setLastName((String) source.get("surname"));
 			if(source.get("mail") != null){
@@ -49,10 +49,10 @@ public class MembersConvertor {
 				List<Party> parties = new LinkedList<>();
 				for (Object party : (List<?>) source.get("member-parties")) {
 					System.out.println(party.getClass());
-//					party.setId((int) source.get("party-id"));
-//					System.out.println(source.get("party-id"));
-//					party.setName((String) source.get("party-id"));
-//					parties.add(party);
+					Party p = new Party();
+					p.setId((Integer)source.get("party-id"));
+					p.setName((String)source.get("party-name"));
+					parties.add(p);
 				}
 				member.setParties(parties);
 			}
@@ -95,11 +95,11 @@ public class MembersConvertor {
 			List<Party> parties = new LinkedList<>();
 			for (Object party : (List<?>) source.get("member-parties")) {
 				System.out.println(party.getClass());
-//				party.setId((int) source.get("party-id"));
-//				System.out.println(source.get("party-id"));
-//				party.setName((String) source.get("party-id"));
-//				parties.add(party);
-			}
+				Party p = new Party();
+				p.setId((Integer)source.get("party-id"));
+				p.setName((String)source.get("party-name"));
+				parties.add(p);
+				}
 			member.setParties(parties);
 		}
 		}
