@@ -20,7 +20,7 @@ public class PartyServiceImp implements PartyService {
 	@Override
 	public ServiceResponse<Party> getParties(int page, int limit, String sort, String query) {
 		ServiceResponse<Party> response = new ServiceResponse<>();
-		if (ElasticClient.connectionStatus== false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus() == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(pd.getParties(page, limit, sort, query));
 		}else {
 			SearchResponse searchResponse = es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query, limit, page);
@@ -32,7 +32,7 @@ public class PartyServiceImp implements PartyService {
 
 	@Override
 	public Party getParty(int id) {
-		if (ElasticClient.connectionStatus == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus() == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return pd.getParty(id);
 		}else {
 			SearchResponse searchResponse =es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", id);
@@ -43,7 +43,7 @@ public class PartyServiceImp implements PartyService {
 	@Override
 	public ServiceResponse<Member> getPartyMembers(int id, int limit, int page) {
 		ServiceResponse<Member> response = new ServiceResponse<>();
-		if (ElasticClient.connectionStatus == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus() == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords( pd.getPartyMembers(id, limit, page));
 		}else {
 			SearchResponse searchResponse =es.searchSpecificPartyMember(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, id, limit, page);

@@ -20,7 +20,7 @@ public class SpeechServiceImp implements SpeechService {
 	@Override
 	public ServiceResponse<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
 		ServiceResponse<Speech> response = new ServiceResponse<>();
-		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus() == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(sd.getMemberSpeeches(id, limit, page, qtext, from, to));
 			response.setTotalHits(-1);
 		}else {
@@ -33,7 +33,7 @@ public class SpeechServiceImp implements SpeechService {
 
 	@Override
 	public Speech getSpeech(int id) {
-		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus()== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			return sd.getSpeech(id);
 		}else {
 			SearchResponse searchresponse= es.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", id);
@@ -44,7 +44,7 @@ public class SpeechServiceImp implements SpeechService {
 	@Override
 	public ServiceResponse<Speech> getSpeeches(int limit, int page) {
 		ServiceResponse<Speech> response = new ServiceResponse<>();
-		if (ElasticClient.connectionStatus== false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus() == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(sd.getSpeeches(limit, page));
 		}else {
 			SearchResponse searchRespons =es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "", limit, page);
@@ -57,7 +57,7 @@ public class SpeechServiceImp implements SpeechService {
 	@Override
 	public ServiceResponse<Speech> getPlenarySessionSpeeches(int id, int limit, int page) {
 		ServiceResponse<Speech> response = new ServiceResponse<>();
-		if (ElasticClient.connectionStatus == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+		if (ElasticClient.getInstance().isConnectionStatus() == false && Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
 			response.setRecords(sd.getPlenarySessionSpeeches(id, limit, page));
 			response.setTotalHits(-1);
 		}else {

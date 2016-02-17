@@ -16,10 +16,10 @@ public class StartIndexing {
 		System.out.println("Indexing started");
 		//logger.info("Indexing started");
 		
-		//indexMembers();
-		//indexParties();
-		//indexSessions();
-		indexSpeeches();
+		indexMembers();
+		indexParties();
+		indexSessions();
+//		indexSpeeches();
 		
 //		logger.info("Indexing ended");
 		System.out.println("Indexing finished");

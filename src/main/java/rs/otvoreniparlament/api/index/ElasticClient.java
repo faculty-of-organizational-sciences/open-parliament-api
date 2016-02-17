@@ -18,7 +18,7 @@ public class ElasticClient {
 	private static ElasticClient INSTANCE = null;
 	private static Object lock = new Object();
 	private final Logger logger = LogManager.getLogger(ElasticClient.class);
-	public static boolean connectionStatus;
+	public boolean connectionStatus;
 
 	private Client client;
 	private Node node;
@@ -54,16 +54,15 @@ public class ElasticClient {
 							InetAddress.getByName(rs.otvoreniparlament.api.config.Settings
 									.getInstance().config.elasticConfig.ipAddress),
 					rs.otvoreniparlament.api.config.Settings.getInstance().config.elasticConfig.port));
+			connectionStatus = true;
 		} catch (UnknownHostException e) {
 			logger.error("Could not create transport client: ", e);
 			connectionStatus = false;
 			return;
 		}
         
-        if(transportClient.connectedNodes().size() == 0)
-        {
+        if(transportClient.connectedNodes().size() == 0){
         	System.out.println("There are no active nodes available for the transport, it will be automatically added once nodes are live!");
-        	
         }
         client = transportClient;
     
@@ -88,12 +87,12 @@ public class ElasticClient {
 		System.out.println(this);
 	}
 
-	public static boolean isConnectionStatus() {
+	public boolean isConnectionStatus() {
 		return connectionStatus;
 	}
 
 	public void setConnectionStatus(boolean connectionStatus) {
-		ElasticClient.connectionStatus = connectionStatus;
+		this.connectionStatus = connectionStatus;
 	}
 
 }

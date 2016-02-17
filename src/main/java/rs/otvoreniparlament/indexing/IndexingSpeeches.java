@@ -42,7 +42,7 @@ public class IndexingSpeeches {
 					text = "";
 				}
 				
-				if(speech.getPlenarySession().getId() != null) {
+				if( speech.getPlenarySession() != null && speech.getPlenarySession().getId() != null) {
 					plenarySessionId = speech.getPlenarySession().getId().toString();
 				} else {
 					plenarySessionId = "";
@@ -54,19 +54,19 @@ public class IndexingSpeeches {
 					sessionDate = "";
 				}
 				
-				if(speech.getMember().getId() != null) {
+				if(speech.getMember() != null && speech.getMember().getId() != null) {
 					memberId = speech.getMember().getId().toString();
 				} else {
 					memberId = "";
 				}
 				
-				if(speech.getMember().getName() != null){
+				if(speech.getMember() != null && speech.getMember().getName() != null){
 					memberName = speech.getMember().getName();
 				} else {
 					memberName = "";
 				}
 				
-				if (speech.getMember().getLastName() != null) {
+				if (speech.getMember() != null && speech.getMember().getLastName() != null) {
 					memberLastName = speech.getMember().getLastName();
 				} else {
 					memberLastName = "";

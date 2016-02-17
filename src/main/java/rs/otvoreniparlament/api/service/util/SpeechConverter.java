@@ -22,7 +22,7 @@ public class SpeechConverter {
 			Map<String, Object> source = s.getSource();
 			
 			Speech speech = new Speech();
-			speech.setId((int) source.get("speechid"));
+			speech.setId(Integer.parseInt((String)source.get("speechid")));
 			speech.setText((String)source.get("text"));
 			speech.setSessionDate((Date) DateFormatter.parseFullTimeDate(source.get("sessiondate").toString()));
 			speech.setMember((Member)source.get("speech-member"));
