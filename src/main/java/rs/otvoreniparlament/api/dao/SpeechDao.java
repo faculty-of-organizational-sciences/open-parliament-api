@@ -64,8 +64,6 @@ public class SpeechDao {
 			query.setDate("toDate", toDate);
 		}
 
-		System.out.println(queryString);
-
 		List<Speech> all = query.setParameter("memberId", id).setFirstResult((page - 1) * limit)
 				.setMaxResults(limit).list();
 		logger.info(query.toString());
@@ -120,6 +118,93 @@ public class SpeechDao {
 		session.close();
 
 		return all;
+	}
+	
+	public Long getSpeechesTotalCount(){
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String queryString = "SELECT count (s.id) " +
+							 "FROM Speech s";
+		
+		Query query = session.createQuery(queryString);
+		
+		Long countResults = (Long) query.uniqueResult();
+		
+		session.close();
+		
+		return countResults;
+	}
+	
+	public Long getSessionSpeechesTotalCount(int id){
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String queryString = "SELECT count (s.id) " +
+							 "FROM Speech s " +
+							 "WHERE s.plenarySession.id = :plenarySessionId";
+		
+		Query query = session.createQuery(queryString).setParameter("plenarySessionId", id);
+		
+		Long countResults = (Long) query.uniqueResult();
+		
+		session.close();
+		
+		return countResults;
+	}
+	
+	public Long getMemberSpeechesTotalCount(int id, String qtext, String from, String to){
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		java.util.Date fromDate = null;
+		java.util.Date toDate = null;
+
+		try {
+			if (!from.isEmpty())
+				fromDate = sdf1.parse(from);
+			if (!to.isEmpty())
+				toDate = sdf1.parse(to);
+		} catch (ParseException e) {
+			logger.warn(e);
+		}
+		
+		String queryString = "SELECT count (s.id) " +
+							 "FROM Speech s " +
+							 "WHERE s.member.id = :memberId";
+		
+		if (!qtext.isEmpty()) {
+			queryString += " AND s.text LIKE CONCAT('%', :text, '%')";
+		}
+
+		if (fromDate != null && toDate == null) {
+			queryString += " AND s.sessionDate >= :fromDate";
+		} else if (fromDate == null && toDate != null) {
+			queryString += " AND s.sessionDate <= :toDate";
+		} else if (fromDate != null && toDate != null) {
+			queryString += " AND s.sessionDate BETWEEN :fromDate and :toDate";
+		}
+		
+		Query query = session.createQuery(queryString).setParameter("memberId", id);
+		
+		if (!qtext.isEmpty()) {
+			query.setString("text", qtext);
+		}
+
+		if (fromDate != null && toDate == null) {
+			query.setDate("fromDate", fromDate);
+		} else if (fromDate == null && toDate != null) {
+			query.setDate("toDate", toDate);
+		} else if (fromDate != null && toDate != null) {
+			query.setDate("fromDate", fromDate);
+			query.setDate("toDate", toDate);
+		}
+		
+		Long countResults = (Long) query.uniqueResult();
+		
+		session.close();
+		
+		return countResults;
 	}
 
 }

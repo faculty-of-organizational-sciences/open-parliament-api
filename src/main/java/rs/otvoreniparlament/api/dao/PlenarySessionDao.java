@@ -2,6 +2,7 @@ package rs.otvoreniparlament.api.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.database.HibernateUtil;
@@ -36,6 +37,22 @@ public class PlenarySessionDao {
 		session.close();
 
 		return ps;
+	}
+	
+	public Long getTotalCount(){
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String queryString = "SELECT count (ps.id) " +
+							 "FROM PlenarySession ps";
+		
+		Query query = session.createQuery(queryString);
+		
+		Long countResults = (Long) query.uniqueResult();
+		
+		session.close();
+		
+		return countResults;
 	}
 
 }
