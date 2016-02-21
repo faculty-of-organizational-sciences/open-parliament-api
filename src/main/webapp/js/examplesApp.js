@@ -1,11 +1,8 @@
 /**
- * Created by Branislav Vidojevic on 23/10/2015.
- */
-/**
  * Created by Branislav Vidojevic on 15/10/2015.
  */
 
-var host = "http://localhost:9090/api";
+var host = "http://localhost:8080/api";
 
 var app = angular.module("examplesApp", ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngResource']);
 
@@ -13,186 +10,255 @@ app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/members-example', {
             templateUrl: 'views/members-example.html',
-            controller: 'MembersCtrl'
+            controller: 'MembersCtrl',
+            controllerAs: 'mctrl'
         })
         .when('/party-example', {
             templateUrl: 'views/party-example.html',
-            controller: 'PartyCtrl'
+            controller: 'PartyCtrl',
+            controllerAs: 'pctrl'
         })
         .when('/session-example', {
             templateUrl: 'views/session-example.html',
-            controller: 'SessionCtrl'
+            controller: 'SessionCtrl',
+            controllerAs: 'sctrl'
         })
 }]);
 
-app.controller('MembersCtrl', ['$scope', 'memberService', function ($scope, memberService) {
-    $scope.maxSize = 1;
-    $scope.totalItems = 11;
-    $scope.itemsPerPage = 10;
-    $scope.currentPage = 1;
-    $scope.count = 0;
+app.controller('MembersCtrl', ['memberService', function (memberService) {
 
-    memberService.MembersR.query({page: '1'}, function (data) {
-        $scope.members = data;
+    var vm = this;
+
+    vm.mpag = {
+        maxSize: 3,
+        totalItems: 0,
+        itemsPerPage: 10,
+        currentPage: 1,
+        count: 0
+    };
+
+    memberService.MembersR.get({page: '1'}, function (data) {
+        vm.members = data.dataArray;
+        vm.mpag.totalItems = data.count;
+    }, function () {
+        vm.members = {};
+        vm.mpag.totalItems = 0;
     });
 
-    $scope.getMembers = function (n, text) {
-        memberService.MembersR.query({page: n.toString(), query: text}, function (data) {
-            $scope.members = data;
-            $scope.count = (n - 1) * 10;
-            $scope.totalItems = n * $scope.itemsPerPage + 1;
+    vm.getMembers = function (n, text) {
+        memberService.MembersR.get({page: n.toString(), query: text}, function (data) {
 
-            $scope.selectedRow = null;
+            vm.members = data.dataArray;
+            vm.mpag.count = (n - 1) * 10;
+            vm.mpag.totalItems = data.count;
+
+            vm.selectedRow = null;
+        }, function () {
+            vm.members = {};
+            vm.mpag.totalItems = 0;
         });
     };
 
-    $scope.maxSize1 = 1;
-    $scope.totalItems1 = 11;
-    $scope.itemsPerPage1 = 10;
-    $scope.currentPage1 = 1;
-    $scope.count1 = 0;
-
-    $scope.showSpeechText = function (speech, index) {
-
-        $scope.selectedRowSpeech = index;
-
-        $scope.text = speech.text;
-        $scope.date = speech.sessionDate;
-        $scope.agenda = speech.sessionAgenda;
+    vm.mpag1 = {
+        maxSize: 3,
+        totalItems: 0,
+        itemsPerPage: 10,
+        currentPage: 1,
+        count: 0
     };
 
-    $scope.getSpeeches = function (memberId, pageNum) {
-        memberService.SpeechesR.query({id: memberId.toString(), page: pageNum.toString()}, function (data) {
-            $scope.speeches = data;
-            $scope.count1 = (pageNum - 1) * 10;
-            $scope.id = memberId;
-            $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
+    vm.showSpeechText = function (speech, index) {
 
-            $scope.agenda = {};
+        vm.selectedRowSpeech = index;
 
-            $scope.selectedRowSpeech = null;
+        vm.text = speech.text;
+        vm.date = speech.sessionDate;
+        vm.agenda = speech.sessionAgenda;
+    };
+
+    vm.getSpeeches = function (memberId, pageNum) {
+
+        if (pageNum == null || pageNum == undefined) {
+            pageNum = 1;
+        }
+
+        memberService.SpeechesR.get({id: memberId.toString(), page: pageNum.toString()}, function (data) {
+
+            vm.speeches = data.dataArray;
+            vm.mpag1.count = (pageNum - 1) * 10;
+            vm.id = memberId;
+            vm.mpag1.totalItems = data.count;
+
+            vm.agenda = {};
+
+            vm.selectedRowSpeech = null;
+        }, function () {
+            vm.speeches = {};
+            vm.mpag1.totalItems = 0;
         });
 
     };
 
-    $scope.getSpeechesQuery = function (member, pageNum, qtext) {
-        memberService.SpeechesR.query({id: member.toString(), page: pageNum.toString(), qtext: qtext}, function (data) {
-            $scope.speeches = data;
-            $scope.count1 = (pageNum - 1) * 10;
-            $scope.id = member;
-            $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
+    vm.getSpeechesQuery = function (memberId, pageNum, qtext) {
+
+        if (pageNum == null || pageNum == undefined) {
+            pageNum = 1;
+        }
+
+        memberService.SpeechesR.get({id: memberId.toString(), page: pageNum.toString(), qtext: qtext}, function (data) {
+            vm.speeches = data.dataArray;
+            vm.mpag1.count = (pageNum - 1) * 10;
+            vm.id = memberId;
+            vm.mpag1.totalItems = data.count;
+        }, function () {
+            vm.speeches = {};
+            vm.mpag1.totalItems = 0;
         });
     };
 
-    $scope.showBio = function (member, index) {
+    vm.showBio = function (member, index) {
+        vm.mpag1.currentPage = 1;
 
-        $scope.selectedRow = index;
-        $scope.selectedRowSpeech = null;
+        vm.selectedRow = index;
+        vm.selectedRowSpeech = null;
 
-        $scope.bio = member;
-        $scope.getSpeeches(member.id, 1);
+        vm.bio = member;
+        vm.getSpeeches(member.id, 1);
     };
 
 }]);
 
-app.controller('PartyCtrl', ['$scope', 'partyService', function ($scope, partyService) {
+app.controller('PartyCtrl', ['partyService', function (partyService) {
 
-    partyService.PartiesR.query({page: '1'}, function (data) {
-        $scope.parties = data;
+    var vm = this;
+
+    vm.pag = {
+        maxSize: 3,
+        totalItems: 0,
+        itemsPerPage: 10,
+        currentPage: 1,
+        count: 0
+    };
+
+    partyService.PartiesR.get({page: '1'}, function (data) {
+        vm.parties = data.dataArray;
+        vm.pag.totalItems = data.count;
+    }, function () {
+        vm.parties = {};
+        vm.pag.totalItems = 0;
     });
 
-    $scope.maxSize = 1;
-    $scope.totalItems = 11;
-    $scope.itemsPerPage = 10;
-    $scope.currentPage = 1;
-    $scope.count = 0;
+    vm.getParties = function (n, name) {
+        partyService.PartiesR.get({page: n.toString(), query: name}, function (data) {
+            vm.selectedRow = null;
+            vm.parties = data.dataArray;
+            vm.pag.count = (n - 1) * 10;
+            vm.pag.totalItems = data.count;
 
-    $scope.getParties = function (n, name) {
-        partyService.PartiesR.query({page: n.toString(), query: name}, function (data) {
-
-            $scope.selectedRow = null;
-
-            $scope.parties = data;
-            $scope.count = (n - 1) * 10;
-            $scope.totalItems = n * $scope.itemsPerPage + 1;
-
-            $scope.currentPage1 = 1;
-            $scope.members = {};
+            vm.pag.currentPage1 = 1;
+            vm.members = {};
+        }, function () {
+            vm.parties = {};
+            vm.pag.totalItems = 0;
         });
     };
 
-    $scope.maxSize1 = 1;
-    $scope.totalItems1 = 11;
-    $scope.itemsPerPage1 = 10;
-    $scope.currentPage1 = 1;
-    $scope.count1 = 0;
+    vm.pag1 = {
+        maxSize: 3,
+        totalItems: 0,
+        itemsPerPage: 10,
+        currentPage: 1,
+        count: 0
+    };
 
-    $scope.getMembers = function (id, n, index) {
+    vm.getMembers = function (id, n, index) {
 
-        $scope.selectedRow = index;
+        vm.selectedRow = index;
 
-        partyService.PartyMembersR.query({page: n.toString(), id: id}, function (data) {
-            $scope.members = data;
-            $scope.count1 = (n - 1) * 10;
-            $scope.id = id;
-            $scope.totalItems1 = n * $scope.itemsPerPage1 + 1;
+        if (n == null || n == undefined) {
+            n = 1;
+        }
+
+        partyService.PartyMembersR.get({page: n.toString(), id: id}, function (data) {
+            vm.members = data.dataArray;
+            vm.pag1.count = (n - 1) * 10;
+            vm.id = id;
+            vm.pag1.totalItems = data.count;
+        }, function () {
+            vm.members = {};
+            vm.pag1.totalItems = 0;
         });
     };
 }]);
 
-app.controller('SessionCtrl', ['$scope', 'sessionService', function ($scope, sessionService) {
+app.controller('SessionCtrl', ['sessionService', function (sessionService) {
 
-    sessionService.sessionsR.query({page: '1'}, function (data) {
-        $scope.sessions = data;
+    var vm = this;
+
+    vm.spag = {
+        maxSize: 3,
+        totalItems: 0,
+        itemsPerPage: 10,
+        currentPage: 1,
+        count: 0
+    };
+
+    sessionService.sessionsR.get({page: '1'}, function (data) {
+        vm.sessions = data.dataArray;
+        vm.spag.totalItems = data.count;
     });
 
-    $scope.maxSize = 1;
-    $scope.totalItems = 11;
-    $scope.itemsPerPage = 10;
-    $scope.currentPage = 1;
-    $scope.count = 0;
+    vm.getSessions = function (n) {
+        sessionService.sessionsR.get({page: n.toString()}, function (data) {
 
-    $scope.getSessions = function (n) {
-        sessionService.sessionsR.query({page: n.toString()}, function (data) {
-
-            $scope.selectedRow = null;
-
-            $scope.sessions = data;
-            $scope.count = (n - 1) * 10;
-            $scope.totalItems = n * $scope.itemsPerPage + 1;
-
-            $scope.currentPage1 = 1;
+            vm.selectedRow = null;
+            vm.sessions = data.dataArray;
+            vm.spag.count = (n - 1) * 10;
+            vm.spag.totalItems = data.count;
+            vm.spag.currentPage1 = 1;
+        }, function () {
+            vm.sessions = {};
+            vm.spag.totalItems = 0;
         });
     };
 
-    $scope.maxSize1 = 1;
-    $scope.totalItems1 = 11;
-    $scope.itemsPerPage1 = 10;
-    $scope.currentPage1 = 1;
-    $scope.count1 = 0;
+    vm.spag1 = {
+        maxSize: 3,
+        totalItems: 0,
+        itemsPerPage: 10,
+        currentPage: 1,
+        count: 0
+    };
 
-    $scope.getSpeeches = function (session, pageNum, index) {
-        sessionService.sessionSpeechesR.query({id: session.id, page: pageNum.toString()}, function (data) {
-            $scope.session = session;
-            $scope.speeches = data;
-            $scope.count1 = (pageNum - 1) * 10;
-            $scope.id = session.id;
-            $scope.totalItems1 = pageNum * $scope.itemsPerPage1 + 1;
+    vm.getSpeeches = function (session, pageNum, index) {
 
-            $scope.selectedRow = index;
-            $scope.selectedRowSpeech = null;
+        if (pageNum == null || pageNum == undefined) {
+            pageNum = 1;
+        }
+        sessionService.sessionSpeechesR.get({id: session.id, page: pageNum.toString()}, function (data) {
+            vm.session = session;
+            vm.speeches = data.dataArray;
+            vm.spag1.count = (pageNum - 1) * 10;
+            vm.id = session.id;
+            vm.spag1.totalItems = data.count;
 
-            $scope.agenda = session.agenda;
-            $scope.transcript = session.transcriptText;
+            vm.selectedRow = index;
+            vm.selectedRowSpeech = null;
+
+            vm.agenda = session.agenda;
+            vm.transcript = session.transcriptText;
+        }, function () {
+            vm.speeches = {};
+            vm.spag1.totalItems = 0;
         });
     };
 
-    $scope.showSpeechText = function (speech, index) {
+    vm.showSpeechText = function (speech, index) {
 
-        $scope.selectedRowSpeech = index;
+        vm.selectedRowSpeech = index;
 
-        $scope.text = speech.text;
-        $scope.date = speech.sessionDate;
+        vm.text = speech.text;
+        vm.date = speech.sessionDate;
     };
 
 }]);

@@ -6,15 +6,19 @@
             <th>Date</th>
         </tr>
         </thead>
-        <tr ng-repeat="s in speeches" ng-class="{'selected':$index == selectedRowSpeech}" ng-click="showSpeechText(s, $index)" data-toggle="modal" data-target="#myModal">
-            <td>{{$index + 1 + count1}}.</td>
+        <tr ng-repeat="s in mctrl.speeches" ng-class="{'selected':$index == mctrl.selectedRowSpeech}" ng-click="mctrl.showSpeechText(s, $index)" data-toggle="modal" data-target="#myModal">
+            <td>{{$index + 1 + mctrl.mpag1.count1}}.</td>
             <td ng-if="s.sessionDate">{{s.sessionDate}}</td>
         </tr>
     </table>
-    <uib-pagination total-items="totalItems1" ng-model="currentPage1" max-size="maxSize1"
-                    class="pagination-md"
-                    boundary-links="true" rotate="false"
-                    ng-change="getSpeeches(id, currentPage1)"></uib-pagination>
+    <uib-pagination total-items="mctrl.mpag1.totalItems"
+                    ng-model="mctrl.mpag1.currentPage"
+                    max-size="mctrl.mpag1.maxSize"
+                    class="pagination-md text-center"
+                    boundary-links="true"
+                    rotate="false"
+                    previous-text="<" next-text=">" first-text="<<" last-text=">>"
+                    ng-change="mctrl.getSpeeches(mctrl.id, mctrl.mpag1.currentPage)"></uib-pagination>
 </div>
 
 

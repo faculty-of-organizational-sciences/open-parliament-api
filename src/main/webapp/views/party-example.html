@@ -5,9 +5,9 @@
 
             <form class="form-inline" role="form">
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="partyName">
+                    <input type="text" class="form-control" ng-model="pctrl.partyName">
                 </div>
-                <button ng-click="getParties(1, partyName)" class="btn btn-default">Search</button>
+                <button ng-click="pctrl.getParties(1, pctrl.partyName)" class="btn btn-default">Search</button>
             </form>
             <div class="table-responsive">
                 <table class="table table-hover table-condensed">
@@ -17,15 +17,19 @@
                         <th>Title</th>
                     </tr>
                     </thead>
-                    <tr ng-repeat="p in parties" ng-class="{'selected':$index == selectedRow}" ng-click="getMembers(p.id, currentPage1, $index)">
-                        <td>{{$index + 1 + count}}.</td>
+                    <tr ng-repeat="p in pctrl.parties" ng-class="{'selected':$index == pctrl.selectedRow}" ng-click="pctrl.getMembers(p.id, pctrl.pag1.currentPage, $index)">
+                        <td>{{$index + 1 + pctrl.pag.count}}.</td>
                         <td>{{p.title}}</td>
                     </tr>
                 </table>
-                <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
+                <uib-pagination total-items="pctrl.pag.totalItems"
+                                ng-model="pctrl.pag.currentPage"
+                                max-size="pctrl.pag.maxSize"
                                 class="pagination-md text-center"
-                                boundary-links="true" rotate="false"
-                                ng-change="getParties(currentPage, partyName)"></uib-pagination>
+                                boundary-links="true"
+                                rotate="false"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>"
+                                ng-change="pctrl.getParties(pctrl.pag.currentPage, pctrl.partyName)"></uib-pagination>
             </div>
 
 
@@ -42,15 +46,19 @@
                         <th>Name</th>
                     </tr>
                     </thead>
-                    <tr ng-repeat="m in members">
-                        <td>{{$index + 1 + count1}}.</td>
+                    <tr ng-repeat="m in pctrl.members">
+                        <td>{{$index + 1 + pctrl.pag1.count1}}.</td>
                         <td> {{m.lastName}} {{m.name}}</td>
                     </tr>
                 </table>
-                <uib-pagination total-items="totalItems1" ng-model="currentPage1" max-size="maxSize1"
-                                class="pagination-md"
-                                boundary-links="true" rotate="false"
-                                ng-change="getMembers(id, currentPage1)"></uib-pagination>
+                <uib-pagination total-items="pctrl.pag1.totalItems"
+                                ng-model="pctrl.pag1.currentPage"
+                                max-size="pctrl.pag1.maxSize"
+                                class="pagination-md text-center"
+                                boundary-links="true"
+                                rotate="false"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>"
+                                ng-change="pctrl.getMembers(pctrl.id, pctrl.pag1.currentPage)"></uib-pagination>
             </div>
         </div>
     </div>

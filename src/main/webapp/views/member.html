@@ -7,17 +7,21 @@
             <th>Party</th>
         </tr>
         </thead>
-        <tr ng-repeat="m in members" ng-class="{'selected':$index == selectedRow}" ng-click="showBio(m, $index)">
-            <td>{{$index + 1 + count}}.</td>
+        <tr ng-repeat="m in mctrl.members" ng-class="{'selected':$index == mctrl.selectedRow}" ng-click="mctrl.showBio(m, $index)">
+            <td>{{$index + 1 + mctrl.mpag.count}}.</td>
             <td> {{m.lastName}} {{m.name}}</td>
             <td>
                 <div ng-repeat="p in m.parties">{{$index + 1}}. {{p.title}}</div>
             </td>
         </tr>
     </table>
-    <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
+    <uib-pagination total-items="mctrl.mpag.totalItems"
+                    ng-model="mctrl.mpag.currentPage"
+                    max-size="mctrl.mpag.maxSize"
                     class="pagination-md text-center"
-                    boundary-links="true" rotate="false"
-                    ng-change="getMembers(currentPage, memberName)"></uib-pagination>
+                    boundary-links="true"
+                    rotate="false"
+                    previous-text="<" next-text=">" first-text="<<" last-text=">>"
+                    ng-change="mctrl.getMembers(mctrl.mpag.currentPage, mctrl.memberName)"></uib-pagination>
 </div>
 
