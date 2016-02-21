@@ -1,10 +1,11 @@
 package rs.otvoreniparlament.api.service;
 
 import org.elasticsearch.action.search.SearchResponse;
+
 import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
-import rs.otvoreniparlament.api.index.ElasticAvailability;
+import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.service.util.PartyConvertor;
 import rs.otvoreniparlament.indexing.IndexName;
@@ -20,7 +21,7 @@ public class PartyServiceImp implements PartyService {
 		
 		ServiceResponse<Party> response = new ServiceResponse<>();
 		
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			
 			response.setRecords(pd.getParties(page, limit, sort, query));
 			response.setTotalHits(pd.getPartiesTotalCount(query));
@@ -39,7 +40,7 @@ public class PartyServiceImp implements PartyService {
 	@Override
 	public Party getParty(int id) {
 		
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			return pd.getParty(id);
 		}else {
 			SearchResponse searchResponse =es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", id);
@@ -57,7 +58,7 @@ public class PartyServiceImp implements PartyService {
 		
 		ServiceResponse<Member> response = new ServiceResponse<>();
 		
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			
 			response.setRecords( pd.getPartyMembers(id, limit, page));
 			response.setTotalHits(pd.getPartyMembersTotalCount(id));

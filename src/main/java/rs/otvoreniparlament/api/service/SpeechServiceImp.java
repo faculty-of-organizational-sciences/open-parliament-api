@@ -1,9 +1,10 @@
 package rs.otvoreniparlament.api.service;
 
 import org.elasticsearch.action.search.SearchResponse;
+
 import rs.otvoreniparlament.api.dao.SpeechDao;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.index.ElasticAvailability;
+import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.service.util.SpeechConverter;
 import rs.otvoreniparlament.indexing.IndexName;
@@ -19,7 +20,7 @@ public class SpeechServiceImp implements SpeechService {
 		
 		ServiceResponse<Speech> response = new ServiceResponse<>();
 		
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			
 			response.setRecords(sd.getMemberSpeeches(id, limit, page, qtext, from, to));
 			response.setTotalHits(sd.getMemberSpeechesTotalCount(id, qtext, from, to));
@@ -35,7 +36,7 @@ public class SpeechServiceImp implements SpeechService {
 
 	@Override
 	public Speech getSpeech(int id) {
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			return sd.getSpeech(id);
 		}else {
 			SearchResponse searchresponse= es.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", id);
@@ -48,7 +49,7 @@ public class SpeechServiceImp implements SpeechService {
 		
 		ServiceResponse<Speech> response = new ServiceResponse<>();
 		
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			
 			response.setRecords(sd.getSpeeches(limit, page));
 			response.setTotalHits(sd.getSpeechesTotalCount());
@@ -67,7 +68,7 @@ public class SpeechServiceImp implements SpeechService {
 		
 		ServiceResponse<Speech> response = new ServiceResponse<>();
 		
-		if (!ElasticAvailability.isAvailable()){
+		if (!ElasticClient.getInstance().isConnectionStatus()){
 			
 			response.setRecords(sd.getPlenarySessionSpeeches(id, limit, page));
 			response.setTotalHits(sd.getSessionSpeechesTotalCount(id));

@@ -1,9 +1,10 @@
 package rs.otvoreniparlament.api.service;
 
 import org.elasticsearch.action.search.SearchResponse;
+
 import rs.otvoreniparlament.api.dao.PlenarySessionDao;
 import rs.otvoreniparlament.api.domain.PlenarySession;
-import rs.otvoreniparlament.api.index.ElasticAvailability;
+import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.service.util.PlenarySessionConverter;
 import rs.otvoreniparlament.indexing.IndexName;
@@ -19,7 +20,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 
 		ServiceResponse<PlenarySession> response = new ServiceResponse<>();
 
-		if (!ElasticAvailability.isAvailable()) {
+		if (!ElasticClient.getInstance().isConnectionStatus()) {
 
 			response.setRecords(psd.getPlenarySessions(limit, page));
 			response.setTotalHits(psd.getTotalCount());
@@ -36,7 +37,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 	@Override
 	public PlenarySession getPlenarySession(int id) {
 
-		if (!ElasticAvailability.isAvailable()) {
+		if (!ElasticClient.getInstance().isConnectionStatus()) {
 			return psd.getPlenarySession(id);
 		} else {
 			SearchResponse searchResponse = es.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", id);

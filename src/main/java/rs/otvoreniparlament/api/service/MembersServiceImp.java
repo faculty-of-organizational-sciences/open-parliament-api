@@ -4,7 +4,7 @@ import org.elasticsearch.action.search.SearchResponse;
 
 import rs.otvoreniparlament.api.dao.MembersDao;
 import rs.otvoreniparlament.api.domain.Member;
-import rs.otvoreniparlament.api.index.ElasticAvailability;
+import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.service.util.MembersConvertor;
 import rs.otvoreniparlament.indexing.IndexName;
@@ -20,7 +20,7 @@ public class MembersServiceImp implements MembersService {
 		
 		ServiceResponse<Member> response = new ServiceResponse<>();
 
-		if (!ElasticAvailability.isAvailable()) {
+		if (!ElasticClient.getInstance().isConnectionStatus()) {
 			
 			response.setRecords(md.getMembers(page, limit, sort, query));
 			response.setTotalHits(md.getTotalCount(query));
@@ -41,7 +41,7 @@ public class MembersServiceImp implements MembersService {
 		
 		ServiceResponse<Member> response = new ServiceResponse<>();
 
-		if (!ElasticAvailability.isAvailable()) {
+		if (!ElasticClient.getInstance().isConnectionStatus()) {
 			return md.getMember(id);
 
 		} else {
