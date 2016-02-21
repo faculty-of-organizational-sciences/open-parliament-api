@@ -1,10 +1,9 @@
 package rs.otvoreniparlament.api.service;
 
 import org.elasticsearch.action.search.SearchResponse;
-import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.PlenarySessionDao;
 import rs.otvoreniparlament.api.domain.PlenarySession;
-import rs.otvoreniparlament.api.index.ElasticClient;
+import rs.otvoreniparlament.api.index.ElasticAvailability;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
 import rs.otvoreniparlament.api.service.util.PlenarySessionConverter;
 import rs.otvoreniparlament.indexing.IndexName;
@@ -17,11 +16,17 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 
 	@Override
 	public ServiceResponse<PlenarySession> getPlenarySessions(int limit, int page) {
+
 		ServiceResponse<PlenarySession> response = new ServiceResponse<>();
-		if (ElasticClient.getInstance().isConnectionStatus()== false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
-			response.setRecords( psd.getPlenarySessions(limit, page));
-		}else {
-			SearchResponse searchResponse = es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE , "", limit, page);
+
+		if (!ElasticAvailability.isAvailable()) {
+
+			response.setRecords(psd.getPlenarySessions(limit, page));
+			response.setTotalHits(psd.getTotalCount());
+
+		} else {
+			SearchResponse searchResponse = es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", limit, page);
+
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(PlenarySessionConverter.convertToSession(searchResponse));
 		}
@@ -30,12 +35,17 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 
 	@Override
 	public PlenarySession getPlenarySession(int id) {
-		if (ElasticClient.getInstance().isConnectionStatus() == false || Settings.getInstance().config.getElasticConfig().isUsingElastic()==false){
+
+		if (!ElasticAvailability.isAvailable()) {
 			return psd.getPlenarySession(id);
-		}else {
-			
-		SearchResponse searchResponse = es.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE ,"", id);
-			return PlenarySessionConverter.convertToPlenarySession(searchResponse);
+		} else {
+			SearchResponse searchResponse = es.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", id);
+
+			if (searchResponse.getHits().getTotalHits() == 0) {
+				return null;
+			}
+
+			return PlenarySessionConverter.convertToPlenarySession(searchResponse.getHits().getAt(0));
 		}
 	}
 
