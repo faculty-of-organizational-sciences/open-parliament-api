@@ -13,33 +13,36 @@ import rs.otvoreniparlament.api.formatters.DateFormatter;
 
 public class PlenarySessionConverter {
 
-	public static List<PlenarySession> convertToSession (SearchResponse sessionDate){
+	public static List<PlenarySession> convertToSession(SearchResponse sessionsData) {
+
 		List<PlenarySession> sessions = new LinkedList<>();
-		for (SearchHit s : sessionDate.getHits()) {
-			Map<String, Object> source = s.getSource();
-			
-			PlenarySession ps = new PlenarySession();
-			ps.setId((int) source.get("id"));
-			ps.setAgenda((String) source.get("agenda"));
-			ps.setTranscriptText((String) source.get("transcript"));
-			ps.setDate((Date) DateFormatter.parseFullTimeDate(source.get("date").toString()));
-			
+
+		for (SearchHit s : sessionsData.getHits()) {
+
+			PlenarySession ps = convertToPlenarySession(s);
 			sessions.add(ps);
 		}
 		return sessions;
 	}
-	public static PlenarySession convertToPlenarySession(SearchResponse sessionDate){
+
+	public static PlenarySession convertToPlenarySession(SearchHit sessionData) {
+
 		PlenarySession ps = new PlenarySession();
-		for (SearchHit s : sessionDate.getHits()) {
-			Map<String, Object> source = s.getSource();
-			
+
+		Map<String, Object> source = sessionData.getSource();
+
+		if (source.get("id") != null)
 			ps.setId((int) source.get("id"));
+		
+		if (source.get("agenda") != null)
 			ps.setAgenda((String) source.get("agenda"));
+		
+		if (source.get("transcript") != null)
 			ps.setTranscriptText((String) source.get("transcript"));
+		
+		if (source.get("date") != null)
 			ps.setDate((Date) DateFormatter.parseFullTimeDate(source.get("date").toString()));
-			
-			
-		}
+
 		return ps;
 	}
 }
