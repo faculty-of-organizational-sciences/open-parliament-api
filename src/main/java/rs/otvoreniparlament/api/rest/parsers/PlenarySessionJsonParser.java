@@ -24,7 +24,7 @@ public class PlenarySessionJsonParser {
 			}
 		}
 		json.add("dataArray", array);
-		json.addProperty("count",counter );
+		json.addProperty("count", counter);
 		return json;
 	}
 
@@ -45,14 +45,14 @@ public class PlenarySessionJsonParser {
 				plenarySession.addProperty("date", DateFormatter.format(ps.getDate()));
 
 			String[] agenda = null;
-
-			if (ps.getAgenda() != null && !ps.getAgenda().isEmpty())
-				agenda = ps.getAgenda().split("\\s\\(\\d\\d\\d\\d\\)\\s");
-
 			JsonArray agendaArray = new JsonArray();
 
-			for (String a : agenda) {
-				agendaArray.add(new JsonPrimitive(a));
+			if (ps.getAgenda() != null && !ps.getAgenda().isEmpty()) {
+				agenda = ps.getAgenda().split("\\s\\(\\d\\d\\d\\d\\)\\s");
+
+				for (String a : agenda) {
+					agendaArray.add(new JsonPrimitive(a));
+				}
 			}
 
 			plenarySession.add("agenda", agendaArray);

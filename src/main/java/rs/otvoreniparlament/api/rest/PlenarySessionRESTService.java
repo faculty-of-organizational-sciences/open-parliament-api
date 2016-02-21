@@ -60,7 +60,7 @@ public class PlenarySessionRESTService {
 			validPage = page;
 		}
 
-		ServiceResponse<PlenarySession> response =plenarySessionService.getPlenarySessions(validLimit, validPage);
+		ServiceResponse<PlenarySession> response = plenarySessionService.getPlenarySessions(validLimit, validPage);
 		List<PlenarySession> plenarySessions = response.getRecords();
 		long counter = response.getTotalHits();
 

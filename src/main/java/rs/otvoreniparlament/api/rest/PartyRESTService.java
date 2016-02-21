@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.monitor.jvm.JvmInfo.Mem;
 
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;

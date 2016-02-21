@@ -54,10 +54,11 @@ public class IndexingMembers {
 						.field("residence-country", member.getPlaceOfResidence().getCountry())
 					.endObject();
 				}
-					
-				builder.startArray("member-parties");
+				builder.field("member-parties").startArray();
 				
-				for (Party party : member.getParties()) {
+				List<Party> parties = member.getParties();
+				
+				for (Party party : parties) {
 					builder.startObject()
 						.field("party-id", party.getId().toString())
 						.field("party-name", party.getName())

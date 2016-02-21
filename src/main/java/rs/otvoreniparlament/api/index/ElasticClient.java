@@ -62,6 +62,7 @@ public class ElasticClient {
 		}
         
         if(transportClient.connectedNodes().size() == 0){
+        	connectionStatus = false;
         	System.out.println("There are no active nodes available for the transport, it will be automatically added once nodes are live!");
         }
         client = transportClient;

@@ -1,17 +1,21 @@
 package rs.otvoreniparlament.api;
 
-import org.elasticsearch.bootstrap.Elasticsearch;
+import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import rs.otvoreniparlament.api.database.HibernateUtil;
+import rs.otvoreniparlament.api.domain.Member;
 
 public class Test {
 
 	public static void main(String[] args) {
 
-//		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
-//		session.beginTransaction();
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		
+		Transaction tx = session.beginTransaction();
 //
 //		Speech s = (Speech) session.createCriteria(Speech.class).setMaxResults(1).uniqueResult();
 //		System.out.println(s.toString());
@@ -22,21 +26,27 @@ public class Test {
 //		for (int i = 0; i < list.size(); i++) {
 //
 //		}
-
-//		System.out.println("Done!");
-//
-//		session.close();
-//		HibernateUtil.getInstance().shutdown();
 		
-		JsonObject partyJson = new JsonObject();
-		partyJson.addProperty("meta","");
-		partyJson.addProperty("id","");
-		partyJson.addProperty("title","");
-		partyJson.addProperty("members","");
+		String queryString = "SELECT m " +
+				 "FROM Member m where m.lastName LIKE CONCAT('0.', '%'))";
 		
-		Gson gson = new GsonBuilder().create();
-		System.out.println(gson.toJson(partyJson));
+		Query query =  session.createQuery(queryString);
 		
+		List<Member> all = session.createQuery(queryString).list();
+		
+		System.out.println(all.size());
+		
+		for (Member m : all) {
+			String newName = m.getLastName().substring(3);
+			m.setLastName(newName);
+			session.update(m);
+			System.out.println("done");
+			
+		}
+		tx.commit();
+		System.out.println("commited");
+		session.close();
+		HibernateUtil.getInstance().shutdown();
 		
 	}
 }
