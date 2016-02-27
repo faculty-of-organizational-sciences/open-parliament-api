@@ -29,7 +29,7 @@ public class SpeechServiceImp implements SpeechService {
 			SearchResponse searchResponse = es.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit,page, qtext, from, to);
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
-			response.setRecords(SpeechConverter.convertToMemberSpeeches(searchResponse));
+			response.setRecords(SpeechConverter.convertToSpeeches(searchResponse));
 		}
 		return response;
 	}
@@ -55,7 +55,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setTotalHits(sd.getSpeechesTotalCount());
 			
 		}else {
-			SearchResponse searchRespons =es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "", limit, page);
+			SearchResponse searchRespons =es.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "*", limit, page);
 			
 			response.setTotalHits(searchRespons.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSpeeches(searchRespons));
@@ -74,10 +74,11 @@ public class SpeechServiceImp implements SpeechService {
 			response.setTotalHits(sd.getSessionSpeechesTotalCount(id));
 			
 		}else {
-			SearchResponse searchResponse = es.searchSpecificListSession(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, id, limit, page);
+			String field = "sessionId";
+			SearchResponse searchResponse = es.searchSpecificListSession(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE,field, id, limit, page);
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
-			response.setRecords(SpeechConverter.convertToSessionSpeeches(searchResponse));
+			response.setRecords(SpeechConverter.convertToSpeeches(searchResponse));
 		}
 		return response;
 	}
