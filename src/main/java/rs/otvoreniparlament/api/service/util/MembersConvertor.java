@@ -1,6 +1,7 @@
 package rs.otvoreniparlament.api.service.util;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -58,18 +59,11 @@ public class MembersConvertor {
 		}
 
 		if (source.get("member-parties") != null) {
-
-			List<Party> parties = new LinkedList<>();
-
-			for (Object party : (List<?>) source.get("member-parties")) {
-				Party p = new Party();
-				System.out.println("ID partije: " + source.get("party-id"));
-				System.out.println("ID partije: " + source.get("party-name"));
-				p.setId((Integer) source.get("party-id"));
-				p.setName((String) source.get("party-name"));
-				parties.add(p);
+			ArrayList<Party> array = new ArrayList<>();
+			member.setParties(array);
+			for (Party party : array) {
+				System.out.println(party.getName());
 			}
-			member.setParties(parties);
 		}
 		return member;
 	}
