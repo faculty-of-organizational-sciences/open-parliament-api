@@ -42,8 +42,7 @@ public class IndexingParties {
 				
 				for (Member member : partiyMembrsForIndexing) {
 					builder.startObject()
-						.field("member-name", member.getName())
-						.field("member-lastname", member.getLastName())
+						.field("id", member.getId())
 					.endObject();
 				}
 				

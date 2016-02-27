@@ -27,9 +27,6 @@ public class IndexingSpeeches {
 				String plenarySessionId;
 				String sessionDate;
 				String memberId;
-				String memberName;
-				String memberLastName;
-				
 				if (speech.getId() != null) {
 					id = speech.getId().toString();
 				} else {
@@ -60,19 +57,6 @@ public class IndexingSpeeches {
 					memberId = "";
 				}
 				
-				if(speech.getMember() != null && speech.getMember().getName() != null){
-					memberName = speech.getMember().getName();
-				} else {
-					memberName = "";
-				}
-				
-				if (speech.getMember() != null && speech.getMember().getLastName() != null) {
-					memberLastName = speech.getMember().getLastName();
-				} else {
-					memberLastName = "";
-				}
-				
-				
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
@@ -80,10 +64,7 @@ public class IndexingSpeeches {
 				                        .field("text", text)
 				                        .field("sessionId", plenarySessionId)
 				                        .field("sessiondate", sessionDate)
-				                        .startObject("speech-member")
-				                        	.field("speech-member-id", memberId)
-					                        .field("speech-member-name", memberName)
-					        				.field("speech-member-surname", memberLastName)
+				                        .field("speech-member-id", memberId)
 				        				.endObject()
 				                    .endObject()
 				                  )

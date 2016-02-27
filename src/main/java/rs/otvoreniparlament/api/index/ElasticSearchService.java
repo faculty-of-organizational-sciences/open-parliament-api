@@ -8,7 +8,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 public class ElasticSearchService {
 	
-	// Search
+// Search
 	public  SearchResponse searchQuery(String index, String name, String query, int limit, int page) {
 		int paggination = (page-1)*limit;
 		QueryBuilder qb;
@@ -18,7 +18,7 @@ public class ElasticSearchService {
 		 qb = QueryBuilders.queryStringQuery(query + "*");
 		}
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
-				.setTypes(name).setSearchType( SearchType.DFS_QUERY_THEN_FETCH)
+				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb) // Query
 				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
@@ -36,29 +36,27 @@ public class ElasticSearchService {
 	
 		return searchResponse;
 	}
-	//speeches of a member with given id
+//speeches of a member with given id
 	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit,int page, String qtext, String from, String to) {
 		int paggination = (page-1)*limit;
-		QueryBuilder qb = QueryBuilders.queryStringQuery(qtext +"*");
+		QueryBuilder qb = QueryBuilders.matchQuery("speech-member-id" ,qtext+"*");
 		
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb)
 				.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from).to(to))
-				.addAggregation(AggregationBuilders.terms(id.toString()).field("speech-member-id"))
 				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
 	}
-	//speeches of a plenary session with given id
-		public  SearchResponse searchSpecificListSession(String index, String name, Integer id, Integer limit, int page) {
+//speeches of a plenary session with given id
+		public  SearchResponse searchSpecificListSession(String index, String name,String field, Integer id, Integer limit, int page) {
 			
-			QueryBuilder qb = QueryBuilders.queryStringQuery("sessionId");
+			QueryBuilder qb = QueryBuilders.matchQuery(field,id);
 			int paggination = (page-1)*limit;
 			searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 					.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb)
-					.addAggregation(AggregationBuilders.terms(id.toString()).field("sessionId"))
 					.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 		
 			return searchResponse;
@@ -67,12 +65,11 @@ public class ElasticSearchService {
 //		List of members from specific party
 public  SearchResponse searchSpecificPartyMember(String index, String name, Integer id, Integer limit, int page) {
 			
-			QueryBuilder qb = QueryBuilders.queryStringQuery("party-members");
+			QueryBuilder qb = QueryBuilders.matchQuery("party-id", id);
 			int paggination = (page-1)*limit;
 			searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 					.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb)
-					.addAggregation(AggregationBuilders.terms(id.toString()).field("party-id"))
 					.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 		
 			return searchResponse;
