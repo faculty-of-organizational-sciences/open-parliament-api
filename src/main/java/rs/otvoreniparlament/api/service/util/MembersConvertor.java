@@ -76,7 +76,7 @@ public class MembersConvertor {
 				String query = json.substring(6, json.length()-2);
 				ElasticSearchService es = new ElasticSearchService();
 				
-				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", Integer.parseInt(query));
+				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", query);
 				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
 
 				parties.add(party);

@@ -44,7 +44,7 @@ public class MembersServiceImp implements MembersService {
 			return md.getMember(id);
 
 		} else {
-			SearchResponse searchResponse = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", id);
+			SearchResponse searchResponse = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", String.valueOf(id));
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			

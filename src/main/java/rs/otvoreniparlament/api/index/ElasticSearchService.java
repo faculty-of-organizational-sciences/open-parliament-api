@@ -25,8 +25,8 @@ public class ElasticSearchService {
 		
 	
 	}
-	public  SearchResponse searchSpecificID(String index, String name, String field, Integer id) {
-		QueryBuilder qb = QueryBuilders.matchQuery(field, id.toString());
+	public  SearchResponse searchSpecificID(String index, String name, String field, String id) {
+		QueryBuilder qb = QueryBuilders.matchQuery(field, id);
 		
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)

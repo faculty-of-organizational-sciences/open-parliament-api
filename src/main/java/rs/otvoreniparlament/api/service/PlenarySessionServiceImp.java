@@ -40,7 +40,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 		if (!ElasticClient.getInstance().isConnectionStatus()) {
 			return psd.getPlenarySession(id);
 		} else {
-			SearchResponse searchResponse = es.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", id);
+			SearchResponse searchResponse = es.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", String.valueOf(id));
 
 			if (searchResponse.getHits().getTotalHits() == 0) {
 				return null;

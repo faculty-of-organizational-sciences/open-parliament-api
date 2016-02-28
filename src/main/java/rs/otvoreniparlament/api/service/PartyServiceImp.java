@@ -43,7 +43,7 @@ public class PartyServiceImp implements PartyService {
 		if (!ElasticClient.getInstance().isConnectionStatus()){
 			return pd.getParty(id);
 		}else {
-			SearchResponse searchResponse =es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", id);
+			SearchResponse searchResponse =es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", String.valueOf(id));
 			
 			if (searchResponse.getHits().getTotalHits() == 0) {
 				return null;
