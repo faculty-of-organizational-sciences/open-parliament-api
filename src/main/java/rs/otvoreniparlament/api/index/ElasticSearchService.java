@@ -55,7 +55,7 @@ public class ElasticSearchService {
 //speeches of a member with given id
 	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit,int page, String qtext, String from, String to) {
 		int paggination = (page-1)*limit;
-		QueryBuilder qb = QueryBuilders.matchQuery("speech-member-id" ,qtext+"*");
+		QueryBuilder qb = QueryBuilders.multiMatchQuery(id, "speech-member-id", qtext+"*", "text" );
 		
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
