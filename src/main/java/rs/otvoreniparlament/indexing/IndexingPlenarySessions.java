@@ -24,7 +24,7 @@ public class IndexingPlenarySessions {
 	
 	public IndexingPlenarySessions(){
 		psd = new PlenarySessionDao();
-		sessionsForIndexing = psd.getPlenarySessions(10, 1);
+		sessionsForIndexing = psd.getPlenarySessions(100000, 1);
 	}
 	
 	private static final Logger logger = LogManager.getLogger(IndexingPlenarySessions.class);

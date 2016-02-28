@@ -25,7 +25,7 @@ public class IndexingParties {
 	
 	public IndexingParties() {
 		pd = new PartyDao();
-		partiesForIndexing = pd.getParties(1, 1000 , "ASC", "");
+		partiesForIndexing = pd.getParties(1, 10000 , "ASC", "");
 	}
 	
 	public void indexParties (){
