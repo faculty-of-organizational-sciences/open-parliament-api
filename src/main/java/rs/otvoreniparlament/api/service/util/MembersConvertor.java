@@ -10,9 +10,14 @@ import java.util.Map;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
+import com.google.gson.Gson;
+
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.index.ElasticSearchService;
+import rs.otvoreniparlament.indexing.IndexName;
+import rs.otvoreniparlament.indexing.IndexType;
 
 public class MembersConvertor {
 
@@ -64,10 +69,21 @@ public class MembersConvertor {
 			@SuppressWarnings("unchecked")
 			ArrayList<Party> al = (ArrayList<Party>) source.get("member-parties");
 
-			System.out.println(al);
-			member.setParties(al);
-			List<Party> all = member.getParties();
+			for (int i = 0; i < al.size(); i++) {
+				System.out.println(al.get(i));
+				Gson gson=new Gson();
+				String json = gson.toJson(al);
+				String query = json.substring(6, json.length()-2);
+				ElasticSearchService es = new ElasticSearchService();
+				
+				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", Integer.parseInt(query));
+				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
 
+				parties.add(party);
+			}
+			System.out.println(al);
+			member.setParties(parties);
+			List<Party> all = member.getParties();
 			for (Party party : all) {
 				System.out.println(party);
 			}
