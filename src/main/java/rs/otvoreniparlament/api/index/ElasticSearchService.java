@@ -35,6 +35,23 @@ public class ElasticSearchService {
 	
 		return searchResponse;
 	}
+	public  SearchResponse searchQueryWihtFields(String index, String name, String query, int limit, int page) {
+		int paggination = (page-1)*limit;
+		QueryBuilder qb;
+		if(query == "")	{
+		 qb = QueryBuilders.matchAllQuery();
+		}else{
+		 qb = QueryBuilders.multiMatchQuery(query + "*", "name" ,"surname");
+		}
+		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+				.setQuery(qb) // Query
+				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
+	
+		return searchResponse;
+		
+	
+	}
 //speeches of a member with given id
 	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit,int page, String qtext, String from, String to) {
 		int paggination = (page-1)*limit;
