@@ -16,7 +16,7 @@ import rs.otvoreniparlament.api.index.ElasticClient;
 public class IndexingSpeeches {
 
 	SpeechDao sd = new SpeechDao();
-	List<Speech> speechesForIndexing = sd.getSpeeches(1000000, 1);
+	List<Speech> speechesForIndexing = sd.getSpeeches(500, 1);
 	
 	private static final Logger logger = LogManager.getLogger(IndexingSpeeches.class);
 	public void indexSpeeches (){
@@ -66,18 +66,18 @@ public class IndexingSpeeches {
 				                        .field("sessiondate", sessionDate)
 				                        .field("speech-member-id", memberId)
 				        				.endObject()
-				                    .endObject()
+				                    
 				                  )
 				        .get();
-//				String _index = response.getIndex();
-//				System.out.println(_index);
-//				// Type name
-//				String _type = response.getType();
-//				
-//				System.out.println(_type);
-//				// Document ID (generated or not)
-//				String _id = response.getId();
-//				
+				String _index = response.getIndex();
+				System.out.println(_index);
+				// Type name
+				String _type = response.getType();
+				
+				System.out.println(_type);
+				// Document ID (generated or not)
+				String _id = response.getId();
+				
 //				System.out.println(_id);
 //				// Version (if it's the first time you index this document, you will get: 1)
 //				long _version = response.getVersion();

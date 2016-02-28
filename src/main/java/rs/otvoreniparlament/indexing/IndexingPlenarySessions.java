@@ -19,8 +19,13 @@ import rs.otvoreniparlament.api.index.ElasticClient;
 
 public class IndexingPlenarySessions {
 
-	PlenarySessionDao psd = new PlenarySessionDao();
-	List<PlenarySession> sessionsForIndexing = psd.getPlenarySessions(10000, 1);
+	PlenarySessionDao psd ;
+	List<PlenarySession> sessionsForIndexing ;
+	
+	public IndexingPlenarySessions(){
+		psd = new PlenarySessionDao();
+		sessionsForIndexing = psd.getPlenarySessions(10, 1);
+	}
 	
 	private static final Logger logger = LogManager.getLogger(IndexingPlenarySessions.class);
 	public void indexPlenarySessions (){
@@ -38,30 +43,30 @@ public class IndexingPlenarySessions {
 				        .get();
 				
 				
-//				String _index = response.getIndex();
-//				System.out.println(_index);
-//				// Type name
-//				String _type = response.getType();
-//				
-//				System.out.println(_type);
-//				// Document ID (generated or not)
-//				String _id = response.getId();
-//				
-//				System.out.println(_id);
-//				// Version (if it's the first time you index this document, you will get: 1)
-//				long _version = response.getVersion();
-//				
-//				System.out.println(_version);
-//				// isCreated() is true if the document is a new one, false if it has been updated
-//				boolean created = response.isCreated();
-//				
-//				System.out.println(created);
+				String _index = response.getIndex();
+				System.out.println(_index);
+				// Type name
+				String _type = response.getType();
+				
+				System.out.println(_type);
+				// Document ID (generated or not)
+				String _id = response.getId();
+				
+				System.out.println(_id);
+				// Version (if it's the first time you index this document, you will get: 1)
+				long _version = response.getVersion();
+				
+				System.out.println(_version);
+				// isCreated() is true if the document is a new one, false if it has been updated
+				boolean created = response.isCreated();
+				
+				System.out.println(created);
 			} catch (IOException e) {
 				logger.error(e);
 			}
 		}
 	}
-	public void deleteParties(){
+	public void deleteSessions(){
 		ElasticClient.getInstance().getClient().admin().indices().delete(Requests.deleteIndexRequest(IndexName.SESSION_INDEX));
 	}
 }

@@ -17,10 +17,10 @@ public class StartIndexing {
 		
 		logger.info("Indexing started");
 		
-//		indexMembers();
-//		indexParties();
+		indexMembers();
+		indexParties();
+		indexSpeeches();
 		indexSessions();
-//		indexSpeeches();
 		
 		logger.info("Indexing ended");
 		System.exit(0);
@@ -28,7 +28,7 @@ public class StartIndexing {
 
 	private static void indexSessions() {
 		IndexingPlenarySessions ips = new IndexingPlenarySessions();
-		ips.deleteParties();
+		ips.deleteSessions();
 		logger.info("Deleted... Indexing started for sessions!");
 		ips.indexPlenarySessions();
 	}
