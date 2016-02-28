@@ -75,6 +75,7 @@ public class MemberRESTService {
 			validQuery = query;
 		}
 
+		
 		ServiceResponse<Member> response = memberService.getMembers(validPage, validLimit, validSortType, validQuery);
 		List<Member> members = response.getRecords();
 		long counter = response.getTotalHits();
