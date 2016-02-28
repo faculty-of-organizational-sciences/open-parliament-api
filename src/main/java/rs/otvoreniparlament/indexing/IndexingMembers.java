@@ -60,7 +60,6 @@ public class IndexingMembers {
 				for (Party party : parties) {
 					builder.startObject()
 						.field("party-id", party.getId().toString())
-						.field("party-name", party.getName())
 					.endObject();
 				}
 				
