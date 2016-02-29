@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
@@ -18,8 +20,10 @@ import rs.otvoreniparlament.indexing.IndexType;
 
 public class PartyConvertor {
 
+	
 	public static List<Party> convertToParties(SearchResponse partyData) {
 
+		
 		List<Party> parties = new LinkedList<>();
 
 		for (SearchHit m : partyData.getHits()) {
@@ -64,13 +68,21 @@ public class PartyConvertor {
 				ArrayList<Member> array = (ArrayList<Member>) source.get("party-members");
 
 				for (int i = 0; i < array.size(); i++) {
-					System.out.println(array.get(i));
+					String query = "";
 					Gson gson=new Gson();
-					String json = gson.toJson(array);
-					String query = json.substring(6, json.length()-2);
+					String json = gson.toJson(array.get(i));
+					try {
+						JSONObject jsonObj = new JSONObject(json);
+						query = jsonObj.getString("id");
+					} catch (JSONException e) {
+//	TODO : add logger					
+					}
 					ElasticSearchService es = new ElasticSearchService();
 					
 					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id",query);
+					if (search.getHits().getTotalHits() == 0) {
+						return null;
+					}
 					Member member = MembersConvertor.convertToMember(search.getHits().getAt(0));
 					members.add(member);
 				}

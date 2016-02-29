@@ -70,23 +70,17 @@ public class MembersConvertor {
 			ArrayList<Party> al = (ArrayList<Party>) source.get("member-parties");
 
 			for (int i = 0; i < al.size(); i++) {
-				System.out.println(al.get(i));
 				Gson gson=new Gson();
-				String json = gson.toJson(al);
-				String query = json.substring(6, json.length()-2);
+				String json = gson.toJson(al.get(i));
+				String query = json.substring(14, json.length()-3);
 				ElasticSearchService es = new ElasticSearchService();
-				
 				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", query);
 				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
 
 				parties.add(party);
 			}
-			System.out.println(al);
 			member.setParties(parties);
-			List<Party> all = member.getParties();
-			for (Party party : all) {
-				System.out.println(party);
-			}
+			
 		}
 		return member;
 	}
