@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
@@ -70,9 +72,15 @@ public class MembersConvertor {
 			ArrayList<Party> al = (ArrayList<Party>) source.get("member-parties");
 
 			for (int i = 0; i < al.size(); i++) {
+				String query = "";
 				Gson gson=new Gson();
 				String json = gson.toJson(al.get(i));
-				String query = json.substring(14, json.length()-3);
+				try {
+					JSONObject jsonObj = new JSONObject(json);
+					query = jsonObj.getString("id");
+				} catch (JSONException e) {
+//TODO : add logger					
+				}
 				ElasticSearchService es = new ElasticSearchService();
 				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", query);
 				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
