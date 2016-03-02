@@ -46,13 +46,6 @@ public class PartyConvertor {
 		if (source.get("party-name") != null)
 			party.setName((String) source.get("party-name"));
 
-		if (source.get("party-members") != null) {
-
-			List<Member> members = new LinkedList<>();
-			ArrayList<Member> array = (ArrayList<Member>) source.get("party-members");
-			party.setMembers(array);
-		}
-
 		return party;
 	}
 
@@ -73,17 +66,19 @@ public class PartyConvertor {
 					String json = gson.toJson(array.get(i));
 					try {
 						JSONObject jsonObj = new JSONObject(json);
-						query = jsonObj.getString("id");
+						query += jsonObj.getString("id");
+						
 					} catch (JSONException e) {
 //	TODO : add logger					
 					}
 					ElasticSearchService es = new ElasticSearchService();
 					
-					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id",query);
+					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
 					if (search.getHits().getTotalHits() == 0) {
 						return null;
 					}
-					Member member = MembersConvertor.convertToMember(search.getHits().getAt(0));
+					Member member = MembersConvertor.convertToMemberOfParty(search.getHits().getAt(0));
+					System.out.println("here" + member);
 					members.add(member);
 				}
 			}

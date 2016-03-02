@@ -2,7 +2,6 @@ package rs.otvoreniparlament.api.service.util;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,6 @@ public class MembersConvertor {
 		Map<String, Object> source = memberData.getSource();
 
 		member.setId((int) source.get("id"));
-
 		member.setName((String) source.get("name"));
 
 		member.setLastName((String) source.get("surname"));
@@ -73,23 +71,69 @@ public class MembersConvertor {
 
 			for (int i = 0; i < al.size(); i++) {
 				String query = "";
-				Gson gson=new Gson();
+				Gson gson = new Gson();
 				String json = gson.toJson(al.get(i));
 				try {
 					JSONObject jsonObj = new JSONObject(json);
-					query = jsonObj.getString("id");
+					query += jsonObj.getString("party-id");
 				} catch (JSONException e) {
-//TODO : add logger					
+					// TODO : add logger
 				}
 				ElasticSearchService es = new ElasticSearchService();
-				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", query);
-				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
+				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id",
+						query);
 
+				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
 				parties.add(party);
 			}
 			member.setParties(parties);
-			
+
 		}
+		return member;
+	}
+	
+	public static List<Member> convertToMembersOfParty(SearchResponse membersData) {
+		List<Member> members = new LinkedList<>();
+
+		for (SearchHit m : membersData.getHits()) {
+
+			Member member = convertToMember(m);
+			members.add(member);
+		}
+
+		return members;
+	}
+
+	public static Member convertToMemberOfParty(SearchHit memberData) {
+
+		Member member = new Member();
+
+		Map<String, Object> source = memberData.getSource();
+
+		member.setId((int) source.get("id"));
+		member.setName((String) source.get("name"));
+
+		member.setLastName((String) source.get("surname"));
+
+		if (source.get("mail") != null) {
+			member.setEmail((String) source.get("mail"));
+		}
+		if (source.get("biography") != null) {
+			member.setBiography((String) source.get("biography"));
+		}
+		if (source.get("birth-town") != null) {
+			member.getPlaceOfBirth().setName((String) source.get("birth-town"));
+		}
+		if (source.get("residence-town") != null) {
+			member.getPlaceOfResidence().setName((String) source.get("residence-town"));
+		}
+		if (source.get("dateofbirth") != null) {
+			member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
+		}
+		if (source.get("gender") != null) {
+			member.setGender((String) source.get("gender"));
+		}
+
 		return member;
 	}
 }
