@@ -1,12 +1,13 @@
 package rs.otvoreniparlament.api.service.util;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.elasticsearch.action.search.SearchResponse;
@@ -22,6 +23,8 @@ import rs.otvoreniparlament.indexing.IndexName;
 import rs.otvoreniparlament.indexing.IndexType;
 
 public class MembersConvertor {
+	
+	private static final Logger logger = LogManager.getLogger(MembersConvertor.class);
 
 	public static List<Member> convertToMembers(SearchResponse membersData) {
 		List<Member> members = new LinkedList<>();
@@ -69,17 +72,18 @@ public class MembersConvertor {
 		if (source.get("member-parties") != null) {
 			List<Party> parties = new LinkedList<>();
 			@SuppressWarnings("unchecked")
-			ArrayList<Party> al = (ArrayList<Party>) source.get("member-parties");
+			ArrayList<Party> all = (ArrayList<Party>) source.get("member-parties");
 
-			for (int i = 0; i < al.size(); i++) {
+			for (int i = 0; i < all.size(); i++) {
+				logger.debug(all.get(i));
 				String query = "";
 				Gson gson=new Gson();
-				String json = gson.toJson(al.get(i));
+				String json = gson.toJson(all.get(i));
 				try {
 					JSONObject jsonObj = new JSONObject(json);
-					query = jsonObj.getString("id");
+					query = jsonObj.getString("party-id");
 				} catch (JSONException e) {
-//TODO : add logger					
+					logger.error(e);
 				}
 				ElasticSearchService es = new ElasticSearchService();
 				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id", query);

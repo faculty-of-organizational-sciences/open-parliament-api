@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.elasticsearch.action.search.SearchResponse;
@@ -20,6 +22,7 @@ import rs.otvoreniparlament.indexing.IndexType;
 
 public class PartyConvertor {
 
+	private static final Logger logger = LogManager.getLogger(MembersConvertor.class);
 	
 	public static List<Party> convertToParties(SearchResponse partyData) {
 
@@ -48,7 +51,6 @@ public class PartyConvertor {
 
 		if (source.get("party-members") != null) {
 
-			List<Member> members = new LinkedList<>();
 			ArrayList<Member> array = (ArrayList<Member>) source.get("party-members");
 			party.setMembers(array);
 		}
@@ -75,7 +77,7 @@ public class PartyConvertor {
 						JSONObject jsonObj = new JSONObject(json);
 						query = jsonObj.getString("id");
 					} catch (JSONException e) {
-//	TODO : add logger					
+						logger.error(e);
 					}
 					ElasticSearchService es = new ElasticSearchService();
 					

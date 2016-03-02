@@ -37,7 +37,7 @@ public class SpeechRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public Response getMemberSpeeches(@QueryParam("limit") int limit, @QueryParam("page") int page) {
+	public Response getSpeeches(@QueryParam("limit") int limit, @QueryParam("page") int page) {
 		
 		int validLimit;
 		int validPage;

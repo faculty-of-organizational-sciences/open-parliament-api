@@ -43,24 +43,24 @@ public class IndexingPlenarySessions {
 				        .get();
 				
 				
-				String _index = response.getIndex();
-				System.out.println(_index);
-				// Type name
-				String _type = response.getType();
+//				String _index = response.getIndex();
+//				System.out.println(_index);
+//				// Type name
+//				String _type = response.getType();
+//				
+//				System.out.println(_type);
+//				// Document ID (generated or not)
+//				String _id = response.getId();
+//				
+//				System.out.println(_id);
+//				// Version (if it's the first time you index this document, you will get: 1)
+//				long _version = response.getVersion();
+//				
+//				System.out.println(_version);
+//				// isCreated() is true if the document is a new one, false if it has been updated
+//				boolean created = response.isCreated();
 				
-				System.out.println(_type);
-				// Document ID (generated or not)
-				String _id = response.getId();
-				
-				System.out.println(_id);
-				// Version (if it's the first time you index this document, you will get: 1)
-				long _version = response.getVersion();
-				
-				System.out.println(_version);
-				// isCreated() is true if the document is a new one, false if it has been updated
-				boolean created = response.isCreated();
-				
-				System.out.println(created);
+//				System.out.println(created);
 			} catch (IOException e) {
 				logger.error(e);
 			}

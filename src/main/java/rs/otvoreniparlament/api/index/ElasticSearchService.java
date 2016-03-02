@@ -1,5 +1,6 @@
 package rs.otvoreniparlament.api.index;
 
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -53,15 +54,27 @@ public class ElasticSearchService {
 	
 	}
 //speeches of a member with given id
-	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit,int page, String qtext, String from, String to) {
+	public  SearchResponse searchSpecificListMember(String index, String name, Integer id, Integer limit, int page, String qtext, String from, String to) {
 		int paggination = (page-1)*limit;
-		QueryBuilder qb = QueryBuilders.multiMatchQuery(id, "speech-member-id", qtext+"*", "text" );
+		QueryBuilder qb = QueryBuilders.multiMatchQuery(id, "speech-member-id", "*" + qtext + "*", "text");
 		
-		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
+		SearchRequestBuilder query = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-				.setQuery(qb)
-				.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from).to(to))
-				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
+				.setQuery(qb);
+		
+		
+		//:TODO try to parse into date from and to, if it fails, build query accordingly
+		if (from != "" && to != "") {
+			query.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from).to(to));
+		}
+		if (from != "" && to.equals("")){
+			query.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from));
+		}
+		if (to != "" && from.equals("")){
+			query.setPostFilter(QueryBuilders.rangeQuery("sessiondate").to(to));
+		}
+		
+		searchResponse = query.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
 	}
@@ -69,11 +82,11 @@ public class ElasticSearchService {
 		public  SearchResponse searchSpecificListSession(String index, String name,String field, Integer id, Integer limit, int page) {
 			
 			QueryBuilder qb = QueryBuilders.matchQuery(field,id);
-			int paggination = (page-1)*limit;
+			int pagination = (page-1)*limit;
 			searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 					.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb)
-					.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
+					.setFrom(pagination).setSize(limit).setExplain(true).execute().actionGet();
 		
 			return searchResponse;
 		}

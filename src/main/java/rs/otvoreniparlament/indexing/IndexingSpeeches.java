@@ -1,6 +1,7 @@
 package rs.otvoreniparlament.indexing;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,15 +23,15 @@ public class IndexingSpeeches {
 	public void indexSpeeches (){
 		for (Speech speech : speechesForIndexing) {
 			try {
-				String id;
+				Integer id;
 				String text;
-				String plenarySessionId;
-				String sessionDate;
-				String memberId;
+				Integer plenarySessionId;
+				Date sessionDate;
+				Integer memberId;
 				if (speech.getId() != null) {
-					id = speech.getId().toString();
+					id = speech.getId();
 				} else {
-					id = "";
+					id = null;
 				}
 				
 				if(speech.getText() != null) {
@@ -40,45 +41,45 @@ public class IndexingSpeeches {
 				}
 				
 				if( speech.getPlenarySession() != null && speech.getPlenarySession().getId() != null) {
-					plenarySessionId = speech.getPlenarySession().getId().toString();
+					plenarySessionId = speech.getPlenarySession().getId();
 				} else {
-					plenarySessionId = "";
+					plenarySessionId = null;
 				}
 				
 				if(speech.getSessionDate() != null) {
-					sessionDate = speech.getSessionDate().toString();
+					sessionDate = speech.getSessionDate();
 				} else {
-					sessionDate = "";
+					sessionDate = null;
 				}
 				
 				if(speech.getMember() != null && speech.getMember().getId() != null) {
-					memberId = speech.getMember().getId().toString();
+					memberId = speech.getMember().getId();
 				} else {
-					memberId = "";
+					memberId = null;
 				}
 				
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
-			                    		.field("speechid", id)
+			                    		.field("speechid", id != null ? id : "")
 				                        .field("text", text)
-				                        .field("sessionId", plenarySessionId)
-				                        .field("sessiondate", sessionDate)
-				                        .field("speech-member-id", memberId)
+				                        .field("sessionId", plenarySessionId != null ? plenarySessionId : "")
+				                        .field("sessiondate", sessionDate != null ? sessionDate : "")
+				                        .field("speech-member-id", memberId != null ? memberId : "")
 				        				.endObject()
 				                    
 				                  )
 				        .get();
-				String _index = response.getIndex();
-				System.out.println(_index);
-				// Type name
-				String _type = response.getType();
-				
-				System.out.println(_type);
-				// Document ID (generated or not)
-				String _id = response.getId();
-				
-//				System.out.println(_id);
+//				String _index = response.getIndex();
+//				System.out.println(_index);
+//				// Type name
+//				String _type = response.getType();
+//				
+//				System.out.println(_type);
+//				// Document ID (generated or not)
+//				String _id = response.getId();
+//				
+////				System.out.println(_id);
 //				// Version (if it's the first time you index this document, you will get: 1)
 //				long _version = response.getVersion();
 //				

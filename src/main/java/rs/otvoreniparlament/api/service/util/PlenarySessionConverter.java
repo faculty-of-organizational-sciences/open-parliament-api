@@ -1,6 +1,5 @@
 package rs.otvoreniparlament.api.service.util;
 
-import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class PlenarySessionConverter {
 		Map<String, Object> source = sessionData.getSource();
 
 		if (source.get("id") != null)
-			ps.setId((int) source.get("id"));
+			ps.setId((Integer) source.get("id"));
 		
 		if (source.get("agenda") != null)
 			ps.setAgenda((String) source.get("agenda"));
@@ -41,7 +40,7 @@ public class PlenarySessionConverter {
 			ps.setTranscriptText((String) source.get("transcript"));
 		
 		if (source.get("date") != null)
-			ps.setDate((Date) DateFormatter.parseFullTimeDate(source.get("date").toString()));
+			ps.setDate(DateFormatter.parseFullTimeDate(source.get("date").toString()));
 
 		return ps;
 	}

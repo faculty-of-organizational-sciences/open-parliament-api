@@ -48,7 +48,7 @@ public class SpeechJsonParser {
 
 			jsonSpeech.addProperty("sessionDate", DateFormatter.format(s.getSessionDate()));
 
-			if (s.getPlenarySession() != null) {
+			if (s.getPlenarySession() != null && s.getPlenarySession().getAgenda() != null) {
 
 				String[] agenda = s.getPlenarySession().getAgenda().split("\\s\\(\\d\\d\\d\\d\\)\\s");
 
@@ -101,7 +101,6 @@ public class SpeechJsonParser {
 		} else {
 			jsonSpeech.addProperty("error", "There is no speech with the given ID.");
 		}
-		jsonSpeech.addProperty("count", countElasticSpeech);
 		return jsonSpeech;
 	}
 

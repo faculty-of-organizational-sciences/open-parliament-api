@@ -17,10 +17,10 @@ public class StartIndexing {
 		
 		logger.info("Indexing started");
 		
-		indexMembers();
-		indexParties();
+//		indexMembers();
+//		indexParties();
 		indexSpeeches();
-		indexSessions();
+//		indexSessions();
 		
 		logger.info("Indexing ended");
 		System.exit(0);

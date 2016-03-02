@@ -26,7 +26,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setTotalHits(sd.getMemberSpeechesTotalCount(id, qtext, from, to));
 			
 		}else {
-			SearchResponse searchResponse = es.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit,page, qtext, from, to);
+			SearchResponse searchResponse = es.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit, page, qtext, from, to);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSpeeches(searchResponse));
 		}
@@ -38,8 +38,13 @@ public class SpeechServiceImp implements SpeechService {
 		if (!ElasticClient.getInstance().isConnectionStatus()){
 			return sd.getSpeech(id);
 		}else {
-			SearchResponse searchresponse= es.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", String.valueOf(id));
-			return SpeechConverter.convertToSpeech(searchresponse);
+			SearchResponse searchResponse = es.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", String.valueOf(id));
+			
+			if (searchResponse.getHits().getTotalHits() == 0) {
+				return null;
+			}
+			
+			return SpeechConverter.convertToSpeech(searchResponse.getHits().getAt(0));
 		}
 	}
 

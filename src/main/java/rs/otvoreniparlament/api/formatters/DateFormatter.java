@@ -1,6 +1,6 @@
 package rs.otvoreniparlament.api.formatters;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -20,8 +20,16 @@ public class DateFormatter {
 	}
 
 	public static Date parseFullTimeDate(String stringDate) {
+		if(stringDate == null){
+			logger.debug("stringDate is null");
+			return null;
+		}
+		if(stringDate == ""){
+			logger.debug("stringDate is empty");
+			return null;
+		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat(FULL_TIME_DATE_FORMAT);
-		java.util.Date utilDate;
+		Date utilDate;
 		
 		try {
 			utilDate = dateFormat.parse(stringDate);
@@ -29,7 +37,6 @@ public class DateFormatter {
 			logger.error(e1);
 			return null;
 		}
-		Date d = new Date(utilDate.getTime());
-		return d;
+		return utilDate;
 	}
 }
