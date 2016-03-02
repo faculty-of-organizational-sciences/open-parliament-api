@@ -66,7 +66,8 @@ public class PartyServiceImp implements PartyService {
 		}else {
 			SearchResponse searchResponse =es.searchSpecificPartyMember(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, id, limit, page);
 			
-			response.setRecords( PartyConvertor.convertToPartyMembers(searchResponse));
+			response.setRecords(PartyConvertor.convertToPartyMembers(searchResponse));
+			response.setTotalHits(searchResponse.getHits().getTotalHits());
 		}
 		return response;
 	}

@@ -23,7 +23,7 @@ public class PartyJsonParser {
 		}
 
 		json.add("dataArray", array);
-		json.addProperty("count",counter );
+		json.addProperty("count", counter);
 		return json;
 	}
 

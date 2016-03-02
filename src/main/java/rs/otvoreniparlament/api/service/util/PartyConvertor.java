@@ -75,17 +75,18 @@ public class PartyConvertor {
 					String json = gson.toJson(array.get(i));
 					try {
 						JSONObject jsonObj = new JSONObject(json);
-						query = jsonObj.getString("id");
+						query += jsonObj.getString("id");
+						
 					} catch (JSONException e) {
 						logger.error(e);
 					}
 					ElasticSearchService es = new ElasticSearchService();
 					
-					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id",query);
+					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
 					if (search.getHits().getTotalHits() == 0) {
 						return null;
 					}
-					Member member = MembersConvertor.convertToMember(search.getHits().getAt(0));
+					Member member = MembersConvertor.convertToMemberOfParty(search.getHits().getAt(0));
 					members.add(member);
 				}
 			}

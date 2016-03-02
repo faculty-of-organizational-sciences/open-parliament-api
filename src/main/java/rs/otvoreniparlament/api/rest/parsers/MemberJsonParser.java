@@ -25,7 +25,7 @@ public class MemberJsonParser {
 			}
 		} 
 		json.add("dataArray", array);
-		json.addProperty("count", count );
+		json.addProperty("count", count);
 		return json;
 	}
 
