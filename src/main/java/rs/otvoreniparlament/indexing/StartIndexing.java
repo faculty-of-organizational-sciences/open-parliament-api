@@ -2,11 +2,8 @@ package rs.otvoreniparlament.indexing;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.ThreadContext;
 
 import rs.otvoreniparlament.api.config.Settings;
-import rs.otvoreniparlament.api.util.ResourceBundleUtil;
-import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
 public class StartIndexing {
 	
@@ -17,10 +14,10 @@ public class StartIndexing {
 		
 		logger.info("Indexing started");
 		
-//		indexMembers();
-//		indexParties();
+		indexMembers();
+		indexParties();
 		indexSpeeches();
-//		indexSessions();
+		indexSessions();
 		
 		logger.info("Indexing ended");
 		System.exit(0);

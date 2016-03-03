@@ -33,8 +33,8 @@ public class IndexingParties {
 			for (Party party : partiesForIndexing) {
 				XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
 				builder
-	            	.field("party-id", party.getId())
-	                .field("party-name", party.getName());
+	            	.field("party-id", party.getId()!= null ? party.getId() : "")
+	                .field("party-name", party.getName()!= null ? party.getName() : "");
 
 				List<Member> partiyMembrsForIndexing = pd.getPartyMembers(party.getId(), 1000,1);
 				
@@ -42,7 +42,7 @@ public class IndexingParties {
 				
 				for (Member member : partiyMembrsForIndexing) {
 					builder.startObject()
-						.field("id", member.getId())
+						.field("id", member.getId() != null ? member.getId() : "")
 					.endObject();
 				}
 				
