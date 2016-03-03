@@ -19,7 +19,7 @@ public class ElasticSearchService {
 		}
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-				.setQuery(qb) // Query
+				.setQuery(qb)
 				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
@@ -31,7 +31,7 @@ public class ElasticSearchService {
 		
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-				.setQuery(qb)// Query
+				.setQuery(qb)
 				.setFrom(0).setSize(60).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
@@ -42,11 +42,11 @@ public class ElasticSearchService {
 		if(query == "")	{
 		 qb = QueryBuilders.matchAllQuery();
 		}else{
-		 qb = QueryBuilders.multiMatchQuery(query + "*", "name" ,"surname");
+		 qb = QueryBuilders.multiMatchQuery(query+"*", "name" ,query+"*", "surname");
 		}
 		searchResponse = ElasticClient.getInstance().getClient().prepareSearch(index)
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-				.setQuery(qb) // Query
+				.setQuery(qb) 
 				.setFrom(paggination).setSize(limit).setExplain(true).execute().actionGet();
 	
 		return searchResponse;
@@ -91,8 +91,8 @@ public class ElasticSearchService {
 			return searchResponse;
 		}
 		
-//		List of members from specific party
-public  SearchResponse searchSpecificPartyMember(String index, String name, Integer id, Integer limit, int page) {
+//list of members from specific party
+		public  SearchResponse searchSpecificPartyMember(String index, String name, Integer id, Integer limit, int page) {
 			
 			QueryBuilder qb = QueryBuilders.matchQuery("party-id", id);
 			int paggination = (page-1)*limit;
@@ -103,9 +103,6 @@ public  SearchResponse searchSpecificPartyMember(String index, String name, Inte
 		
 			return searchResponse;
 		}
-		
-	
-
 
 	public SearchResponse searchResponse;
 

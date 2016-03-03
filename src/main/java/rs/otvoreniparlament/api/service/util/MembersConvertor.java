@@ -22,18 +22,16 @@ import rs.otvoreniparlament.indexing.IndexName;
 import rs.otvoreniparlament.indexing.IndexType;
 
 public class MembersConvertor {
-	
+
 	private static final Logger logger = LogManager.getLogger(MembersConvertor.class);
 
 	public static List<Member> convertToMembers(SearchResponse membersData) {
 		List<Member> members = new LinkedList<>();
 
 		for (SearchHit m : membersData.getHits()) {
-
 			Member member = convertToMember(m);
 			members.add(member);
 		}
-
 		return members;
 	}
 
@@ -42,7 +40,6 @@ public class MembersConvertor {
 		Member member = new Member();
 
 		Map<String, Object> source = memberData.getSource();
-
 		addData(member, source);
 
 		if (source.get("member-parties") != null) {
@@ -53,7 +50,7 @@ public class MembersConvertor {
 			for (int i = 0; i < all.size(); i++) {
 				String query = "";
 
-				Gson gson=new Gson();
+				Gson gson = new Gson();
 				String json = gson.toJson(all.get(i));
 				try {
 					JSONObject jsonObj = new JSONObject(json);
@@ -73,7 +70,6 @@ public class MembersConvertor {
 		}
 		return member;
 	}
-	
 
 	public static Member convertToMemberOfParty(SearchHit memberData) {
 
@@ -85,29 +81,16 @@ public class MembersConvertor {
 
 		return member;
 	}
-	public static void addData(Member member, Map<String, Object> source){
+
+	public static void addData(Member member, Map<String, Object> source) {
 		member.setId((int) source.get("id"));
 		member.setName((String) source.get("name"));
-
 		member.setLastName((String) source.get("surname"));
-
-		if (source.get("mail") != null) {
-			member.setEmail((String) source.get("mail"));
-		}
-		if (source.get("biography") != null) {
-			member.setBiography((String) source.get("biography"));
-		}
-		if (source.get("birth-town") != null) {
-			member.getPlaceOfBirth().setName((String) source.get("birth-town"));
-		}
-		if (source.get("residence-town") != null) {
-			member.getPlaceOfResidence().setName((String) source.get("residence-town"));
-		}
-		if (source.get("dateofbirth") != null) {
-			member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
-		}
-		if (source.get("gender") != null) {
-			member.setGender((String) source.get("gender"));
-		}
+		member.setEmail((String) source.get("mail"));
+		member.setBiography((String) source.get("biography"));
+		member.getPlaceOfBirth().setName((String) source.get("birth-town"));
+		member.getPlaceOfResidence().setName((String) source.get("residence-town"));
+		member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
+		member.setGender((String) source.get("gender"));
 	}
 }
