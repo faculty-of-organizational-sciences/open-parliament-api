@@ -80,8 +80,8 @@ public class PartyConvertor {
 					} catch (JSONException e) {
 						logger.error(e);
 					}
-					ElasticSearchService es = new ElasticSearchService();
 					
+					ElasticSearchService es = new ElasticSearchService();
 					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
 					if (search.getHits().getTotalHits() == 0) {
 						return null;
