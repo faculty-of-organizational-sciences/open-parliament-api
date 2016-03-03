@@ -17,7 +17,7 @@ import rs.otvoreniparlament.api.index.ElasticClient;
 public class IndexingSpeeches {
 
 	SpeechDao sd = new SpeechDao();
-	List<Speech> speechesForIndexing = sd.getSpeeches(200000, 1);
+	List<Speech> speechesForIndexing = sd.getSpeeches(200, 1);
 	
 	private static final Logger logger = LogManager.getLogger(IndexingSpeeches.class);
 	public void indexSpeeches (){
@@ -28,6 +28,9 @@ public class IndexingSpeeches {
 				Integer plenarySessionId;
 				Date sessionDate;
 				Integer memberId;
+				String memberName;
+				String memberLastName;
+				
 				if (speech.getId() != null) {
 					id = speech.getId();
 				} else {
@@ -57,6 +60,16 @@ public class IndexingSpeeches {
 				} else {
 					memberId = null;
 				}
+				if(speech.getMember() != null && speech.getMember().getName() != null) {
+					memberName = speech.getMember().getName();
+				} else {
+					memberName = null;
+				}
+				if(speech.getMember() != null && speech.getMember().getLastName()!= null) {
+					memberLastName = speech.getMember().getLastName();
+				} else {
+					memberLastName = null;
+				}
 				
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
@@ -66,6 +79,8 @@ public class IndexingSpeeches {
 				                        .field("sessionId", plenarySessionId != null ? plenarySessionId : "")
 				                        .field("sessiondate", sessionDate != null ? sessionDate : "")
 				                        .field("speech-member-id", memberId != null ? memberId : "")
+				                        .field("speech-member-name", memberName != null ? memberName : "")
+				                        .field("speech-member-surname", memberLastName != null ? memberLastName : "")
 				        				.endObject()
 				                    
 				                  )

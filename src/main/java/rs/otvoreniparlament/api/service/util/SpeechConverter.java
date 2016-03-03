@@ -22,9 +22,7 @@ public class SpeechConverter {
 		List<Speech> speeches = new LinkedList<>();
 		
 		for (SearchHit s : speechData.getHits()) {
-			
 			Speech speech = convertToSpeech(s);
-			
 			speeches.add(speech);
 		}
 		return speeches;
@@ -39,7 +37,8 @@ public class SpeechConverter {
 			speech.setText((String)source.get("text"));
 			speech.setSessionDate(DateFormatter.parseFullTimeDate(source.get("sessiondate").toString()));
 			speech.getMember().setId((Integer)source.get("speech-member-id"));
-			
+			speech.getMember().setName((String) source.get("speech-member-name"));
+			speech.getMember().setLastName((String)source.get("speech-member-surname"));
 			int id = (Integer)source.get("sessionId");
 			
 			PlenarySession ps = new PlenarySession();
