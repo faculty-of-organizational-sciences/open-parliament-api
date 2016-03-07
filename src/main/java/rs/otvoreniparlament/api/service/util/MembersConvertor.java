@@ -58,9 +58,8 @@ public class MembersConvertor {
 				} catch (JSONException e) {
 					logger.error(e);
 				}
-				ElasticSearchService es = new ElasticSearchService();
-				SearchResponse search = es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, "party-id",
-						query);
+				SearchResponse search = ElasticSearchService.searchSpecificID(IndexName.PARTY_INDEX,
+						IndexType.PARTY_TYPE, "party-id", query);
 
 				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
 				parties.add(party);
@@ -74,23 +73,37 @@ public class MembersConvertor {
 	public static Member convertToMemberOfParty(SearchHit memberData) {
 
 		Member member = new Member();
-
 		Map<String, Object> source = memberData.getSource();
 
 		addData(member, source);
-
 		return member;
 	}
 
-	public static void addData(Member member, Map<String, Object> source) {
+	private static void addData(Member member, Map<String, Object> source) {
 		member.setId((int) source.get("id"));
-		member.setName((String) source.get("name"));
-		member.setLastName((String) source.get("surname"));
-		member.setEmail((String) source.get("mail"));
-		member.setBiography((String) source.get("biography"));
-		member.getPlaceOfBirth().setName((String) source.get("birth-town"));
-		member.getPlaceOfResidence().setName((String) source.get("residence-town"));
-		member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
-		member.setGender((String) source.get("gender"));
+		if(source.get("name")!= null){
+			member.setName((String) source.get("name"));
+		}
+		if(source.get("surname")!= null){
+			member.setLastName((String) source.get("surname"));			
+		}
+		if(source.get("mail")!= null){
+			member.setEmail((String) source.get("mail"));
+		}
+		if(source.get("biography")!= null){
+			member.setBiography((String) source.get("biography"));
+		}
+		if (source.get("birth-town") != null) {
+			member.getPlaceOfBirth().setName((String) source.get("birth-town"));
+		}
+		if (source.get("residence-town") != null) {
+			member.getPlaceOfResidence().setName((String) source.get("residence-town"));
+		}
+		if(source.get("dateofbirth") != null){
+			member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
+		}
+		if(source.get("gender")!= null){
+			member.setGender((String) source.get("gender"));
+		}
 	}
 }

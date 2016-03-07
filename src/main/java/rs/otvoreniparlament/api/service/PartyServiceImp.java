@@ -13,7 +13,6 @@ import rs.otvoreniparlament.indexing.IndexType;
 
 public class PartyServiceImp implements PartyService {
 	
-	protected ElasticSearchService es  =new ElasticSearchService();
 	protected PartyDao pd = new PartyDao();
 
 	@Override
@@ -28,7 +27,7 @@ public class PartyServiceImp implements PartyService {
 			
 		}else {
 			
-			SearchResponse searchResponse = es.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query, limit, page);
+			SearchResponse searchResponse = ElasticSearchService.searchQuery(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, query, limit, page);
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(PartyConvertor.convertToParties(searchResponse));
@@ -43,7 +42,7 @@ public class PartyServiceImp implements PartyService {
 		if (!ElasticClient.getInstance().isConnectionStatus()){
 			return pd.getParty(id);
 		}else {
-			SearchResponse searchResponse =es.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", String.valueOf(id));
+			SearchResponse searchResponse =ElasticSearchService.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE ,"party-id", String.valueOf(id));
 			
 			if (searchResponse.getHits().getTotalHits() == 0) {
 				return null;
@@ -64,7 +63,7 @@ public class PartyServiceImp implements PartyService {
 			response.setTotalHits(pd.getPartyMembersTotalCount(id));
 			
 		}else {
-			SearchResponse searchResponse =es.searchSpecificPartyMember(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, id, limit, page);
+			SearchResponse searchResponse =ElasticSearchService.searchSpecificPartyMember(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE, id, limit, page);
 			
 			response.setRecords(PartyConvertor.convertToPartyMembers(searchResponse));
 			response.setTotalHits(searchResponse.getHits().getTotalHits());

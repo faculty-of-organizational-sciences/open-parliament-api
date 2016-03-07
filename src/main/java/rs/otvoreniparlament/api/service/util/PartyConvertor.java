@@ -44,8 +44,9 @@ public class PartyConvertor {
 		Map<String, Object> source = partyData.getSource();
 
 			party.setId((int) source.get("party-id"));
-			party.setName((String) source.get("party-name"));
-
+			if(source.get("party-name")!= null){
+				party.setName((String) source.get("party-name"));
+			}
 
 		return party;
 	}
@@ -73,8 +74,7 @@ public class PartyConvertor {
 						logger.error(e);
 					}
 					
-					ElasticSearchService es = new ElasticSearchService();
-					SearchResponse search = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
+					SearchResponse search = ElasticSearchService.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
 					if (search.getHits().getTotalHits() == 0) {
 						return null;
 					}

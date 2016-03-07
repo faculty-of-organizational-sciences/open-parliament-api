@@ -13,7 +13,6 @@ import rs.otvoreniparlament.indexing.IndexType;
 public class MembersServiceImp implements MembersService {
 
 	protected MembersDao md = new MembersDao();
-	protected ElasticSearchService es = new ElasticSearchService();
 
 	@Override
 	public ServiceResponse<Member> getMembers(int page, int limit, String sort, String query) {
@@ -26,7 +25,7 @@ public class MembersServiceImp implements MembersService {
 			response.setTotalHits(md.getTotalCount(query));
 
 		} else {
-			SearchResponse searchResponse = es.searchQueryWihtFields(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query, limit,	page);
+			SearchResponse searchResponse = ElasticSearchService.searchQueryWihtFields(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, query, limit,	page);
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(MembersConvertor.convertToMembers(searchResponse));
@@ -44,7 +43,7 @@ public class MembersServiceImp implements MembersService {
 			return md.getMember(id);
 
 		} else {
-			SearchResponse searchResponse = es.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", String.valueOf(id));
+			SearchResponse searchResponse = ElasticSearchService.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", String.valueOf(id));
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			

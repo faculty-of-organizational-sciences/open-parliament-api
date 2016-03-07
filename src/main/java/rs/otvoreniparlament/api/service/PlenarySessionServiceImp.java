@@ -12,7 +12,6 @@ import rs.otvoreniparlament.indexing.IndexType;
 
 public class PlenarySessionServiceImp implements PlenarySessionService {
 
-	protected ElasticSearchService es = new ElasticSearchService();
 	protected PlenarySessionDao psd = new PlenarySessionDao();
 
 	@Override
@@ -26,7 +25,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 			response.setTotalHits(psd.getTotalCount());
 
 		} else {
-			SearchResponse searchResponse = es.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", limit, page);
+			SearchResponse searchResponse = ElasticSearchService.searchQuery(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "", limit, page);
 
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(PlenarySessionConverter.convertToSession(searchResponse));
@@ -40,7 +39,7 @@ public class PlenarySessionServiceImp implements PlenarySessionService {
 		if (!ElasticClient.getInstance().isConnectionStatus()) {
 			return psd.getPlenarySession(id);
 		} else {
-			SearchResponse searchResponse = es.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "id", String.valueOf(id));
+			SearchResponse searchResponse = ElasticSearchService.searchSpecificID(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, "id", String.valueOf(id));
 
 			if (searchResponse.getHits().getTotalHits() == 0) {
 				return null;

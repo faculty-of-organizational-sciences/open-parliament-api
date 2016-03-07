@@ -12,6 +12,7 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 
 import rs.otvoreniparlament.api.dao.SpeechDao;
 import rs.otvoreniparlament.api.domain.Speech;
+import rs.otvoreniparlament.api.formatters.DateFormatter;
 import rs.otvoreniparlament.api.index.ElasticClient;
 
 public class IndexingSpeeches {
@@ -52,7 +53,7 @@ public class IndexingSpeeches {
 				if(speech.getSessionDate() != null) {
 					sessionDate = speech.getSessionDate();
 				} else {
-					sessionDate = null;
+					sessionDate = DateFormatter.parseFullTimeDate("0000-00-00");
 				}
 				
 				if(speech.getMember() != null && speech.getMember().getId() != null) {
@@ -74,13 +75,13 @@ public class IndexingSpeeches {
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, speech.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
-			                    		.field("speechid", id != null ? id : "")
+			                    		.field("speechid", id != null ? id : "-1")
 				                        .field("text", text)
-				                        .field("sessionId", plenarySessionId != null ? plenarySessionId : "")
-				                        .field("sessiondate", sessionDate != null ? sessionDate : "")
-				                        .field("speech-member-id", memberId != null ? memberId : "")
-				                        .field("speech-member-name", memberName != null ? memberName : "")
-				                        .field("speech-member-surname", memberLastName != null ? memberLastName : "")
+				                        .field("sessionId", plenarySessionId != null ? plenarySessionId : "-1")
+				                        .field("sessiondate", sessionDate)
+				                        .field("speech-member-id", memberId != null ? memberId : "-1")
+				                        .field("speech-member-name", memberName != null ? memberName : "no data")
+				                        .field("speech-member-surname", memberLastName != null ? memberLastName : "no data")
 				        				.endObject()
 				                    
 				                  )
