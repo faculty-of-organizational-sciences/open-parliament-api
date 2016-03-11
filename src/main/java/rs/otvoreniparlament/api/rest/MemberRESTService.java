@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
+import rs.otvoreniparlament.api.formatters.DateFormatter;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
@@ -127,9 +128,22 @@ public class MemberRESTService {
 		String validQueryText;
 
 		if (from == null) {
+			
 			validFromDate = "";
 		} else {
-			validFromDate = from;
+			try {
+				DateFormatter.parseFullTimeDate(from);
+				validFromDate = from;
+			} catch (Exception e) {
+				try {
+					validFromDate = "";
+					throw new AppException(Status.NO_CONTENT,
+							ResourceBundleUtil.getMessage("members.no_content.irregular_date_format", String.valueOf(id)));
+				} catch (KeyNotFoundInBundleException e1) {
+					validFromDate = "";
+					logger.error(e1);
+				}
+			}
 		}
 
 		if (to == null) {
