@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class DateRegex {
 
-	String regex = "((19|20)\\d\\d)-([1-9]|1[012])-([1-9]|[12][0-9]|3[01])";
+	String regex = "((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
 	private static Pattern pattern;
 	private static Matcher matcher;
 
