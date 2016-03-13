@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.formatters.DateRegex;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
 import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
 import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
@@ -36,6 +36,7 @@ public class MemberRESTService {
 
 	protected MembersService memberService;
 	protected SpeechService speechService;
+	DateRegex date = new DateRegex();
 
 	public MemberRESTService() {
 		memberService = new MembersServiceImp();
@@ -128,28 +129,33 @@ public class MemberRESTService {
 		String validQueryText;
 
 		if (from == null) {
-			
 			validFromDate = "";
 		} else {
-			try {
-				DateFormatter.parseFullTimeDate(from);
+			if(DateRegex.ValidateDate(from)){
 				validFromDate = from;
-			} catch (Exception e) {
-				try {
-					validFromDate = "";
-					throw new AppException(Status.NO_CONTENT,
-							ResourceBundleUtil.getMessage("members.no_content.irregular_date_format", String.valueOf(id)));
-				} catch (KeyNotFoundInBundleException e1) {
-					validFromDate = "";
-					logger.error(e1);
-				}
+			}else {
+				validFromDate= "";
 			}
 		}
 
+		System.out.println(to);
 		if (to == null) {
 			validToDate = "";
 		} else {
-			validToDate = to;
+			System.out.println(DateRegex.ValidateDate(to));
+			if(DateRegex.ValidateDate(to)){
+				validToDate = to;
+				System.out.println(validFromDate);
+
+			}else {
+				try {
+					throw new AppException(Status.FORBIDDEN,
+							ResourceBundleUtil.getMessage("date.invalid_date_format", to));
+				} catch (KeyNotFoundInBundleException e) {
+					logger.error(e);
+				}
+				validToDate= "";
+			}
 		}
 
 		if (qtext == null) {
