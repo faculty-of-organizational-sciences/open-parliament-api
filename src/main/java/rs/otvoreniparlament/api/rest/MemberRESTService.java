@@ -142,11 +142,8 @@ public class MemberRESTService {
 		if (to == null) {
 			validToDate = "";
 		} else {
-			System.out.println(DateRegex.ValidateDate(to));
 			if(DateRegex.ValidateDate(to)){
 				validToDate = to;
-				System.out.println(validFromDate);
-
 			}else {
 				try {
 					throw new AppException(Status.FORBIDDEN,

@@ -18,7 +18,7 @@ import rs.otvoreniparlament.api.index.ElasticClient;
 public class IndexingSpeeches {
 
 	SpeechDao sd = new SpeechDao();
-	List<Speech> speechesForIndexing = sd.getSpeeches(200, 1);
+	List<Speech> speechesForIndexing = sd.getSpeeches(5000, 1);
 	
 	private static final Logger logger = LogManager.getLogger(IndexingSpeeches.class);
 	public void indexSpeeches (){
