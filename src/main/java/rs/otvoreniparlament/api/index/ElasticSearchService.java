@@ -69,8 +69,6 @@ public class ElasticSearchService {
 				.setTypes(name).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 				.setQuery(qb);
 		
-		
-		//:TODO try to parse into date from and to, if it fails, build query accordingly
 		if (from != "" && to != "" ) {
 			query.setPostFilter(QueryBuilders.rangeQuery("sessiondate").from(from).to(to));
 		}
