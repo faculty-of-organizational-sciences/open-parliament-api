@@ -8,7 +8,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
 import rs.otvoreniparlament.api.domain.PlenarySession;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
 
 public class PlenarySessionConverter {
 

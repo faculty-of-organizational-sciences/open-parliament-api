@@ -16,8 +16,9 @@ import org.junit.runners.Parameterized.Parameters;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.domain.Town;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
-import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.MemberJsonParser;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
+
 import com.google.gson.JsonObject;
 
 @RunWith(Parameterized.class)

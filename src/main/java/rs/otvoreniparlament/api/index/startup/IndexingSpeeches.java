@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.indexing;
+package rs.otvoreniparlament.api.index.startup;
 
 import java.io.IOException;
 import java.util.Date;
@@ -12,13 +12,15 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 
 import rs.otvoreniparlament.api.dao.SpeechDao;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
 import rs.otvoreniparlament.api.index.ElasticClient;
+import rs.otvoreniparlament.api.index.IndexName;
+import rs.otvoreniparlament.api.index.IndexType;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
 
 public class IndexingSpeeches {
 
 	SpeechDao sd = new SpeechDao();
-	List<Speech> speechesForIndexing = sd.getSpeeches(5000, 1);
+	List<Speech> speechesForIndexing = sd.getSpeeches(200000, 1);
 	
 	private static final Logger logger = LogManager.getLogger(IndexingSpeeches.class);
 	public void indexSpeeches (){

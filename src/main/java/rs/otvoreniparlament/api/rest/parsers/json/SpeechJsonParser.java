@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.api.rest.parsers;
+package rs.otvoreniparlament.api.rest.parsers.json;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.google.gson.JsonPrimitive;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class SpeechJsonParser {

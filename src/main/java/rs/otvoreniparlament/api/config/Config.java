@@ -2,6 +2,8 @@ package rs.otvoreniparlament.api.config;
 
 
 public class Config {
+	
+	public boolean indexDataOnStartup;
 
 	public DbConfig dbConfig;
 
@@ -10,6 +12,14 @@ public class Config {
 	public UriConfig uriGenerator;
 	
 	public ElasticConfig elasticConfig;
+	
+	public boolean isIndexDataOnStartup() {
+		return indexDataOnStartup;
+	}
+
+	public void setIndexDataOnStartup(boolean indexDataOnStartup) {
+		this.indexDataOnStartup = indexDataOnStartup;
+	}
 
 	public ElasticConfig getElasticConfig() {
 		return elasticConfig;

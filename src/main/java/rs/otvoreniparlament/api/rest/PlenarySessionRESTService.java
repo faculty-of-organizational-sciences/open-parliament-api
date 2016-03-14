@@ -18,19 +18,20 @@ import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
-import rs.otvoreniparlament.api.rest.parsers.PlenarySessionJsonParser;
-import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.PlenarySessionJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.SpeechJsonParser;
+import rs.otvoreniparlament.api.rest.util.ParameterChecker;
 import rs.otvoreniparlament.api.service.PlenarySessionService;
 import rs.otvoreniparlament.api.service.SpeechService;
-import rs.otvoreniparlament.api.service.SpeechServiceImp;
-import rs.otvoreniparlament.api.service.PlenarySessionServiceImp;
+import rs.otvoreniparlament.api.service.impl.PlenarySessionServiceImp;
+import rs.otvoreniparlament.api.service.impl.SpeechServiceImp;
 import rs.otvoreniparlament.api.service.ServiceResponse;
 import rs.otvoreniparlament.api.util.ResourceBundleUtil;
 import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
 @Path("/sessions")
 public class PlenarySessionRESTService {
-	
+
 	private final Logger logger = LogManager.getLogger(PartyRESTService.class);
 
 	protected PlenarySessionService plenarySessionService;
@@ -45,28 +46,19 @@ public class PlenarySessionRESTService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessions(@QueryParam("limit") int limit, @QueryParam("page") int page) {
 		
-		int validLimit;
-		int validPage;
+		// validation
+		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
+		int validPage = ParameterChecker.check(limit, 1);
 
-		if (limit == 0) {
-			validLimit = Settings.getInstance().config.query.limit;
-		} else {
-			validLimit = limit;
-		}
-
-		if (page == 0) {
-			validPage = 1;
-		} else {
-			validPage = page;
-		}
-
+		// retrieving the data
 		ServiceResponse<PlenarySession> response = plenarySessionService.getPlenarySessions(validLimit, validPage);
 		List<PlenarySession> plenarySessions = response.getRecords();
 		long counter = response.getTotalHits();
 
 		if (plenarySessions.isEmpty())
 			try {
-				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("sessions.not_found.noSessions"));
+				throw new AppException(Status.NOT_FOUND,
+						ResourceBundleUtil.getMessage("sessions.not_found.noSessions"));
 			} catch (KeyNotFoundInBundleException e) {
 				logger.error(e);
 			}
@@ -85,7 +77,8 @@ public class PlenarySessionRESTService {
 
 		if (ps == null)
 			try {
-				throw new AppException(Status.NOT_FOUND, ResourceBundleUtil.getMessage("sessions.not_found.noSessionId", String.valueOf(id)));
+				throw new AppException(Status.NOT_FOUND,
+						ResourceBundleUtil.getMessage("sessions.not_found.noSessionId", String.valueOf(id)));
 			} catch (KeyNotFoundInBundleException e) {
 				logger.error(e);
 			}
@@ -100,29 +93,20 @@ public class PlenarySessionRESTService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getPlenarySessionSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
 			@QueryParam("page") int page) {
-		
-		int validLimit;
-		int validPage;
 
-		if (limit == 0) {
-			validLimit = Settings.getInstance().config.query.limit;
-		} else {
-			validLimit = limit;
-		}
+		// validation
+		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
+		int validPage = ParameterChecker.check(limit, 1);
 
-		if (page == 0) {
-			validPage = 1;
-		} else {
-			validPage = page;
-		}
-
+		// retrieving the data
 		ServiceResponse<Speech> speechresponse = speechService.getPlenarySessionSpeeches(id, validLimit, validPage);
 		List<Speech> speeches = speechresponse.getRecords();
 		long counter = speechresponse.getTotalHits();
 
 		if (speeches.isEmpty())
 			try {
-				throw new AppException(Status.NO_CONTENT, ResourceBundleUtil.getMessage("sessions.no_content.noSpeeches", String.valueOf(id)));
+				throw new AppException(Status.NO_CONTENT,
+						ResourceBundleUtil.getMessage("sessions.no_content.noSpeeches", String.valueOf(id)));
 			} catch (KeyNotFoundInBundleException e) {
 				logger.error(e);
 			}

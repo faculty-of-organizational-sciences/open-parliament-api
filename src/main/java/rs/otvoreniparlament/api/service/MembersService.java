@@ -8,4 +8,6 @@ public interface MembersService {
 	
 	Member getMember(int id);
 
+	ServiceResponse<Member> getPartyMembers(int id, int limit, int page);
+
 }

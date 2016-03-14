@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
-import rs.otvoreniparlament.api.rest.parsers.PartyJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.PartyJsonParser;
 
 @RunWith(Parameterized.class)
 public class PartyJsonParserTest {

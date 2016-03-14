@@ -17,15 +17,15 @@ import org.apache.logging.log4j.Logger;
 import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.formatters.DateRegex;
 import rs.otvoreniparlament.api.rest.exceptions.AppException;
-import rs.otvoreniparlament.api.rest.parsers.MemberJsonParser;
-import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.MemberJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.SpeechJsonParser;
+import rs.otvoreniparlament.api.rest.util.ParameterChecker;
 import rs.otvoreniparlament.api.service.MembersService;
-import rs.otvoreniparlament.api.service.MembersServiceImp;
 import rs.otvoreniparlament.api.service.ServiceResponse;
 import rs.otvoreniparlament.api.service.SpeechService;
-import rs.otvoreniparlament.api.service.SpeechServiceImp;
+import rs.otvoreniparlament.api.service.impl.MembersServiceImp;
+import rs.otvoreniparlament.api.service.impl.SpeechServiceImp;
 import rs.otvoreniparlament.api.util.ResourceBundleUtil;
 import rs.otvoreniparlament.api.util.exceptions.KeyNotFoundInBundleException;
 
@@ -36,7 +36,6 @@ public class MemberRESTService {
 
 	protected MembersService memberService;
 	protected SpeechService speechService;
-	DateRegex date = new DateRegex();
 
 	public MemberRESTService() {
 		memberService = new MembersServiceImp();
@@ -47,37 +46,14 @@ public class MemberRESTService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public Response getMembers(@QueryParam("limit") int limit, @QueryParam("page") int page,
 			@QueryParam("sort") String sortType, @QueryParam("query") String query) {
-		
-		int validLimit;
-		int validPage;
-		String validSortType;
-		String validQuery;
-		
-		if (limit == 0) {
-			validLimit = Settings.getInstance().config.query.limit;
-		} else {
-			validLimit = limit;
-		}
 
-		if (page == 0) {
-			validPage = 1;
-		} else {
-			validPage = page;
-		}
+		// validation
+		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
+		int validPage = ParameterChecker.check(limit, 1);
+		String validSortType = ParameterChecker.check(sortType, "ASC", new String[] { "ASC", "DESC" });
+		String validQuery = ParameterChecker.check(query, "", new String[] {});
 
-		if (sortType != null && sortType.equalsIgnoreCase("DESC")) {
-			validSortType = "DESC";
-		} else {
-			validSortType = "ASC";
-		}
-
-		if (query == null) {
-			validQuery = "";
-		} else {
-			validQuery = query;
-		}
-
-		
+		// retrieving the data
 		ServiceResponse<Member> response = memberService.getMembers(validPage, validLimit, validSortType, validQuery);
 		List<Member> members = response.getRecords();
 		long counter = response.getTotalHits();
@@ -89,7 +65,7 @@ public class MemberRESTService {
 				logger.error(e);
 			}
 
-		String json = MemberJsonParser.serializeMembers(members, counter ).toString();
+		String json = MemberJsonParser.serializeMembers(members, counter).toString();
 
 		return Response.status(Response.Status.OK).entity(json).build();
 	}
@@ -121,61 +97,20 @@ public class MemberRESTService {
 	public Response getMemberSpeeches(@PathParam("id") int id, @QueryParam("limit") int limit,
 			@QueryParam("page") int page, @QueryParam("qtext") String qtext, @QueryParam("fromDate") String from,
 			@QueryParam("toDate") String to) {
-		
-		int validLimit;
-		int validPage;
-		String validFromDate;
-		String validToDate;
-		String validQueryText;
 
-		if (from == null) {
-			validFromDate = "";
-		} else {
-			if(DateRegex.ValidateDate(from)){
-				validFromDate = from;
-			}else {
-				validFromDate= "";
-			}
-		}
+		// validation
+		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
+		int validPage = ParameterChecker.check(limit, 1);
+		String validQueryText = ParameterChecker.check(qtext, "", new String[] {});
+		String validFromDate = ParameterChecker.check(from, "");
+		String validToDate = ParameterChecker.check(to, "");
 
-		System.out.println(to);
-		if (to == null) {
-			validToDate = "";
-		} else {
-			if(DateRegex.ValidateDate(to)){
-				validToDate = to;
-			}else {
-				try {
-					throw new AppException(Status.FORBIDDEN,
-							ResourceBundleUtil.getMessage("date.invalid_date_format", to));
-				} catch (KeyNotFoundInBundleException e) {
-					logger.error(e);
-				}
-				validToDate= "";
-			}
-		}
-
-		if (qtext == null) {
-			validQueryText = "";
-		} else {
-			validQueryText = qtext;
-		}
-
-		if (limit == 0) {
-			validLimit = Settings.getInstance().config.query.limit;
-		} else {
-			validLimit = limit;
-		}
-
-		if (page == 0) {
-			validPage = 1;
-		} else {
-			validPage = page;
-		}
-
-		ServiceResponse<Speech> speechesresponse = speechService.getMemberSpeeches(id, validLimit, validPage, validQueryText, validFromDate, validToDate);
+		// retrieving the data
+		ServiceResponse<Speech> speechesresponse = speechService.getMemberSpeeches(id, validLimit, validPage,
+				validQueryText, validFromDate, validToDate);
 		List<Speech> speeches = speechesresponse.getRecords();
 		long counter = speechesresponse.getTotalHits();
+
 		if (speeches.isEmpty())
 			try {
 				throw new AppException(Status.NO_CONTENT,

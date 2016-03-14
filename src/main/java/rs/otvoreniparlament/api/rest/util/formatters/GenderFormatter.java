@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.api.formatters;
+package rs.otvoreniparlament.api.rest.util.formatters;
 
 public class GenderFormatter {
 

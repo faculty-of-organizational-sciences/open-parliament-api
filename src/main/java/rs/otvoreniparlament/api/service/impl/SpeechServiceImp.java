@@ -1,18 +1,26 @@
-package rs.otvoreniparlament.api.service;
+package rs.otvoreniparlament.api.service.impl;
 
 import org.elasticsearch.action.search.SearchResponse;
 
 import rs.otvoreniparlament.api.dao.SpeechDao;
 import rs.otvoreniparlament.api.domain.Speech;
 import rs.otvoreniparlament.api.index.ElasticClient;
-import rs.otvoreniparlament.api.index.ElasticSearchService;
+import rs.otvoreniparlament.api.index.IndexName;
+import rs.otvoreniparlament.api.index.IndexType;
+import rs.otvoreniparlament.api.index.search.ElasticSpeechesSearchService;
+import rs.otvoreniparlament.api.service.ServiceResponse;
+import rs.otvoreniparlament.api.service.SpeechService;
 import rs.otvoreniparlament.api.service.util.SpeechConverter;
-import rs.otvoreniparlament.indexing.IndexName;
-import rs.otvoreniparlament.indexing.IndexType;
 
 public class SpeechServiceImp implements SpeechService {
 
-	protected SpeechDao sd = new SpeechDao();
+	private SpeechDao sd;
+	private ElasticSpeechesSearchService elasticSearch;
+	
+	public SpeechServiceImp() {
+		sd = new SpeechDao();
+		elasticSearch = new ElasticSpeechesSearchService();
+	}
 
 	@Override
 	public ServiceResponse<Speech> getMemberSpeeches(int id, int limit, int page, String qtext, String from, String to) {
@@ -24,7 +32,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setTotalHits(sd.getMemberSpeechesTotalCount(id, qtext, from, to));
 			
 		}else {
-			SearchResponse searchResponse = ElasticSearchService.searchSpecificListMember(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit, page, qtext, from, to);
+			SearchResponse searchResponse = elasticSearch.searchMemberSpeeches(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, id, limit, page, qtext, from, to);
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSpeeches(searchResponse));
 		}
@@ -36,7 +44,7 @@ public class SpeechServiceImp implements SpeechService {
 		if (!ElasticClient.getInstance().isConnectionStatus()){
 			return sd.getSpeech(id);
 		}else {
-			SearchResponse searchResponse = ElasticSearchService.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", String.valueOf(id));
+			SearchResponse searchResponse = elasticSearch.searchSpecificID(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "speechid", String.valueOf(id));
 			
 			if (searchResponse.getHits().getTotalHits() == 0) {
 				return null;
@@ -57,7 +65,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setTotalHits(sd.getSpeechesTotalCount());
 			
 		}else {
-			SearchResponse searchRespons =ElasticSearchService.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "*", limit, page);
+			SearchResponse searchRespons = elasticSearch.searchQuery(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "*", limit, page);
 			
 			response.setTotalHits(searchRespons.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSpeeches(searchRespons));
@@ -76,8 +84,7 @@ public class SpeechServiceImp implements SpeechService {
 			response.setTotalHits(sd.getSessionSpeechesTotalCount(id));
 			
 		}else {
-			String field = "sessionId";
-			SearchResponse searchResponse = ElasticSearchService.searchSpecificListSession(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE,field, id, limit, page);
+			SearchResponse searchResponse = elasticSearch.searchPlenarySessionSpeeches(IndexName.SPEECH_INDEX, IndexType.SPEECH_TYPE, "sessionId", id, limit, page);
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(SpeechConverter.convertToSpeeches(searchResponse));

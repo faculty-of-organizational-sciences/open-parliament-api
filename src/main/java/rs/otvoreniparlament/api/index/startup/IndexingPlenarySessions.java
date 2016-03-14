@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.indexing;
+package rs.otvoreniparlament.api.index.startup;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +16,8 @@ import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.index.ElasticClient;
+import rs.otvoreniparlament.api.index.IndexName;
+import rs.otvoreniparlament.api.index.IndexType;
 
 public class IndexingPlenarySessions {
 

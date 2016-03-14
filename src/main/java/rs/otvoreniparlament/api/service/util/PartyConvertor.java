@@ -17,12 +17,14 @@ import com.google.gson.Gson;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.index.ElasticSearchService;
-import rs.otvoreniparlament.indexing.IndexName;
-import rs.otvoreniparlament.indexing.IndexType;
+import rs.otvoreniparlament.api.index.IndexName;
+import rs.otvoreniparlament.api.index.IndexType;
 
 public class PartyConvertor {
 
 	private static final Logger logger = LogManager.getLogger(MembersConvertor.class);
+	
+	private static ElasticSearchService elasticSearch  = new ElasticSearchService();
 	
 	public static List<Party> convertToParties(SearchResponse partyData) {
 
@@ -51,6 +53,7 @@ public class PartyConvertor {
 		return party;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Member> convertToPartyMembers(SearchResponse partyData) {
 
 		List<Member> members = new LinkedList<>();
@@ -74,7 +77,7 @@ public class PartyConvertor {
 						logger.error(e);
 					}
 					
-					SearchResponse search = ElasticSearchService.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
+					SearchResponse search = elasticSearch.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", query);
 					if (search.getHits().getTotalHits() == 0) {
 						return null;
 					}

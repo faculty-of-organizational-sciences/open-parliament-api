@@ -3,11 +3,9 @@ package rs.otvoreniparlament.api.dao;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.database.HibernateUtil;
-import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 
 public class PartyDao {
@@ -54,27 +52,6 @@ public class PartyDao {
 	}
 	
 
-	public List<Member> getPartyMembers(int id, int limit, int page) {
-		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
-		session.beginTransaction();
-		
-		String query = 
-				"SELECT p.members " + 
-				"FROM Party p " + 
-				"WHERE p.id = :id";
-		
-		@SuppressWarnings("unchecked")
-		List<Member> result = session.createQuery(query)
-				.setFirstResult((page - 1) * limit)
-				.setMaxResults(limit)
-				.setLong("id", id)
-				.list();
-		
-		session.close();
-		
-		return result;
-	}
-	
 	public Long getPartiesTotalCount(String q){
 		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
@@ -99,21 +76,4 @@ public class PartyDao {
 		return countResults;
 	}
 	
-	public Long getPartyMembersTotalCount(int id){
-		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
-		session.beginTransaction();
-		
-		String queryString = 
-				"SELECT count(idposlanika) " + 
-				"FROM clanpolitickeorganizacije " + 
-				"WHERE clanpolitickeorganizacije.idpolitickeorganizacije = :id";
-		
-		SQLQuery query = (SQLQuery) session.createSQLQuery(queryString).setLong("id", id);
-		
-		Long countResults = ((Number) query.uniqueResult()).longValue();
-		
-		session.close();
-		
-		return countResults;
-	}
 }

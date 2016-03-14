@@ -1,4 +1,6 @@
 {
+	indexDataOnStartup: false,
+	
 	dbConfig: {
 		url: "jdbc:mysql://localhost:3306/parliament?zeroDateTimeBehavior=convertToNull",
 		user: "user",

@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.api.rest.parsers;
+package rs.otvoreniparlament.api.rest.parsers.json;
 
 import java.util.List;
 

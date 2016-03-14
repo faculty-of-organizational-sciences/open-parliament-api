@@ -4,20 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
 
 public class SpeechConverter {
 	
-	private static final Logger logger = LogManager.getLogger(SpeechConverter.class);
-
 	public static List<Speech> convertToSpeeches(SearchResponse speechData) {
 		List<Speech> speeches = new LinkedList<>();
 		

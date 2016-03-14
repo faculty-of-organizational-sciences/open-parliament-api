@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.api.rest.parsers;
+package rs.otvoreniparlament.api.rest.parsers.json;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import com.google.gson.JsonObject;
 
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
-import rs.otvoreniparlament.api.formatters.GenderFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.GenderFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class MemberJsonParser {
@@ -20,8 +20,7 @@ public class MemberJsonParser {
 		if (members != null && !members.isEmpty()) {
 
 			for (Member m : members) {
-				JsonObject jsonMember = serializeMember(m);
-				array.add(jsonMember);
+				array.add(serializeMember(m));
 			}
 		} 
 		json.add("dataArray", array);

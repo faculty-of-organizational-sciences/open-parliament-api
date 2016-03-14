@@ -14,7 +14,7 @@ import org.junit.runners.Parameterized.Parameters;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.rest.parsers.SpeechJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.SpeechJsonParser;
 
 import com.google.gson.JsonObject;
 

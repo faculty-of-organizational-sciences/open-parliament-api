@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import rs.otvoreniparlament.api.domain.PlenarySession;
-import rs.otvoreniparlament.api.rest.parsers.PlenarySessionJsonParser;
+import rs.otvoreniparlament.api.rest.parsers.json.PlenarySessionJsonParser;
 
 import com.google.gson.JsonObject;
 

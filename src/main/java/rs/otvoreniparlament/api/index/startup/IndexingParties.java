@@ -1,30 +1,34 @@
-package rs.otvoreniparlament.indexing;
+package rs.otvoreniparlament.api.index.startup;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
+import rs.otvoreniparlament.api.dao.MembersDao;
 import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.index.ElasticClient;
+import rs.otvoreniparlament.api.index.IndexName;
+import rs.otvoreniparlament.api.index.IndexType;
 
 public class IndexingParties {
 	
 	private static final Logger logger = LogManager.getLogger(IndexingParties.class);
 	
 	private PartyDao pd;
+	private MembersDao md;
 	private List<Party> partiesForIndexing;
 	
 	public IndexingParties() {
 		pd = new PartyDao();
+		md = new MembersDao();
 		partiesForIndexing = pd.getParties(1, 10000 , "ASC", "");
 	}
 	
@@ -36,7 +40,7 @@ public class IndexingParties {
 	            	.field("party-id", party.getId()!= null ? party.getId() : "-1")
 	                .field("party-name", party.getName()!= null ? party.getName() : "no data");
 
-				List<Member> partiyMembrsForIndexing = pd.getPartyMembers(party.getId(), 1000,1);
+				List<Member> partiyMembrsForIndexing = md.getPartyMembers(party.getId(), 1000,1);
 				
 				builder.startArray("party-members");
 				

@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import rs.otvoreniparlament.api.database.HibernateUtil;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.domain.Speech;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
 
 public class Test {
 

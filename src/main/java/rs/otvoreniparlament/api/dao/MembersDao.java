@@ -3,6 +3,7 @@ package rs.otvoreniparlament.api.dao;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import rs.otvoreniparlament.api.database.HibernateUtil;
@@ -76,6 +77,45 @@ public class MembersDao {
 		}
 		
 		Long countResults = (Long) query.uniqueResult();
+		
+		session.close();
+		
+		return countResults;
+	}
+	
+	public List<Member> getPartyMembers(int id, int limit, int page) {
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String query = 
+				"SELECT p.members " + 
+				"FROM Party p " + 
+				"WHERE p.id = :id";
+		
+		@SuppressWarnings("unchecked")
+		List<Member> result = session.createQuery(query)
+				.setFirstResult((page - 1) * limit)
+				.setMaxResults(limit)
+				.setLong("id", id)
+				.list();
+		
+		session.close();
+		
+		return result;
+	}
+	
+	public Long getPartyMembersTotalCount(int id){
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		String queryString = 
+				"SELECT count(idposlanika) " + 
+				"FROM clanpolitickeorganizacije " + 
+				"WHERE clanpolitickeorganizacije.idpolitickeorganizacije = :id";
+		
+		SQLQuery query = (SQLQuery) session.createSQLQuery(queryString).setLong("id", id);
+		
+		Long countResults = ((Number) query.uniqueResult()).longValue();
 		
 		session.close();
 		

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import rs.otvoreniparlament.api.formatters.GenderFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.GenderFormatter;
 
 @RunWith(Parameterized.class)
 public class GenderFormatterTest {

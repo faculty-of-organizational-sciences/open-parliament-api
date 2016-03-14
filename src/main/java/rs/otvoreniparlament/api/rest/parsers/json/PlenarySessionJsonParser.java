@@ -1,4 +1,4 @@
-package rs.otvoreniparlament.api.rest.parsers;
+package rs.otvoreniparlament.api.rest.parsers.json;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import rs.otvoreniparlament.api.domain.PlenarySession;
-import rs.otvoreniparlament.api.formatters.DateFormatter;
+import rs.otvoreniparlament.api.rest.util.formatters.DateFormatter;
 import rs.otvoreniparlament.api.uri.UriGenerator;
 
 public class PlenarySessionJsonParser {

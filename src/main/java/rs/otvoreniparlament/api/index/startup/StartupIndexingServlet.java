@@ -1,26 +1,30 @@
-package rs.otvoreniparlament.indexing;
+package rs.otvoreniparlament.api.index.startup;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rs.otvoreniparlament.api.config.Settings;
 
-public class StartIndexing {
+public class StartupIndexingServlet extends HttpServlet {
 	
-	private static final Logger logger = LogManager.getLogger(StartIndexing.class);
+	private static final long serialVersionUID = 2665061837084831925L;
+	
+	private static final Logger logger = LogManager.getLogger(StartupIndexingServlet.class);
 
-	public static void main(String[] args) {
-		Settings.getInstance();
-		
-		logger.info("Indexing started");
-		
-		indexMembers();
-		indexParties();
-		indexSpeeches();
-		indexSessions();
-		
-		logger.info("Indexing ended");
-		System.exit(0);
+	public void init() throws ServletException {
+		if (Settings.getInstance().config.isIndexDataOnStartup()) {
+			logger.info("Indexing started");
+			
+			indexMembers();
+			indexParties();
+			indexSpeeches();
+			indexSessions();
+			
+			logger.info("Indexing completed");
+		}
 	}
 
 	private static void indexSessions() {
