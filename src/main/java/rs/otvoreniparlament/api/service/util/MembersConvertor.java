@@ -59,8 +59,8 @@ public class MembersConvertor {
 				} catch (JSONException e) {
 					logger.error(e);
 				}
-				SearchResponse search = elasticSearch.searchSpecificID(IndexName.PARTY_INDEX,
-						IndexType.PARTY_TYPE, "party-id", query);
+				SearchResponse search = elasticSearch.searchSpecificID(IndexName.PARTY_INDEX, IndexType.PARTY_TYPE,
+						"party-id", query);
 
 				Party party = PartyConvertor.convertToParty(search.getHits().getAt(0));
 				parties.add(party);
@@ -82,16 +82,16 @@ public class MembersConvertor {
 
 	private static void addData(Member member, Map<String, Object> source) {
 		member.setId((int) source.get("id"));
-		if(source.get("name")!= null){
+		if (source.get("name") != null) {
 			member.setName((String) source.get("name"));
 		}
-		if(source.get("surname")!= null){
-			member.setLastName((String) source.get("surname"));			
+		if (source.get("surname") != null) {
+			member.setLastName((String) source.get("surname"));
 		}
-		if(source.get("mail")!= null){
+		if (source.get("mail") != null) {
 			member.setEmail((String) source.get("mail"));
 		}
-		if(source.get("biography")!= null){
+		if (source.get("biography") != null) {
 			member.setBiography((String) source.get("biography"));
 		}
 		if (source.get("birth-town") != null) {
@@ -100,10 +100,10 @@ public class MembersConvertor {
 		if (source.get("residence-town") != null) {
 			member.getPlaceOfResidence().setName((String) source.get("residence-town"));
 		}
-		if(source.get("dateofbirth") != null){
+		if (source.get("dateofbirth") != null) {
 			member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
 		}
-		if(source.get("gender")!= null){
+		if (source.get("gender") != null) {
 			member.setGender((String) source.get("gender"));
 		}
 	}
