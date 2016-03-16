@@ -48,7 +48,7 @@ public class PlenarySessionRESTService {
 		
 		// validation
 		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
-		int validPage = ParameterChecker.check(limit, 1);
+		int validPage = ParameterChecker.check(page, 1);
 
 		// retrieving the data
 		ServiceResponse<PlenarySession> response = plenarySessionService.getPlenarySessions(validLimit, validPage);

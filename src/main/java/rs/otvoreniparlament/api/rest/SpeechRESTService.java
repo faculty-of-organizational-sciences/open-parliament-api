@@ -42,7 +42,7 @@ public class SpeechRESTService {
 
 		// validation
 		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
-		int validPage = ParameterChecker.check(limit, 1);
+		int validPage = ParameterChecker.check(page, 1);
 
 		// retrieving the data
 		ServiceResponse<Speech> response = speechService.getSpeeches(validLimit, validPage);

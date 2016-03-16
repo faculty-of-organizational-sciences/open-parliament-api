@@ -49,9 +49,9 @@ public class PartyRESTService {
 
 		// validation
 		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
-		int validPage = ParameterChecker.check(limit, 1);
+		int validPage = ParameterChecker.check(page, 1);
 		String validSortType = ParameterChecker.check(sortType, "ASC", new String[] { "ASC", "DESC" });
-		String validQuery = ParameterChecker.check(query, "", new String[] {});
+		String validQuery = query != null ? query : "";
 
 		// retrieving the data
 		ServiceResponse<Party> response = partyService.getParties(validPage, validLimit, validSortType, validQuery);
@@ -97,7 +97,7 @@ public class PartyRESTService {
 
 		// validation
 		int validLimit = ParameterChecker.check(limit, Settings.getInstance().config.query.limit);
-		int validPage = ParameterChecker.check(limit, 1);
+		int validPage = ParameterChecker.check(page, 1);
 
 		// retrieving the data
 		ServiceResponse<Member> response = membersService.getPartyMembers(id, validLimit, validPage);
