@@ -82,28 +82,28 @@ public class MembersConvertor {
 
 	private static void addData(Member member, Map<String, Object> source) {
 		member.setId((int) source.get("id"));
-		if (source.get("name") != null) {
+		if (source.get("name") != null || source.get("name") != "" ) {
 			member.setName((String) source.get("name"));
 		}
-		if (source.get("surname") != null) {
+		if (source.get("surname") != null || source.get("surname") != "" ) {
 			member.setLastName((String) source.get("surname"));
 		}
-		if (source.get("mail") != null) {
+		if (source.get("mail") != null || source.get("mail") != "" ) {
 			member.setEmail((String) source.get("mail"));
 		}
-		if (source.get("biography") != null) {
+		if (source.get("biography") != null || source.get("biography") != "" ) {
 			member.setBiography((String) source.get("biography"));
 		}
-		if (source.get("birth-town") != null) {
+		if (source.get("birth-town") != null || source.get("birth-town") != "" ) {
 			member.getPlaceOfBirth().setName((String) source.get("birth-town"));
 		}
-		if (source.get("residence-town") != null) {
+		if (source.get("residence-town") != null || source.get("residence-town") != "" ) {
 			member.getPlaceOfResidence().setName((String) source.get("residence-town"));
 		}
-		if (source.get("dateofbirth") != null) {
+		if (source.get("dateofbirth") != null || source.get("dateofbirth") != "" ) {
 			member.setDateOfBirth((Date) DateFormatter.parseFullTimeDate(source.get("dateofbirth").toString()));
 		}
-		if (source.get("gender") != null) {
+		if (source.get("gender") != null || source.get("gender") != "" ) {
 			member.setGender((String) source.get("gender"));
 		}
 	}

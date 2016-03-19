@@ -37,8 +37,8 @@ public class IndexingParties {
 			for (Party party : partiesForIndexing) {
 				XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
 				builder
-	            	.field("party-id", party.getId()!= null ? party.getId() : "-1")
-	                .field("party-name", party.getName()!= null ? party.getName() : "no data");
+	            	.field("party-id", party.getId()!= null ? party.getId() : "")
+	                .field("party-name", party.getName()!= null ? party.getName() : "");
 
 				List<Member> partiyMembrsForIndexing = md.getPartyMembers(party.getId(), 1000,1);
 				
@@ -46,7 +46,7 @@ public class IndexingParties {
 				
 				for (Member member : partiyMembrsForIndexing) {
 					builder.startObject()
-						.field("id", member.getId() != null ? member.getId() : "-1")
+						.field("id", member.getId() != null ? member.getId() : "")
 					.endObject();
 				}
 				

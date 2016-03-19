@@ -46,7 +46,7 @@ public class PartyConvertor {
 		Map<String, Object> source = partyData.getSource();
 
 			party.setId((int) source.get("party-id"));
-			if(source.get("party-name")!= null){
+			if(source.get("party-name")!= null || source.get("party-name") != ""){
 				party.setName((String) source.get("party-name"));
 			}
 
@@ -61,7 +61,7 @@ public class PartyConvertor {
 
 			Map<String, Object> source = m.getSource();
 
-			if (source.get("party-members") != null) {
+			if (source.get("party-members") != null || source.get("party-members") != "" ) {
 
 				ArrayList<Member> array = (ArrayList<Member>) source.get("party-members");
 

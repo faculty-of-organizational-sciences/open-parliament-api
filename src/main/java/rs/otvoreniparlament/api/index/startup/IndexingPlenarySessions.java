@@ -5,15 +5,11 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
-import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.dao.PlenarySessionDao;
-import rs.otvoreniparlament.api.domain.Member;
-import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.domain.PlenarySession;
 import rs.otvoreniparlament.api.index.ElasticClient;
 import rs.otvoreniparlament.api.index.IndexName;
@@ -36,10 +32,10 @@ public class IndexingPlenarySessions {
 				IndexResponse response = ElasticClient.getInstance().getClient().prepareIndex(IndexName.SESSION_INDEX, IndexType.SESSION_TYPE, plenarySession.getId().toString())
 				        .setSource(XContentFactory.jsonBuilder()
 				                    .startObject()
-				                    	.field("id", plenarySession.getId()!= null ? plenarySession.getId() : "-1")
-				                    	.field("agenda", plenarySession.getAgenda() != null ? plenarySession.getAgenda() : "no data")
-				                    	.field("transcript", plenarySession.getTranscriptText()!= null ? plenarySession.getTranscriptText() : "no data")
-				                    	.field("date", plenarySession.getDate()!= null ? plenarySession.getDate() : "0000-00-00")
+				                    	.field("id", plenarySession.getId()!= null ? plenarySession.getId() : "")
+				                    	.field("agenda", plenarySession.getAgenda() != null ? plenarySession.getAgenda() : "")
+				                    	.field("transcript", plenarySession.getTranscriptText()!= null ? plenarySession.getTranscriptText() : "")
+				                    	.field("date", plenarySession.getDate()!= null ? plenarySession.getDate() : "")
 				                    .endObject()
 				                  )
 				        .get();

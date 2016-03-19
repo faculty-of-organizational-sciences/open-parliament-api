@@ -29,22 +29,22 @@ public class SpeechConverter {
 		speech.setMember(new Member());
 
 		Map<String, Object> source = speechData.getSource();
-		if (source.get("speechid") != null) {
+		if (source.get("speechid") != null || source.get("speechid") != "" ) {
 			speech.setId((Integer) source.get("speechid"));
 		}
-		if (source.get("text") != null) {
+		if (source.get("text") != null || source.get("text") != "" ) {
 			speech.setText((String) source.get("text"));
 		}
-		if (source.get("speech-member-id") != null) {
+		if (source.get("speech-member-id") != null || source.get("speech-member-id") != "" ) {
 			speech.getMember().setId((Integer) source.get("speech-member-id"));
 		}
-		if (source.get("sessiondate") != null) {
+		if (source.get("sessiondate") != null || source.get("sessiondate") != "" ) {
 			speech.setSessionDate(DateFormatter.parseFullTimeDate(source.get("sessiondate").toString()));
 		}
-		if (source.get("speech-member-name") != null) {
+		if (source.get("speech-member-name") != null || source.get("speech-member-name") != "" ) {
 			speech.getMember().setName((String) source.get("speech-member-name"));
 		}
-		if (source.get("speech-member-surname") != null) {
+		if (source.get("speech-member-surname") != null || source.get("speech-member-surname") != "" ) {
 			speech.getMember().setLastName((String) source.get("speech-member-surname"));
 		}
 		int id = (Integer) source.get("sessionId");

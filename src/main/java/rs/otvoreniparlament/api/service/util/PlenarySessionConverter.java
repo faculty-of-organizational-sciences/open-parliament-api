@@ -30,16 +30,16 @@ public class PlenarySessionConverter {
 
 		Map<String, Object> source = sessionData.getSource();
 
-		if (source.get("id") != null)
+		if (source.get("id") != null || source.get("id") != "" )
 			ps.setId((Integer) source.get("id"));
 		
-		if (source.get("agenda") != null)
+		if (source.get("agenda") != null || source.get("agenda") != "" )
 			ps.setAgenda((String) source.get("agenda"));
 		
-		if (source.get("transcript") != null)
+		if (source.get("transcript") != null || source.get("transcript") != "" )
 			ps.setTranscriptText((String) source.get("transcript"));
 		
-		if (source.get("date") != null)
+		if (source.get("date") != null || source.get("date") != "" )
 			ps.setDate(DateFormatter.parseFullTimeDate(source.get("date").toString()));
 
 		return ps;

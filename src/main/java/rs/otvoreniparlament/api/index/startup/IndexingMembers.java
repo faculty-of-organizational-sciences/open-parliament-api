@@ -33,28 +33,28 @@ public class IndexingMembers {
 				XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
 				
 				builder
-                	.field("id", member.getId()!= null ? member.getId() : "-1" )
-                    .field("name", member.getName()!= null ? member.getName() : "no data" )
-                    .field("surname", member.getLastName()!= null ? member.getLastName() : "no data" )
-                    .field("gender", member.getGender()!= null ? member.getGender() : "no data" )
-                    .field("mail", member.getEmail() != null ? member.getEmail() : "no data" )
-                    .field("biography", member.getBiography()!= null ? member.getBiography(): "no data" );
+                	.field("id", member.getId()!= null ? member.getId() : "" )
+                    .field("name", member.getName()!= null ? member.getName() : "" )
+                    .field("surname", member.getLastName()!= null ? member.getLastName() : "" )
+                    .field("gender", member.getGender()!= null ? member.getGender() : "" )
+                    .field("mail", member.getEmail() != null ? member.getEmail() : "" )
+                    .field("biography", member.getBiography()!= null ? member.getBiography(): "" );
 				if (member.getDateOfBirth()!= null){
 					builder.field("dateofbirth", member.getDateOfBirth());
 				}
 				if (member.getPlaceOfBirth() != null) {
 					builder.startObject("placeofbirth")
-						.field("birth-town", member.getPlaceOfBirth().getName()!= null ? member.getPlaceOfBirth().getName() : "no data" )
-						.field("birth-region", member.getPlaceOfBirth().getRegion()!= null ? member.getPlaceOfBirth().getRegion() : "no data")
-						.field("birth-country", member.getPlaceOfBirth().getCountry()!= null ? member.getPlaceOfBirth().getCountry() : "no data")
+						.field("birth-town", member.getPlaceOfBirth().getName()!= null ? member.getPlaceOfBirth().getName() : "" )
+						.field("birth-region", member.getPlaceOfBirth().getRegion()!= null ? member.getPlaceOfBirth().getRegion() : "")
+						.field("birth-country", member.getPlaceOfBirth().getCountry()!= null ? member.getPlaceOfBirth().getCountry() : "")
 					.endObject();
 				}
 				
 				if (member.getPlaceOfResidence() != null) {
 					builder.startObject("placeofresidence")
-						.field("residence-town", member.getPlaceOfResidence().getName()!= null ? member.getPlaceOfResidence().getName() : "no data")
-						.field("residence-region", member.getPlaceOfResidence().getRegion()!= null ? member.getPlaceOfResidence().getRegion() : "no data")
-						.field("residence-country", member.getPlaceOfResidence().getCountry()!= null ? member.getPlaceOfResidence().getCountry() : "no data")
+						.field("residence-town", member.getPlaceOfResidence().getName()!= null ? member.getPlaceOfResidence().getName() : "")
+						.field("residence-region", member.getPlaceOfResidence().getRegion()!= null ? member.getPlaceOfResidence().getRegion() : "")
+						.field("residence-country", member.getPlaceOfResidence().getCountry()!= null ? member.getPlaceOfResidence().getCountry() : "")
 					.endObject();
 				}
 				builder.startArray("member-parties");
@@ -62,7 +62,7 @@ public class IndexingMembers {
 				List<Party> parties = member.getParties();
 				for (Party party : parties) {
 					builder.startObject()
-						.field("party-id", party.getId().toString()!= null ? party.getId() : "-1")
+						.field("party-id", party.getId().toString()!= null ? party.getId() : "")
 					.endObject();
 				}
 				
