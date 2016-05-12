@@ -33,8 +33,7 @@ public class Settings {
 
 	private static final String defaultConfigFilePath = "config/";
 
-	private static String absoluteConfigPath = System.getenv("OPEN_PARLIAMENT") + File.separator + ".parlament"
-			+ File.separator;
+	private static String absoluteConfigPath = System.getenv("OPEN_PARLIAMENT") + File.separator;
 
 	public Config config;
 
@@ -60,19 +59,17 @@ public class Settings {
 	private void loadConfig() throws Exception {
 
 		if (System.getenv("OPEN_PARLIAMENT") != null) {
-			absoluteConfigPath = System.getenv("OPEN_PARLIAMENT") + File.separator + ".parlament" + File.separator;
-			logger.info("Used OPEN_PARLIAMENT variable.");
+			absoluteConfigPath = System.getenv("OPEN_PARLIAMENT") + File.separator;
+			logger.info("Using OPEN_PARLIAMENT variable.");
 		} else {
-			absoluteConfigPath = System.getProperty("user.home") + File.separator + ".parlament" + File.separator;
-			logger.info("Used user home variable. OPEN_PARLIAMENT is not set.");
+			absoluteConfigPath = System.getProperty("user.home") + File.separator;
+			logger.info("OPEN_PARLIAMENT is not set. Using USER_HOME variable. ");
 		}
 
 		String homeConfigFile = absoluteConfigPath + configFileName;
 
 		try {
 			File homeConfig = new File(homeConfigFile);
-			// if there is a config file in the /.parlament folder
-			// load that one
 			if (homeConfig.exists()) {
 				FileReader reader = new FileReader(homeConfigFile);
 				config = gson.fromJson(reader, Config.class);
@@ -81,7 +78,7 @@ public class Settings {
 			else {
 				loadDefaultConfig();
 				if (config != null) {
-					// and save it to the <USER_HOME>/.parlament folder
+					// and save it to the <USER_HOME> folder
 					saveConfig();
 				} else {
 					throw new Exception();

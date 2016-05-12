@@ -2,6 +2,7 @@ package rs.otvoreniparlament.api.service.impl;
 
 import org.elasticsearch.action.search.SearchResponse;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.PartyDao;
 import rs.otvoreniparlament.api.domain.Party;
 import rs.otvoreniparlament.api.index.ElasticClient;
@@ -27,19 +28,17 @@ public class PartyServiceImp implements PartyService {
 
 		ServiceResponse<Party> response = new ServiceResponse<>();
 
-		if (!ElasticClient.getInstance().isConnectionStatus()) {
-
-			response.setRecords(pd.getParties(page, limit, sort, query));
-			response.setTotalHits(pd.getPartiesTotalCount(query));
-
-		} else {
+		if (Settings.getInstance().config.getElasticConfig().isUsingElastic() && 
+				ElasticClient.getInstance().isConnectionStatus()) {
 
 			SearchResponse searchResponse = elasticSearch.searchQuery(IndexName.PARTY_INDEX,
 					IndexType.PARTY_TYPE, query, limit, page);
-
+			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
 			response.setRecords(PartyConvertor.convertToParties(searchResponse));
-
+		} else {
+			response.setRecords(pd.getParties(page, limit, sort, query));
+			response.setTotalHits(pd.getPartiesTotalCount(query));
 		}
 		return response;
 	}
@@ -47,17 +46,18 @@ public class PartyServiceImp implements PartyService {
 	@Override
 	public Party getParty(int id) {
 
-		if (!ElasticClient.getInstance().isConnectionStatus()) {
-			return pd.getParty(id);
-		} else {
+		if (Settings.getInstance().config.getElasticConfig().isUsingElastic() && 
+				ElasticClient.getInstance().isConnectionStatus()) {
 			SearchResponse searchResponse = elasticSearch.searchSpecificID(IndexName.PARTY_INDEX,
 					IndexType.PARTY_TYPE, "party-id", String.valueOf(id));
-
+			
 			if (searchResponse.getHits().getTotalHits() == 0) {
 				return null;
 			}
-
+			
 			return PartyConvertor.convertToParty(searchResponse.getHits().getAt(0));
+		} else {
+			return pd.getParty(id);
 		}
 	}
 

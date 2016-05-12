@@ -8,3 +8,4 @@
 /bin/
 */logs_location_path.properties
 /bin/
+.DS_Store

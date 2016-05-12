@@ -2,10 +2,11 @@ package rs.otvoreniparlament.api.config;
 
 public class ElasticConfig {
 
+	boolean usingElastic;
+	public boolean indexDataOnStartup;
 	public String clusterName;
 	public int port;
 	public String ipAddress;
-	boolean usingElastic;
 
 	public boolean isUsingElastic() {
 		return usingElastic;
@@ -13,6 +14,14 @@ public class ElasticConfig {
 
 	public void setUsingElastic(boolean usingElastic) {
 		this.usingElastic = usingElastic;
+	}
+
+	public boolean isIndexDataOnStartup() {
+		return indexDataOnStartup;
+	}
+
+	public void setIndexDataOnStartup(boolean indexDataOnStartup) {
+		this.indexDataOnStartup = indexDataOnStartup;
 	}
 
 	public String getIpAddress() {

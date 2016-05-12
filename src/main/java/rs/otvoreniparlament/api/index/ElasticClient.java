@@ -74,10 +74,8 @@ public class ElasticClient {
 	}
 
 	public void closeNode() {
-
 		if (!node.isClosed())
 			node.close();
-
 	}
 
 	public Client getClient() {
@@ -89,9 +87,6 @@ public class ElasticClient {
 	}
 
 	public boolean isConnectionStatus() {
-		if (rs.otvoreniparlament.api.config.Settings.getInstance().config.getElasticConfig().isUsingElastic() == false) {
-			return false;
-		}
 		return connectionStatus;
 	}
 

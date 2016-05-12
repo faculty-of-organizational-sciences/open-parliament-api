@@ -2,6 +2,7 @@ package rs.otvoreniparlament.api.service.impl;
 
 import org.elasticsearch.action.search.SearchResponse;
 
+import rs.otvoreniparlament.api.config.Settings;
 import rs.otvoreniparlament.api.dao.MembersDao;
 import rs.otvoreniparlament.api.domain.Member;
 import rs.otvoreniparlament.api.index.ElasticClient;
@@ -47,11 +48,10 @@ public class MembersServiceImp implements MembersService {
 	public Member getMember(int id) {
 		
 		ServiceResponse<Member> response = new ServiceResponse<>();
-
-		if (!ElasticClient.getInstance().isConnectionStatus()) {
-			return md.getMember(id);
-
-		} else {
+		
+		if (Settings.getInstance().config.getElasticConfig().isUsingElastic() && 
+				ElasticClient.getInstance().isConnectionStatus()) {
+			
 			SearchResponse searchResponse = elasticSearch.searchSpecificID(IndexName.MEMBER_INDEX, IndexType.MEMBER_TYPE, "id", String.valueOf(id));
 			
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
@@ -61,6 +61,8 @@ public class MembersServiceImp implements MembersService {
 			}
 			
 			return MembersConvertor.convertToMember(searchResponse.getHits().getAt(0));
+		} else {
+			return md.getMember(id);
 		}
 	}
 	
@@ -69,17 +71,17 @@ public class MembersServiceImp implements MembersService {
 
 		ServiceResponse<Member> response = new ServiceResponse<>();
 
-		if (!ElasticClient.getInstance().isConnectionStatus()) {
+		if (Settings.getInstance().config.getElasticConfig().isUsingElastic() && 
+				ElasticClient.getInstance().isConnectionStatus()) {
 
-			response.setRecords(md.getPartyMembers(id, limit, page));
-			response.setTotalHits(md.getPartyMembersTotalCount(id));
-
-		} else {
 			SearchResponse searchResponse = elasticSearch.searchSpecificPartyMember(IndexName.PARTY_INDEX,
 					IndexType.PARTY_TYPE, id, limit, page);
-
+			
 			response.setRecords(PartyConvertor.convertToPartyMembers(searchResponse));
 			response.setTotalHits(searchResponse.getHits().getTotalHits());
+		} else {
+			response.setRecords(md.getPartyMembers(id, limit, page));
+			response.setTotalHits(md.getPartyMembersTotalCount(id));
 		}
 		return response;
 	}

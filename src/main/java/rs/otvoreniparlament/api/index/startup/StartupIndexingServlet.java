@@ -15,7 +15,7 @@ public class StartupIndexingServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger(StartupIndexingServlet.class);
 
 	public void init() throws ServletException {
-		if (Settings.getInstance().config.isIndexDataOnStartup()) {
+		if (Settings.getInstance().config.elasticConfig.isIndexDataOnStartup()) {
 			logger.info("Indexing started");
 			
 			indexMembers();
