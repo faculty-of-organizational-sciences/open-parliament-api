@@ -1,7 +1,7 @@
 Open Parliament API
 =============================
 
-[Project website](http://147.91.128.71:9090/parlament)  
+Demo website can be found at [http://147.91.128.71:9090/parlament](http://147.91.128.71:9090/parlament).
 
 ##Overview
 
