@@ -39,6 +39,9 @@
     <!-- Core Angular-->
     <script type="text/javascript" src="js/angular/angular.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/angular/ui-bootstrap-tpls-0.14.2.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
 
 </head>
@@ -105,16 +108,19 @@
     <!-- /sidebar -->
 
     <div class="col-md-8 col-md-offset-4 col-xs-offset-4 documentation">
-            <h2 class="heading"> <i>REST API</i> endpoints</h2>
-            <br>
-            <div class="col-md-8">
-                <p class="text-justify">The <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">REST</a>
-                    endpoints provide programmatic access to Open Parliament data.
-                    They enable insights into a specific parliament member, speeches he/she has made on a particular session and much more.</p>
-                <p> Responses are available in <a href="http://www.json.org/" target="_blank">JSON</a> format, and the use of the API is free.</p>
-            </div>
+        <h2 class="heading"><i>REST API</i> endpoints</h2>
+        <br>
+        <div class="col-md-8">
+            <p class="text-justify">The <a href="https://en.wikipedia.org/wiki/Representational_state_transfer"
+                                           target="_blank">REST</a>
+                endpoints provide programmatic access to Open Parliament data.
+                They enable insights into a specific parliament member, speeches he/she has made on a particular session
+                and much more.</p>
+            <p> Responses are available in <a href="http://www.json.org/" target="_blank">JSON</a> format, and the use
+                of the API is free.</p>
+        </div>
     </div>
-     <hr class="primary">
+    <hr class="primary">
     <!-- documentation -->
     <div ng-include="'views/panelDocs.html'"></div>
     <!-- /documentation -->
@@ -122,22 +128,23 @@
 
 
 <!-- jQuery -->
-<script src="js/jquery.js"></script>
+<script src="js/lib/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="js/jquery.easing.min.js"></script>
-<script src="js/jquery.fittext.js"></script>
-<script src="js/wow.min.js"></script>
+<script src="js/lib/jquery.easing.min.js"></script>
+<script src="js/lib/jquery.fittext.js"></script>
+<script src="js/lib/wow.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="js/creative.js"></script>
+<script src="js/lib/creative.js"></script>
 
 <!-- Angular app module -->
-<script type="text/javascript" src="js/docApp.js"></script>
-
+<script type="text/javascript" src="js/app.js"></script>
+<!-- Documentation controller -->
+<script type="text/javascript" src="js/controllers/documentation.controller.js"></script>
 
 </body>
 </html>
