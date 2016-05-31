@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Open Parliament Data</title>
+    <title translate="INDEX_TITLE"></title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -34,6 +34,17 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- Core Angular-->
+    <script type="text/javascript" src="js/angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-sanitize.js"></script>
+    <script type="text/javascript" src="js/angular/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/angular/ui-bootstrap-tpls-0.14.2.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-translate.js"></script>
+    <script type="text/javascript" src="js/angular/angular-translate-loader-static-files.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -49,26 +60,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="#page-top">Open Parliament Data</a>
+            <a class="navbar-brand page-scroll" href="#page-top" translate="INDEX_TITLE"></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="page-scroll" href="docs.html">Documentation</a>
+                    <a class="page-scroll" href="docs.html" translate="DOCUMENTATION"></a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="true">Examples <span class="caret"></span></a>
+                       aria-expanded="true" translate="EXAMPLES"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="example-page.html#members-example">Members</a></li>
+                        <li><a href="example-page.html#members-example" translate="MEMBERS_LINK"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="example-page.html#party-example">Parties</a></li>
+                        <li><a href="example-page.html#party-example" translate="PARTIES_LINK"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="example-page.html#session-example">Sessions</a></li>
+                        <li><a href="example-page.html#session-example" translate="SESSIONS_LINK"></a></li>
                     </ul>
                 </li>
+                <a ng-controller="LanguageSwitchCtrl" class="navbar-brand" ng-click="toogleLanguage()">RS/EN</a>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -79,12 +91,12 @@
 <header>
     <div class="header-content">
         <div class="header-content-inner">
-            <h1>OPEN PARLIAMENT</h1>
+            <h1 translate="OPEN_PARLIAMENT"></h1>
 
-            <h1>DATA</h1>
+            <h1 translate="DATA"></h1>
             <hr>
-            <p>Open Parliament Data is a project aiming at opening to the public data from the Parliament of the Republic of Serbia about its members, political parties, sessions and speeches.</p>
-            <a href="#about" class="btn btn-primary btn-xl page-scroll">Find Out More</a>
+            <p translate="PROJECT_DESC"></p>
+            <a href="#about" class="btn btn-primary btn-xl page-scroll" translate="FIND_OUT_MORE"></a>
         </div>
     </div>
 </header>
@@ -93,10 +105,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">Opening Serbian Parliament data via an API!</h2>
+                <h2 class="section-heading" translate="API_HEADING"></h2>
                 <hr class="light">
-                <p class="text-faded">In order to make the data from the Serbian Parliament available to the wider audience, we have created an API that can be utilized freely by everyone. This enables any programmer, data analyst, newsreporter or any other interested party to easilly access the data that was previously siloed in databases, documents and internal records of the Serbian Parliament. </p>
-                <a href="docs.html" class="btn btn-default btn-xl">Discover the API</a>
+                <p class="text-faded" translate="API_DESC"></p>
+                <a href="docs.html" class="btn btn-default btn-xl" translate="DISCOVER_API"></a>
             </div>
         </div>
     </div>
@@ -106,7 +118,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Open Parliament Data API</h2>
+                <h2 class="section-heading" translate="SERVICE_HEADING"></h2>
                 <hr class="primary">
             </div>
         </div>
@@ -117,36 +129,40 @@
                 <div class="service-box">
                     <i class="fa fa-4x fa-archive wow bounceIn text-primary" data-wow-delay=".1s"></i>
 
-                    <h3>Open Government Data</h3>
+                    <h3 translate="OPEN_GOV"></h3>
 
-                    <p class="text-muted">We contribute to the Open Government Data initiative aimed at opening government data to the wider public. This initiative is just starting in Serbia and we aim at boosting it.</p>
+                    <p class="text-muted" translate="OPEN_GOV_TEXT"></p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
 
-                    <h3>Solid API</h3>
+                    <h3 translate="SOLID_API"></h3>
 
-                    <p class="text-muted">Our API is designed and build following the best design principles. This enables ease of use, API stability and flexibility to expand the API. API documentation can be found <a href="docs.html">here</a>.</p>
+                    <p class="text-muted" translate="SOLID_API_TEXT"></p>
+                    <p><a href="docs.html" translate="HERE"></a>.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-cloud wow bounceIn text-primary" data-wow-delay=".2s"></i>
 
-                    <h3>Examples of use</h3>
+                    <h3 translate="USE_EXAMPLES"></h3>
 
-                    <p class="text-muted">We provide several examples of access to our data. All our examples are build upon the API. Examples can be reached from the top menu bar.</p>
+                    <p class="text-muted" translate="USE_EXAMPLES_TEXT"></p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-cc wow bounceIn text-primary" data-wow-delay=".3s"></i>
 
-                    <h3>Free to Use</h3>
+                    <h3 translate="FREE_USE"></h3>
 
-                    <p class="text-muted">The API and the data it provides access to are licenced under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons (BY-SA 4.0)</a>  that allows anyone to copy and redistribute the data in any format and transform and build upon the data for any purpose, even commercially!</p>
+                    <p class="text-muted" translate="FREE_USE_TEXT"></p>
+                    <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons (BY-SA
+                        4.0)</a></p>
+                    <p class="text-muted" translate="FREE_USE_TEXT_2"></p>
                 </div>
             </div>
         </div>
@@ -157,20 +173,23 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">Developed by the university experts!</h2>
+                <h2 class="section-heading" translate="DEVELOPERS"></h2>
                 <hr class="primary">
-                <p>The project Open Parliament Data is developed and maintained by the <br> <b><a href="http://ai.fon.bg.ac.rs/" target="_blank">Laboratory for Artificial Intelligence</a></b>
-                    <br>in collaboration with the <br>
-                    <a href="http://fonis.rs/" target="_blank">Association of Students of Informatics - FONIS</a><br>
-                    both from the <br>
-                    <b><a href="http://www.fon.bg.ac.rs/eng/" target="_blank">Faculty of Organisational Sciences</a>, University of Belgrade.</b><br><br>
-                    It is a non-profit project dedicated to transparency of the parliament data and promotion of the Open Government Data initiative.</p>
+                <p><span translate="MAINTAINERS"></span><br>
+                    <b><a href="http://ai.fon.bg.ac.rs/" target="_blank" translate="AILAB"></a></b><br>
+                    <span translate="COLLABORATION"></span><br>
+                    <a href="http://fonis.rs/" target="_blank" translate="FONIS"></a>
+                    <br><span translate="BOTH_FROM"></span><br>
+                    <b><a href="http://www.fon.bg.ac.rs/eng/" target="_blank" translate="FON"></a>,
+                        <span translate="BG_UNI"></span>.</b><br><br>
+                    <span translate="FOOTER_DESC"></span></p>
 
-                <p>The data used in this project is provided by the <b><a href="http://www.otvoreniparlament.rs/" target="_blank">Open Parliament project</a>.</b>
+                <p><span translate="PROJECT_PROVIDED_BY"></span>
+                    <b><a href="http://www.otvoreniparlament.rs/" target="_blank" translate="OP_PROJECT"></a>.</b>
 
-                <p>We try to ensure that the website operates correctly and runs smoothly. However, we don’t accept any responsibility or liability to you if this website becomes temporarily unavailable due to technical issues, or issues beyond our control.</p>
+                <p translate="DISCLAIMER"></p>
 
-                <p>If you have any questions/comments/suggestions, feel free to contact us!</p>
+                <p translate="CONTACT_US"></p>
             </div>
             <div class="col-lg-12 text-center">
                 <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
@@ -193,6 +212,11 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="js/lib/creative.js"></script>
+
+<!-- Angular app module -->
+<script type="text/javascript" src="js/app.js"></script>
+<!-- Language switch controller -->
+<script type="text/javascript" src="js/controllers/languageSwitch.controller.js"></script>
 
 </body>
 

@@ -2,8 +2,8 @@
     <table class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th>No</th>
-            <th>Date</th>
+            <th translate="NO"></th>
+            <th translate="DATE"></th>
         </tr>
         </thead>
         <tr ng-repeat="s in mctrl.speeches" ng-class="{'selected':$index == mctrl.selectedRowSpeech}" ng-click="mctrl.showSpeechText(s, $index)" data-toggle="modal" data-target="#myModal">

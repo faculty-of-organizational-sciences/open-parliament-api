@@ -1,24 +1,24 @@
 <div class="container">
     <div class="row">
         <div class="col-md-7">
-            <h2 class="heading">MEMBERS</h2>
+            <h2 class="heading" translate="MEMBERS"></h2>
 
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="mctrl.memberName">
                 </div>
-                <button ng-click="mctrl.getMembers(1, mctrl.memberName)" class="btn btn-default">Search</button>
+                <button ng-click="mctrl.getMembers(1, mctrl.memberName)" class="btn btn-default" ></button>
             </form>
             <div ng-include src="'views/member.html'"></div>
         </div>
         <div class="col-md-5">
-            <h2 class="heading">SPEECHES</h2>
+            <h2 class="heading" translate="SPEECHES"></h2>
 
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="mctrl.qtext">
                 </div>
-                <button ng-click="mctrl.getSpeechesQuery(mctrl.id, mctrl.pag1.currentPage, mctrl.qtext)" class="btn btn-default">Search</button>
+                <button ng-click="mctrl.getSpeechesQuery(mctrl.id, mctrl.pag1.currentPage, mctrl.qtext)" class="btn btn-default" translate="SEARCH"></button>
             </form>
 
             <div ng-include src="'views/speech.html'"></div>
@@ -30,13 +30,13 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Speech date: {{mctrl.date}}</h4>
+                            <h4 class="modal-title"><span translate="SPEECH_DATE"></span>: {{mctrl.date}}</h4>
                         </div>
                         <div class="modal-body">
                             <p id="speechText">{{mctrl.text}}</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" translate="CLOSE"></button>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
     </div>
     <div class="row">
         <div class="col-md-7">
-            <h2 class="heading">BIO</h2>
+            <h2 class="heading" translate="BIO"></h2>
 
             <div class="panel col-md-11">
                 <p><span ng-if="mctrl.bio.birthPlace">{{mctrl.bio.birthPlace}}</span><span

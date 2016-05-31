@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
 
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Open Parliament Data</title>
+    <title translate="INDEX_TITLE"></title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -38,15 +38,18 @@
 
     <!-- Core Angular-->
     <script type="text/javascript" src="js/angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-sanitize.js"></script>
     <script type="text/javascript" src="js/angular/angular-resource.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-route.min.js"></script>
     <script type="text/javascript" src="js/angular/ui-bootstrap-tpls-0.14.2.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-translate.js"></script>
+    <script type="text/javascript" src="js/angular/angular-translate-loader-static-files.js"></script>
 
 </head>
 
-<body id="page-top" ng-app="app">
+<body id="page-top">
 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -59,26 +62,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="./">Open parliament Data</a>
+            <a class="navbar-brand page-scroll" href="./" translate="INDEX_TITLE"></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="page-scroll" href="./docs.html">Documentation</a>
+                    <a class="page-scroll" href="./docs.html" translate="DOCUMENTATION"></a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Examples <span class="caret"></span></a>
+                       aria-expanded="false" translate="EXAMPLES"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="example-page.html#members-example">Members</a></li>
+                        <li><a href="example-page.html#members-example" translate="MEMBERS_LINK"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="example-page.html#party-example">Parties</a></li>
+                        <li><a href="example-page.html#party-example" translate="PARTIES_LINK"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="example-page.html#session-example">Sessions</a></li>
+                        <li><a href="example-page.html#session-example" translate="SESSIONS_LINK"></a></li>
                     </ul>
                 </li>
+                <a ng-controller="LanguageSwitchCtrl" class="navbar-brand" ng-click="toogleLanguage()">RS/EN</a>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -113,11 +117,8 @@
         <div class="col-md-8">
             <p class="text-justify">The <a href="https://en.wikipedia.org/wiki/Representational_state_transfer"
                                            target="_blank">REST</a>
-                endpoints provide programmatic access to Open Parliament data.
-                They enable insights into a specific parliament member, speeches he/she has made on a particular session
-                and much more.</p>
-            <p> Responses are available in <a href="http://www.json.org/" target="_blank">JSON</a> format, and the use
-                of the API is free.</p>
+               <span translate="REST_DEF"></span></p>
+            <p> <span translate="RESPONSES_1"></span><a href="http://www.json.org/" target="_blank">JSON</a> <span translate="RESPONSES_2"></span></p>
         </div>
     </div>
     <hr class="primary">
@@ -145,6 +146,8 @@
 <script type="text/javascript" src="js/app.js"></script>
 <!-- Documentation controller -->
 <script type="text/javascript" src="js/controllers/documentation.controller.js"></script>
+<!-- Language switch controller -->
+<script type="text/javascript" src="js/controllers/languageSwitch.controller.js"></script>
 
 </body>
 </html>

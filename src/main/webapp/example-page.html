@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Open Parliament Data</title>
+    <title translate="INDEX_TITLE"></title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -38,11 +38,14 @@
 
     <!-- Core Angular-->
     <script type="text/javascript" src="js/angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-sanitize.js"></script>
     <script type="text/javascript" src="js/angular/angular-resource.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-route.min.js"></script>
     <script type="text/javascript" src="js/angular/ui-bootstrap-tpls-0.14.2.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
     <script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
+    <script type="text/javascript" src="js/angular/angular-translate.js"></script>
+    <script type="text/javascript" src="js/angular/angular-translate-loader-static-files.js"></script>
 </head>
 
 <body id="page-top">
@@ -58,26 +61,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="./">Open parliament Data</a>
+            <a class="navbar-brand page-scroll" href="./" translate="INDEX_TITLE"></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="page-scroll" href="docs.html">Documentation</a>
+                    <a class="page-scroll" href="docs.html" translate="DOCUMENTATION"></a>
                 </li>
                 <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Examples <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#members-example">Members</a></li>
+                        <li><a href="#members-example" translate="MEMBERS_LINK"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#party-example">Parties</a></li>
+                        <li><a href="#party-example" translate="PARTIES_LINK"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#session-example">Sessions</a></li>
+                        <li><a href="#session-example" translate="SESSIONS_LINK"></a></li>
                     </ul>
                 </li>
+                <a ng-controller="LanguageSwitchCtrl" class="navbar-brand" ng-click="toogleLanguage()">RS/EN</a>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -111,6 +115,8 @@
 <script type="text/javascript" src="js/controllers/parties.controller.js"></script>
 <!-- Sessions controller -->
 <script type="text/javascript" src="js/controllers/sessions.controller.js"></script>
+<!-- Language switch controller -->
+<script type="text/javascript" src="js/controllers/languageSwitch.controller.js"></script>
 
 </body>
 </html>

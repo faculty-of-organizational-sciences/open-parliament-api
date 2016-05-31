@@ -1,20 +1,20 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h2 class="heading">SEARCH</h2>
+            <h2 class="heading" translate="SEARCH_LG"></h2>
 
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="pctrl.partyName">
                 </div>
-                <button ng-click="pctrl.getParties(1, pctrl.partyName)" class="btn btn-default">Search</button>
+                <button ng-click="pctrl.getParties(1, pctrl.partyName)" class="btn btn-default" translate="SEARCH">Search</button>
             </form>
             <div class="table-responsive">
                 <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <td>No</td>
-                        <th>Title</th>
+                        <td translate="NO"></td>
+                        <th translate="TITLE"></th>
                     </tr>
                     </thead>
                     <tr ng-repeat="p in pctrl.parties" ng-class="{'selected':$index == pctrl.selectedRow}" ng-click="pctrl.getMembers(p.id, pctrl.pag1.currentPage, $index)">
@@ -36,14 +36,14 @@
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5">
-            <h2 class="heading">Members</h2>
+            <h2 class="heading" translate="MEMBERS_LINK"></h2>
 
             <div class="table-responsive">
                 <table class="table table-hover table-condensed" id="table">
                     <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Name</th>
+                        <th translate="NO"></th>
+                        <th translate="NAME"></th>
                     </tr>
                     </thead>
                     <tr ng-repeat="m in pctrl.members">

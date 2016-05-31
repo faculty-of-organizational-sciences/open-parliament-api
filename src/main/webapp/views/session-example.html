@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <h2 class="heading">SESSIONS</h2>
+            <h2 class="heading" translate="SESSIONS"></h2>
 
             <div class="table-responsive col-md-11">
                 <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Date</th>
+                        <th translate="NO"></th>
+                        <th translate="DATE"></th>
                     </tr>
                     </thead>
                     <tr ng-repeat="s in sctrl.sessions" ng-class="{'selected':$index == sctrl.selectedRow}"
@@ -28,15 +28,15 @@
             </div>
         </div>
         <div class="col-md-7">
-            <h2 class="heading">SPEECHES</h2>
+            <h2 class="heading" translate="SPEECHES"></h2>
 
             <div class="table-responsive">
                 <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Date</th>
-                        <th>Member</th>
+                        <th translate="NO"></th>
+                        <th translate="DATE"></th>
+                        <th translate="MEMBER"></th>
                     </tr>
                     </thead>
                     <tr ng-repeat="s in sctrl.speeches" ng-class="{'selected':$index == sctrl.selectedRowSpeech}"
@@ -69,7 +69,7 @@
                             <p id="speechText">{{sctrl.text}}</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" translate="CLOSE"></button>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="col-md-7">
-            <h2 class="heading">TRANSCRIPT</h2>
+            <h2 class="heading" translate="TRANSCRIPT"></h2>
 
             <div class="panel">
                 <p class="text-justify">{{sctrl.transcript}}</p>

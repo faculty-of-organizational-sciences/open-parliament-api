@@ -14,21 +14,21 @@
                     <p>{{d.url}}</p>
                 </div>
                 <div class="col-md-12 col-xs-12">
-                    <h3 class="heading">Resource information</h3>
+                    <h3 class="heading" translate="RESOURCE_INFO"></h3>
 
                     <div class="table-responsive table-striped col-sm-4 col-xs-8">
                         <table class="table">
                             <tbody>
                             <tr>
-                                <td>Response Formats</td>
+                                <td translate="RESPONSE_FORMATS"></td>
                                 <td>{{d.info[0]}}</td>
                             </tr>
                             <tr>
-                                <td>Requires authentication</td>
+                                <td translate="REQUIRE_AUTH"></td>
                                 <td>{{d.info[1]}}</td>
                             </tr>
                             <tr>
-                                <td>Rate limited</td>
+                                <td translate="RATE_LIMIT"></td>
                                 <td>{{d.info[2]}}</td>
                             </tr>
                             </tbody>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <h3 class="heading">Parameters</h3>
+                    <h3 class="heading" translate="PARAMETERS"></h3>
 
                     <div class="table-responsive table-condensed col-md-7 col-xs-12">
                         <table class="table">
@@ -51,9 +51,9 @@
                                     <p class="text-justify">{{p.desc}}</p>
                                     <br>
 
-                                    <p class="values"><b>Example Value:</b> {{p.example}}</p>
+                                    <p class="values"><b translate="EXAMPLE_VAL"></b>: {{p.example}}</p>
 
-                                    <p class="values"><b>Default Value:</b> {{p.default}}</p>
+                                    <p class="values"><b translate="DEFAULT_VAL"></b>: {{p.default}}</p>
                                 </td>
                             </tr>
                             </tbody>
@@ -61,12 +61,12 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <h3 class="heading">Example Request</h3>
+                    <h3 class="heading" translate="EXAMPLE_REQ"></h3>
 
                     <p>{{d.request}}</p>
                 </div>
                 <div class="col-sm-8 col-xs-12">
-                    <h3 class="heading">Example Result</h3>
+                    <h3 class="heading" translate="EXAMPLE_RES"></h3>
                     <pre><p>{{formatJson(d.result)}}</p></pre>
                 </div>
             </div>
